@@ -139,6 +139,28 @@ class MyHome extends StatelessWidget {
                         }),
                   ),
                 ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: new SizedBox(
+                    width: 360.0,
+                    height: 120.0,
+                    // margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    child: RaisedButton(
+                        padding: new EdgeInsets.all(4.0),
+                        child: new Text("Historico de Venda"),
+                        textColor: Colors.white,
+                        color: Colors.blueAccent,
+
+                        onPressed: () {
+                          //FirebaseAuth.instance.signOut();
+                          //Navigator.pushNamed(context, LoginPage);
+
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => Historico_De_Venda()));
+                        } // ação ,
+                    ),
+                  ),
+                ),
                 /*Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: new SizedBox(
