@@ -48,10 +48,7 @@ class MyHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('MENU'),
-        centerTitle: true,
-      ),
+
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           FirebaseAuth.instance.signOut();
@@ -60,13 +57,14 @@ class MyHome extends StatelessWidget {
         child: Icon(Icons.close),
         backgroundColor: Colors.red,
       ),
-      body: SingleChildScrollView(
+      body: Container(
         child: Container(
-          padding: new EdgeInsets.all(105.0),
+          //this is the problem
+          //padding: new EdgeInsets.all(105.0),
           decoration: BoxDecoration(
               color: Colors.white,
               image: DecorationImage(
-                  image: AssetImage("Image/bibiimagem.jpeg"),
+                  image: AssetImage("Image/bibiimagem.jpg"),
                   fit: BoxFit.cover,
                   colorFilter: new ColorFilter.mode(
                       Colors.green.withOpacity(1.0), BlendMode.dstATop))),
@@ -75,28 +73,101 @@ class MyHome extends StatelessWidget {
               children: <Widget>[
                 Center(),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(16.0),
                   child: new SizedBox(
-                    width: 360.0,
-                    height: 120.0,
-                    // margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                    child: RaisedButton(
-                        padding: new EdgeInsets.all(4.0),
-                        child: new Text("Historico"),
-                        textColor: Colors.white,
-                        color: Colors.blueAccent,
 
-                        onPressed: () {
-                          //FirebaseAuth.instance.signOut();
-                          //Navigator.pushNamed(context, LoginPage);
+                    child: Row(
 
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => Historico_De_Venda()));
-                        } // ação ,
+                      children: <Widget>[
+                    Flexible(
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(18, 230, 12, 12),
+                            child: Column(
+                              children: [
+                              Container(
+
+                              width: 240.0,
+                              height: 140.0,
+                                child: RaisedButton(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(18.0),
+                                        side: BorderSide(color: Colors.grey)
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 18),
+                                      child: Column( // Replace with a Row for horizontal icon + text
+                                        children: <Widget>[
+                                          Icon(Icons.history, size: 70.0, color: Colors.lightGreen),
+                                          Text("Histórico",
+                                            style: new TextStyle(
+                                              fontSize: 20.0,
+                                              color: Colors.black54,
+                                            ),),
+                                        ],
+                                      ),
+                                    ),
+                                    color: Colors.white,
+                                    onPressed: () {
+                                      Navigator.of(context).push(MaterialPageRoute(
+                                          builder: (context) => Historico_De_Venda()));
+                                    } // ação ,
+                                    ),
+                              ),
+                              ],
+                            ),
+                          ),
+                    ),
+                    Flexible(
+
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(12, 230, 18, 12),
+                          child: Column(
+
+                            children: [
+
+                              Container(
+                                width: 240.0,
+                                height: 140.0,
+                              //Image/bibiimagem.jpeg
+                              child: RaisedButton(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(18.0),
+                                      side: BorderSide(color: Colors.grey)
+                                  ),
+
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 25),
+                                    child: Column( // Replace with a Row for horizontal icon + text
+                                      children: <Widget>[
+                                        Icon(Icons.inbox, size: 58.0, color: Colors.lightGreen),
+                                        Text("Produto",
+                                          style: new TextStyle(
+                                            fontSize: 20.0,
+                                            color: Colors.black54,
+                                          ),)
+                                      ],
+                                    ),
+                                  ),
+
+
+                                  textColor: Colors.black,
+                                  color: Colors.white,
+                                  onPressed: () {
+                                    Navigator.of(context).push(MaterialPageRoute(
+                                        builder: (context) => prodhome.HomePage()));
+                                  } // ação ,
+                              ),
+
+                          ),
+                            ],
+                          ),
                         ),
+                    ),
+                      ],
+                    ),
                   ),
                 ),
-                Padding(
+                /*Padding(
                   padding: const EdgeInsets.all(4.0),
                   child: new SizedBox(
                     width: 360.0,
@@ -110,21 +181,10 @@ class MyHome extends StatelessWidget {
                             builder: (context) => prodhome.HomePage()));
                       },
                     ),
-                  ),
-                ),
-                /*Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: new SizedBox(
-                    width: 360.0,
-                    height: 100.0,
-                    child: RaisedButton(
-                      child: new Text("Lucros"),
-                      color: Colors.blue,
-                      onPressed: () {},
-                    ),
+
                   ),
                 ),*/
-                Padding(
+                /*Padding(
                   padding: const EdgeInsets.all(4.0),
                   child: new SizedBox(
                     width: 360.0,
@@ -138,8 +198,8 @@ class MyHome extends StatelessWidget {
                               builder: (context) => distrihome.HomePage()));
                         }),
                   ),
-                ),
-                Padding(
+                ),*/
+                /*Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: new SizedBox(
                     width: 360.0,
@@ -158,34 +218,6 @@ class MyHome extends StatelessWidget {
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => Historico_De_Venda()));
                         } // ação ,
-                    ),
-                  ),
-                ),
-                /*Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: new SizedBox(
-                    width: 360,
-                    height: 100,
-                    child: RaisedButton(
-                      child: Text("Planilha precificação"),
-                      color: Colors.green,
-                      onPressed:(){
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => planilhaPrecificacao()));
-                      }
-                    )
-                  )
-                ),*/
-                /* Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: new SizedBox(
-                    width: 360.0,
-                    height: 100.0,
-                    child: RaisedButton(
-                      child: new Text("Botão Precificação "),
-                      color: Colors.blue,
-                      onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => Precificacao()));
-                      },
                     ),
                   ),
                 ),*/
