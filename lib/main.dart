@@ -68,161 +68,175 @@ class MyHome extends StatelessWidget {
                   fit: BoxFit.cover,
                   colorFilter: new ColorFilter.mode(
                       Colors.green.withOpacity(1.0), BlendMode.dstATop))),
-          child: Center(
-            child: new Column(
-              children: <Widget>[
-                Center(),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: new SizedBox(
+          child: Column(
+            children: [
+              Center(
+                child: new Column(
+                  children: <Widget>[
+                    Center(),
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: new SizedBox(
 
-                    child: Row(
+                        child: Row(
 
-                      children: <Widget>[
-                    Flexible(
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(18, 230, 12, 12),
-                            child: Column(
-                              children: [
-                              Container(
+                          children: <Widget>[
+                        Flexible(
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(18, 230, 12, 12),
+                                child: Column(
+                                  children: [
+                                  Container(
 
-                              width: 240.0,
-                              height: 140.0,
-                                child: RaisedButton(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(18.0),
-                                        side: BorderSide(color: Colors.grey)
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(vertical: 18),
-                                      child: Column( // Replace with a Row for horizontal icon + text
-                                        children: <Widget>[
-                                          Icon(Icons.history, size: 70.0, color: Colors.lightGreen),
-                                          Text("Histórico",
-                                            style: new TextStyle(
-                                              fontSize: 20.0,
-                                              color: Colors.black54,
-                                            ),),
-                                        ],
+                                  width: 240.0,
+                                  height: 140.0,
+                                    child: RaisedButton(
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(18.0),
+                                            side: BorderSide(color: Colors.grey)
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(vertical: 18),
+                                          child: Column( // Replace with a Row for horizontal icon + text
+                                            children: <Widget>[
+                                              Icon(Icons.history, size: 70.0, color: Colors.lightGreen),
+                                              Text("Histórico",
+                                                style: new TextStyle(
+                                                  fontSize: 20.0,
+                                                  color: Colors.black54,
+                                                ),),
+                                            ],
+                                          ),
+                                        ),
+                                        color: Colors.white,
+                                        onPressed: () {
+                                          Navigator.of(context).push(MaterialPageRoute(
+                                              builder: (context) => Historico_De_Venda()));
+                                        } // ação ,
+                                        ),
+                                  ),
+                                  ],
+                                ),
+                              ),
+                        ),
+                        Flexible(
+
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(12, 230, 18, 12),
+                              child: Column(
+
+                                children: [
+
+                                  Container(
+                                    width: 240.0,
+                                    height: 140.0,
+                                  //Image/bibiimagem.jpeg
+                                  child: RaisedButton(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(18.0),
+                                          side: BorderSide(color: Colors.grey)
+                                      ),
+
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(vertical: 25),
+                                        child: Column( // Replace with a Row for horizontal icon + text
+                                          children: <Widget>[
+                                            ImageIcon(AssetImage('Image/6.png'), size: 58.0),
+                                            Text("Produto",
+                                              style: new TextStyle(
+                                                fontSize: 20.0,
+                                                color: Colors.black54,
+                                              ),)
+                                          ],
+                                        ),
+                                      ),
+
+
+                                      textColor: Colors.black,
+                                      color: Colors.white,
+                                      onPressed: () {
+                                        Navigator.of(context).push(MaterialPageRoute(
+                                            builder: (context) => prodhome.HomePage()));
+                                      } // ação ,
+                                  ),
+
+                              ),
+
+                                ],
+                              ),
+                            ),
+                        ),
+                          ],
+                        ),
+                      ),
+                    ),
+
+                  ],
+                ),
+
+              ),
+              Center(
+                child: new Column(
+                  children: <Widget>[
+                    Center(),
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: new SizedBox(
+
+                        child: Row(
+
+                          children: <Widget>[
+                            Flexible(
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(100, 0, 12, 60),
+                                child: Column(
+                                  children: [
+                                    Container(
+
+                                      width: 170.0,
+                                      height: 140.0,
+                                      child: RaisedButton(
+
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(18.0),
+                                              side: BorderSide(color: Colors.grey)
+
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(vertical: 18),
+                                            child: Column( // Replace with a Row for horizontal icon + text
+                                              children: <Widget>[
+                                                Icon(Icons.history, size: 70.0, color: Colors.lightGreen),
+                                                Text("Vendas",
+                                                  style: new TextStyle(
+                                                    fontSize: 20.0,
+                                                    color: Colors.black54,
+                                                  ),),
+                                              ],
+                                            ),
+                                          ),
+                                          color: Colors.white,
+                                          onPressed: () {
+                                            Navigator.of(context).push(MaterialPageRoute(
+                                                builder: (context) => Historico_De_Venda()));
+                                          } // ação ,
                                       ),
                                     ),
-                                    color: Colors.white,
-                                    onPressed: () {
-                                      Navigator.of(context).push(MaterialPageRoute(
-                                          builder: (context) => Historico_De_Venda()));
-                                    } // ação ,
-                                    ),
+                                  ],
+                                ),
                               ),
-                              ],
                             ),
-                          ),
-                    ),
-                    Flexible(
 
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(12, 230, 18, 12),
-                          child: Column(
-
-                            children: [
-
-                              Container(
-                                width: 240.0,
-                                height: 140.0,
-                              //Image/bibiimagem.jpeg
-                              child: RaisedButton(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(18.0),
-                                      side: BorderSide(color: Colors.grey)
-                                  ),
-
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 25),
-                                    child: Column( // Replace with a Row for horizontal icon + text
-                                      children: <Widget>[
-                                        Icon(Icons.inbox, size: 58.0, color: Colors.lightGreen),
-                                        Text("Produto",
-                                          style: new TextStyle(
-                                            fontSize: 20.0,
-                                            color: Colors.black54,
-                                          ),)
-                                      ],
-                                    ),
-                                  ),
-
-
-                                  textColor: Colors.black,
-                                  color: Colors.white,
-                                  onPressed: () {
-                                    Navigator.of(context).push(MaterialPageRoute(
-                                        builder: (context) => prodhome.HomePage()));
-                                  } // ação ,
-                              ),
-
-                          ),
-                            ],
-                          ),
+                          ],
                         ),
+                      ),
                     ),
-                      ],
-                    ),
-                  ),
+
+                  ],
                 ),
-                /*Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: new SizedBox(
-                    width: 360.0,
-                    height: 120.0,
-                    child: RaisedButton(
-                      child: new Text("Produtos"),
-                      textColor: Colors.black45,
-                      color: Colors.lightBlueAccent,
-                      onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => prodhome.HomePage()));
-                      },
-                    ),
 
-                  ),
-                ),*/
-                /*Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: new SizedBox(
-                    width: 360.0,
-                    height: 120.0,
-                    child: RaisedButton(
-                        child: new Text("Tabela de distribuição"),
-                        textColor: Colors.purple,
-                        color: Colors.blue,
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => distrihome.HomePage()));
-                        }),
-                  ),
-                ),*/
-                /*Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: new SizedBox(
-                    width: 360.0,
-                    height: 120.0,
-                    // margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                    child: RaisedButton(
-                        padding: new EdgeInsets.all(4.0),
-                        child: new Text("Historico de Venda"),
-                        textColor: Colors.white,
-                        color: Colors.blueAccent,
-
-                        onPressed: () {
-                          //FirebaseAuth.instance.signOut();
-                          //Navigator.pushNamed(context, LoginPage);
-
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => Historico_De_Venda()));
-                        } // ação ,
-                    ),
-                  ),
-                ),*/
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
