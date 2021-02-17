@@ -15,6 +15,8 @@ import 'package:daniela/Login/screens/menu.dart';
 import 'pages/home_page.dart';
 import 'package:daniela/Login/routes.dart';
 import 'package:daniela/Login/app.dart';
+//Rafael 16/02
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -102,7 +104,7 @@ class MyHome extends StatelessWidget {
                                               Icon(Icons.history, size: 70.0, color: Colors.lightGreen),
                                               Text("Histórico",
                                                 style: new TextStyle(
-                                                  fontSize: 20.0,
+                                                  fontSize: 15.0,
                                                   color: Colors.black54,
                                                 ),),
                                             ],
