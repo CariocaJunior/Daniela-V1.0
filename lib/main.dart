@@ -1,3 +1,4 @@
+import 'package:daniela/screens/TabelaDeDistribuicao.dart';
 import 'package:daniela/screens/planilhaPrecificacao.dart';
 import 'package:flutter/material.dart';
 import 'package:daniela/Roteamento.dart';
@@ -48,27 +49,73 @@ class MyHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-      floatingActionButton: FloatingActionButton(
+      /*floatingActionButton: FloatingActionButton(
         onPressed: () {
           FirebaseAuth.instance.signOut();
           Navigator.pushNamed(context, LoginPage);
         },
         child: Icon(Icons.close),
         backgroundColor: Colors.red,
+
       ),
-      body: Container(
-        child: Container(
+      * */
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            FirebaseAuth.instance.signOut();
+            Navigator.pushNamed(context, LoginPage);
+          },
+          child: Container(
+            height: 60,
+            width: 60,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle, // circular shape
+              gradient: LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+
+                colors: [
+                  Color.fromARGB(255,230,119,53), Color.fromARGB(255,157,86,52)
+                ],
+              ),
+            ),
+            child: Icon(
+              Icons.close,
+              color: Colors.white,
+              size: 50,
+            ),
+          ),
+        ),
+      body: Stack(children: <Widget>[
+        Container(
           //this is the problem
           //padding: new EdgeInsets.all(105.0),
           decoration: BoxDecoration(
               color: Colors.white,
+
               image: DecorationImage(
                   image: AssetImage("Image/bibiimagem.jpg"),
                   fit: BoxFit.cover,
                   colorFilter: new ColorFilter.mode(
-                      Colors.green.withOpacity(1.0), BlendMode.dstATop))),
-          child: Column(
+                      Colors.green.withOpacity(1.0), BlendMode.dstATop)),
+
+          )),
+        Container(
+          height: 810.0,
+          decoration: BoxDecoration(
+              color: Colors.white,
+              gradient: LinearGradient(
+                  begin: FractionalOffset.topCenter,
+                  end: FractionalOffset.bottomCenter,
+                  colors: [
+                    Color.fromARGB(255,255,252,227).withOpacity(0.0),
+                    Color.fromARGB(255,255,252,227),
+                  ],
+                  stops: [
+                    0.85,
+                    1.0
+                  ])),
+        ),
+          Column(
             children: [
               Center(
                 child: new Column(
@@ -77,9 +124,7 @@ class MyHome extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: new SizedBox(
-
                         child: Row(
-
                           children: <Widget>[
                         Flexible(
                               child: Padding(
@@ -138,10 +183,18 @@ class MyHome extends StatelessWidget {
                                       ),
 
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(vertical: 25),
+                                        padding: const EdgeInsets.symmetric(vertical: 13),
                                         child: Column( // Replace with a Row for horizontal icon + text
                                           children: <Widget>[
-                                            ImageIcon(AssetImage('Image/6.png'), size: 58.0),
+                                            IconButton(
+                                              icon: Image.asset('Image/Produto.png'),
+                                              iconSize: 60,
+                                              color: Colors.white,
+                                              onPressed: () {
+                                                Navigator.of(context).push(MaterialPageRoute(
+                                                    builder: (context) => prodhome.HomePage()));
+                                              },
+                                            ),
                                             Text("Produto",
                                               style: new TextStyle(
                                                 fontSize: 20.0,
@@ -206,7 +259,15 @@ class MyHome extends StatelessWidget {
                                             padding: const EdgeInsets.symmetric(vertical: 18),
                                             child: Column( // Replace with a Row for horizontal icon + text
                                               children: <Widget>[
-                                                Icon(Icons.history, size: 70.0, color: Colors.lightGreen),
+                                                IconButton(
+                                                  icon: Image.asset('Image/Venda.png'),
+                                                  iconSize: 65,
+                                                  color: Colors.white,
+                                                  onPressed: () {
+                                                    Navigator.of(context).push(MaterialPageRoute(
+                                                        builder: (context) => Tabela_De_Distribuicao()));
+                                                  },
+                                                ),
                                                 Text("Vendas",
                                                   style: new TextStyle(
                                                     fontSize: 20.0,
@@ -218,7 +279,7 @@ class MyHome extends StatelessWidget {
                                           color: Colors.white,
                                           onPressed: () {
                                             Navigator.of(context).push(MaterialPageRoute(
-                                                builder: (context) => Historico_De_Venda()));
+                                                builder: (context) => Tabela_De_Distribuicao()));
                                           } // ação ,
                                       ),
                                     ),
@@ -238,7 +299,9 @@ class MyHome extends StatelessWidget {
               ),
             ],
           ),
-        ),
+
+
+        ],
       ),
     );
   }
