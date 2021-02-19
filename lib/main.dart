@@ -45,10 +45,39 @@ class MyHome extends StatelessWidget {
   DatabaseHelper db = DatabaseHelper();
 
   List<Contato> contatos = List<Contato>();
+
+
   @override
+
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    Future<bool> _onBackPressed() {
+      /*Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => Historico_De_Venda()));*/
+      return showDialog(
+        context: context,
+        builder: (context) => new AlertDialog(
+          title: new Text('Tem Certeza?'),
+          content: new Text('Quer Sair do aplicativo?'),
+          actions: <Widget>[
+            new GestureDetector(
+              onTap: () => Navigator.of(context).pop(false),
+              child: Text("Não"),
+            ),
+            SizedBox(height: 16),
+            new GestureDetector(
+              onTap: () => Navigator.of(context).pop(true),
+              child: Text("Sim"),
+            ),
+          ],
+        ),
+      );
+          false;
+    }
+    return WillPopScope(
+      onWillPop: _onBackPressed,
+      child: Scaffold(
       /*floatingActionButton: FloatingActionButton(
         onPressed: () {
           FirebaseAuth.instance.signOut();
@@ -303,6 +332,7 @@ class MyHome extends StatelessWidget {
 
         ],
       ),
+    ),
     );
   }
 }
