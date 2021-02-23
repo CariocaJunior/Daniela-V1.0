@@ -78,17 +78,10 @@ class MyHome extends StatelessWidget {
     return WillPopScope(
       onWillPop: _onBackPressed,
       child: Scaffold(
-      /*floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          FirebaseAuth.instance.signOut();
-          Navigator.pushNamed(context, LoginPage);
-        },
-        child: Icon(Icons.close),
-        backgroundColor: Colors.red,
 
-      ),
-      * */
-        floatingActionButton: FloatingActionButton(
+        // Botão para Desconectar
+        /*floatingActionButton: FloatingActionButton(
+
           onPressed: () {
             FirebaseAuth.instance.signOut();
             Navigator.pushNamed(context, LoginPage);
@@ -97,24 +90,26 @@ class MyHome extends StatelessWidget {
             height: 60,
             width: 60,
             decoration: BoxDecoration(
+
               shape: BoxShape.circle, // circular shape
               gradient: LinearGradient(
                 begin: Alignment.topRight,
                 end: Alignment.bottomLeft,
-
+                stops: [0.3, 1.0],
                 colors: [
-                  Color.fromARGB(255,230,119,53), Color.fromARGB(255,157,86,52)
+                  Color.fromARGB(255,230,119,53), Color.fromARGB(255,161,88,52)
                 ],
               ),
+              image: DecorationImage(
+                  image: AssetImage("Image/Left_Arrow.png"),
+                  scale: 1.9
+                 ),
             ),
-            child: Icon(
-              Icons.close,
-              color: Colors.white,
-              size: 50,
-            ),
+
           ),
-        ),
+        ),*/
       body: Stack(children: <Widget>[
+
         Container(
           //this is the problem
           //padding: new EdgeInsets.all(105.0),
@@ -128,6 +123,33 @@ class MyHome extends StatelessWidget {
                       Colors.green.withOpacity(1.0), BlendMode.dstATop)),
 
           )),
+
+        //Botão para ser usado em outras telas
+        /*Positioned(
+          left: 5,
+          top: 5,
+          child: FloatingActionButton(
+            onPressed: () {
+              FirebaseAuth.instance.signOut();
+              Navigator.pushNamed(context, LoginPage);
+            },
+            child: Container(
+              height: 60,
+              width: 60,
+              decoration: BoxDecoration(
+
+                shape: BoxShape.circle, // circular shape
+                color: Color.fromARGB(255,255,246,161),
+                image: DecorationImage(
+                    image: AssetImage("Image/Left_Arrow.png"),
+                    scale: 1.9
+                ),
+
+              ),
+
+            ),
+          ),
+        ),*/
         Container(
           height: 810.0,
           decoration: BoxDecoration(
