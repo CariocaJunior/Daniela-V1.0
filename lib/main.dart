@@ -26,6 +26,11 @@ void main() async {
 
 TextEditingController _txtCtrl = TextEditingController();
 
+final FocusNode myFocusNodeEmailLogi = FocusNode();
+
+TextEditingController loginEmailControlle = new TextEditingController();
+
+
 var tabela = '';
 
 class MyApp extends StatelessWidget {
@@ -110,6 +115,7 @@ class MyHome extends StatelessWidget {
         ),*/
       body: Stack(children: <Widget>[
 
+
         Container(
           //this is the problem
           //padding: new EdgeInsets.all(105.0),
@@ -124,14 +130,64 @@ class MyHome extends StatelessWidget {
 
           )),
 
+        /*Column(
+          children: [
+
+            Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Row(
+
+                  children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                   child: IconButton(
+                    icon: Image.asset('Image/Produto.png',color: Color.fromARGB(255, 148,82,52)),
+                    iconSize: 60,
+                    color: Colors.white,
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => prodhome.HomePage()));
+                    },
+                  ),
+                  //child: Icon(Icons.history, size: 50,),
+                ),
+                Text("Produtos",style: TextStyle(fontSize: 36.0,fontWeight: FontWeight.bold,color: Color.fromARGB(255, 148,82,52)),),
+              ]),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.all(18.0),
+              child: TextField(
+                focusNode: myFocusNodeEmailLogi,
+                controller: loginEmailControlle,
+                onChanged: (text) {
+                  //Colocar Variavel depois
+                  //email = text;
+                },
+                keyboardType: TextInputType.emailAddress,
+                style: TextStyle(
+                    fontFamily: "WorkSansSemiBold",
+                    fontSize: 16.0,
+                    color: Colors.black),
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: "Nome do Produto",
+                  hintStyle: TextStyle(
+                      fontFamily: "WorkSansSemiBold", fontSize: 17.0),
+                ),
+              ),
+            ),
+
+
+        ]),*/
+
         //Botão para ser usado em outras telas
         /*Positioned(
           left: 5,
           top: 5,
           child: FloatingActionButton(
             onPressed: () {
-              FirebaseAuth.instance.signOut();
-              Navigator.pushNamed(context, LoginPage);
+
             },
             child: Container(
               height: 60,
@@ -144,9 +200,7 @@ class MyHome extends StatelessWidget {
                     image: AssetImage("Image/Left_Arrow.png"),
                     scale: 1.9
                 ),
-
               ),
-
             ),
           ),
         ),*/
