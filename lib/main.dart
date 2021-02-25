@@ -30,14 +30,13 @@ final FocusNode myFocusNodeEmailLogi = FocusNode();
 
 TextEditingController loginEmailControlle = new TextEditingController();
 
-
+//testebranch
 var tabela = '';
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-
         initialRoute: '/',
         onGenerateRoute: RouteGenerator.generateRoute,
         home: MyHome());
@@ -51,10 +50,7 @@ class MyHome extends StatelessWidget {
 
   List<Contato> contatos = List<Contato>();
 
-
   @override
-
-
   @override
   Widget build(BuildContext context) {
     Future<bool> _onBackPressed() {
@@ -78,12 +74,12 @@ class MyHome extends StatelessWidget {
           ],
         ),
       );
-          false;
+      false;
     }
+
     return WillPopScope(
       onWillPop: _onBackPressed,
       child: Scaffold(
-
         // Botão para Desconectar
         /*floatingActionButton: FloatingActionButton(
 
@@ -113,24 +109,21 @@ class MyHome extends StatelessWidget {
 
           ),
         ),*/
-      body: Stack(children: <Widget>[
-
-
-        Container(
-          //this is the problem
-          //padding: new EdgeInsets.all(105.0),
-          decoration: BoxDecoration(
+        body: Stack(
+          children: <Widget>[
+            Container(
+                //this is the problem
+                //padding: new EdgeInsets.all(105.0),
+                decoration: BoxDecoration(
               color: Colors.white,
-
               image: DecorationImage(
                   image: AssetImage("Image/bibiimagem.jpg"),
                   fit: BoxFit.cover,
                   colorFilter: new ColorFilter.mode(
                       Colors.green.withOpacity(1.0), BlendMode.dstATop)),
+            )),
 
-          )),
-
-        /*Column(
+            /*Column(
           children: [
 
             Padding(
@@ -181,8 +174,8 @@ class MyHome extends StatelessWidget {
 
         ]),*/
 
-        //Botão para ser usado em outras telas
-        /*Positioned(
+            //Botão para ser usado em outras telas
+            /*Positioned(
           left: 5,
           top: 5,
           child: FloatingActionButton(
@@ -204,211 +197,226 @@ class MyHome extends StatelessWidget {
             ),
           ),
         ),*/
-        Container(
-          height: 810.0,
-          decoration: BoxDecoration(
-              color: Colors.white,
-              gradient: LinearGradient(
-                  begin: FractionalOffset.topCenter,
-                  end: FractionalOffset.bottomCenter,
-                  colors: [
-                    Color.fromARGB(255,255,252,227).withOpacity(0.0),
-                    Color.fromARGB(255,255,252,227),
-                  ],
-                  stops: [
-                    0.85,
-                    1.0
-                  ])),
+            Container(
+              height: 810.0,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  gradient: LinearGradient(
+                      begin: FractionalOffset.topCenter,
+                      end: FractionalOffset.bottomCenter,
+                      colors: [
+                        Color.fromARGB(255, 255, 252, 227).withOpacity(0.0),
+                        Color.fromARGB(255, 255, 252, 227),
+                      ],
+                      stops: [
+                        0.85,
+                        1.0
+                      ])),
+            ),
+            Column(
+              children: [
+                Center(
+                  child: new Column(
+                    children: <Widget>[
+                      Center(),
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: new SizedBox(
+                          child: Row(
+                            children: <Widget>[
+                              Flexible(
+                                child: Padding(
+                                  padding: const EdgeInsets.fromLTRB(
+                                      18, 230, 12, 12),
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        width: 240.0,
+                                        height: 140.0,
+                                        child: RaisedButton(
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(18.0),
+                                                side: BorderSide(
+                                                    color: Colors.grey)),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 18),
+                                              child: Column(
+                                                // Replace with a Row for horizontal icon + text
+                                                children: <Widget>[
+                                                  Icon(Icons.history,
+                                                      size: 70.0,
+                                                      color: Colors.lightGreen),
+                                                  Text(
+                                                    "Histórico",
+                                                    style: new TextStyle(
+                                                      fontSize: 20.0,
+                                                      color: Colors.black54,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            color: Colors.white,
+                                            onPressed: () {
+                                              Navigator.of(context).push(
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          Historico_De_Venda()));
+                                            } // ação ,
+                                            ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Flexible(
+                                child: Padding(
+                                  padding: const EdgeInsets.fromLTRB(
+                                      12, 230, 18, 12),
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        width: 240.0,
+                                        height: 140.0,
+                                        //Image/bibiimagem.jpeg
+                                        child: RaisedButton(
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(18.0),
+                                                side: BorderSide(
+                                                    color: Colors.grey)),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 13),
+                                              child: Column(
+                                                // Replace with a Row for horizontal icon + text
+                                                children: <Widget>[
+                                                  IconButton(
+                                                    icon: Image.asset(
+                                                        'Image/Produto.png'),
+                                                    iconSize: 60,
+                                                    color: Colors.white,
+                                                    onPressed: () {
+                                                      Navigator.of(context).push(
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  prodhome
+                                                                      .HomePage()));
+                                                    },
+                                                  ),
+                                                  Text(
+                                                    "Produto",
+                                                    style: new TextStyle(
+                                                      fontSize: 20.0,
+                                                      color: Colors.black54,
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                            textColor: Colors.black,
+                                            color: Colors.white,
+                                            onPressed: () {
+                                              Navigator.of(context).push(
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          prodhome.HomePage()));
+                                            } // ação ,
+                                            ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Center(
+                  child: new Column(
+                    children: <Widget>[
+                      Center(),
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: new SizedBox(
+                          child: Row(
+                            children: <Widget>[
+                              Flexible(
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(100, 0, 12, 60),
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        width: 170.0,
+                                        height: 140.0,
+                                        child: RaisedButton(
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(18.0),
+                                                side: BorderSide(
+                                                    color: Colors.grey)),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 18),
+                                              child: Column(
+                                                // Replace with a Row for horizontal icon + text
+                                                children: <Widget>[
+                                                  IconButton(
+                                                    icon: Image.asset(
+                                                        'Image/Venda.png'),
+                                                    iconSize: 65,
+                                                    color: Colors.white,
+                                                    onPressed: () {
+                                                      Navigator.of(context).push(
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  Tabela_De_Distribuicao()));
+                                                    },
+                                                  ),
+                                                  Text(
+                                                    "Vendas",
+                                                    style: new TextStyle(
+                                                      fontSize: 20.0,
+                                                      color: Colors.black54,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            color: Colors.white,
+                                            onPressed: () {
+                                              Navigator.of(context).push(
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          Tabela_De_Distribuicao()));
+                                            } // ação ,
+                                            ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
-          Column(
-            children: [
-              Center(
-                child: new Column(
-                  children: <Widget>[
-                    Center(),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: new SizedBox(
-                        child: Row(
-                          children: <Widget>[
-                        Flexible(
-                              child: Padding(
-                                padding: const EdgeInsets.fromLTRB(18, 230, 12, 12),
-                                child: Column(
-                                  children: [
-                                  Container(
-
-                                  width: 240.0,
-                                  height: 140.0,
-                                    child: RaisedButton(
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(18.0),
-                                            side: BorderSide(color: Colors.grey)
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(vertical: 18),
-                                          child: Column( // Replace with a Row for horizontal icon + text
-                                            children: <Widget>[
-                                              Icon(Icons.history, size: 70.0, color: Colors.lightGreen),
-                                              Text("Histórico",
-                                                style: new TextStyle(
-                                                  fontSize: 20.0,
-                                                  color: Colors.black54,
-                                                ),),
-                                            ],
-                                          ),
-                                        ),
-                                        color: Colors.white,
-                                        onPressed: () {
-                                          Navigator.of(context).push(MaterialPageRoute(
-                                              builder: (context) => Historico_De_Venda()));
-                                        } // ação ,
-                                        ),
-                                  ),
-                                  ],
-                                ),
-                              ),
-                        ),
-                        Flexible(
-
-                            child: Padding(
-                              padding: const EdgeInsets.fromLTRB(12, 230, 18, 12),
-                              child: Column(
-
-                                children: [
-
-                                  Container(
-                                    width: 240.0,
-                                    height: 140.0,
-                                  //Image/bibiimagem.jpeg
-                                  child: RaisedButton(
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(18.0),
-                                          side: BorderSide(color: Colors.grey)
-                                      ),
-
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(vertical: 13),
-                                        child: Column( // Replace with a Row for horizontal icon + text
-                                          children: <Widget>[
-                                            IconButton(
-                                              icon: Image.asset('Image/Produto.png'),
-                                              iconSize: 60,
-                                              color: Colors.white,
-                                              onPressed: () {
-                                                Navigator.of(context).push(MaterialPageRoute(
-                                                    builder: (context) => prodhome.HomePage()));
-                                              },
-                                            ),
-                                            Text("Produto",
-                                              style: new TextStyle(
-                                                fontSize: 20.0,
-                                                color: Colors.black54,
-                                              ),)
-                                          ],
-                                        ),
-                                      ),
-
-
-                                      textColor: Colors.black,
-                                      color: Colors.white,
-                                      onPressed: () {
-                                        Navigator.of(context).push(MaterialPageRoute(
-                                            builder: (context) => prodhome.HomePage()));
-                                      } // ação ,
-                                  ),
-
-                              ),
-
-                                ],
-                              ),
-                            ),
-                        ),
-                          ],
-                        ),
-                      ),
-                    ),
-
-                  ],
-                ),
-
-              ),
-              Center(
-                child: new Column(
-                  children: <Widget>[
-                    Center(),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: new SizedBox(
-
-                        child: Row(
-
-                          children: <Widget>[
-                            Flexible(
-                              child: Padding(
-                                padding: const EdgeInsets.fromLTRB(100, 0, 12, 60),
-                                child: Column(
-                                  children: [
-                                    Container(
-
-                                      width: 170.0,
-                                      height: 140.0,
-                                      child: RaisedButton(
-
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(18.0),
-                                              side: BorderSide(color: Colors.grey)
-
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 18),
-                                            child: Column( // Replace with a Row for horizontal icon + text
-                                              children: <Widget>[
-                                                IconButton(
-                                                  icon: Image.asset('Image/Venda.png'),
-                                                  iconSize: 65,
-                                                  color: Colors.white,
-                                                  onPressed: () {
-                                                    Navigator.of(context).push(MaterialPageRoute(
-                                                        builder: (context) => Tabela_De_Distribuicao()));
-                                                  },
-                                                ),
-                                                Text("Vendas",
-                                                  style: new TextStyle(
-                                                    fontSize: 20.0,
-                                                    color: Colors.black54,
-                                                  ),),
-                                              ],
-                                            ),
-                                          ),
-                                          color: Colors.white,
-                                          onPressed: () {
-                                            Navigator.of(context).push(MaterialPageRoute(
-                                                builder: (context) => Tabela_De_Distribuicao()));
-                                          } // ação ,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-
-                          ],
-                        ),
-                      ),
-                    ),
-
-                  ],
-                ),
-
-              ),
-            ],
-          ),
-
-
-        ],
       ),
-    ),
     );
   }
 }
