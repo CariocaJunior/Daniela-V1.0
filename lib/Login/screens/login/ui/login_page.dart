@@ -115,7 +115,7 @@ class _LoginPageState extends State<LoginPage>
                 color: Colors.white,
 
                 image: DecorationImage(
-                    image: AssetImage("Image/bibiimagem.jpg"),
+                    image: AssetImage("Image/tela2.png"),
                     fit: BoxFit.cover,
                     colorFilter: new ColorFilter.mode(
                         Colors.green.withOpacity(1.0), BlendMode.dstATop)),
