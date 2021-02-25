@@ -123,8 +123,8 @@ class MyHome extends StatelessWidget {
               color: Colors.white,
 
               image: DecorationImage(
-                  image: AssetImage("Image/bibiimagem.jpg"),
-                  fit: BoxFit.cover,
+                  image: AssetImage("Image/tela2.png"),
+                  fit: BoxFit.fill,
                   colorFilter: new ColorFilter.mode(
                       Colors.green.withOpacity(1.0), BlendMode.dstATop)),
 
