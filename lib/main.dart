@@ -16,11 +16,54 @@ import 'package:daniela/Login/screens/menu.dart';
 import 'pages/home_page.dart';
 import 'package:daniela/Login/routes.dart';
 import 'package:daniela/Login/app.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+//Colocar Nomes/Matricula das Pessoas e começar a comentar oque puder sobre o código
+
+
+//Escrever no Firebase
+/*FirebaseFirestore.instance.collection('pedido').doc('oi').set(
+    {'usuario': 'dont'}
+  );*/
+
+//Ler do Firebase
+/*FirebaseFirestore.instance
+      .collection('pedido')
+      .doc('oi')
+      .get()
+      .then((DocumentSnapshot documentSnapshot) {
+    if (documentSnapshot.exists) {
+      print(documentSnapshot.get('usuario'));
+    }
+  });*/
+
+//Atualizar no Firebase
+/*CollectionReference users = FirebaseFirestore.instance.collection('pedido');
+
+Future<void> updateUser() {
+  return users
+      .doc('oi')
+      .update({'usuario': 'maybe'})
+      .then((value) => print("User Updated"))
+      .catchError((error) => print("Failed to update user: $error"));
+}*/
+
+//Delete do Firebase
+/*CollectionReference users = FirebaseFirestore.instance.collection('pedido');
+
+Future<void> deleteUser() {
+  return users
+      .doc('oi')
+      .update({'usuario': FieldValue.delete()})
+      .then((value) => print("User Deleted"))
+      .catchError((error) => print("Failed to delete user: $error"));
+}*/
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   User user = await FirebaseAuth.instance.currentUser;
+
   runApp(MyApp2());
 }
 
@@ -215,10 +258,7 @@ class MyHome extends StatelessWidget {
                     Color.fromARGB(255,255,252,227).withOpacity(0.0),
                     Color.fromARGB(255,255,252,227),
                   ],
-                  stops: [
-                    0.85,
-                    1.0
-                  ])),
+                  stops: [0.85, 1.0])),
         ),
           Column(
             children: [
