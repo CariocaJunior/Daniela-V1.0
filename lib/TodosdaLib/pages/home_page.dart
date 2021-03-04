@@ -35,6 +35,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
         /*floatingActionButton: FloatingActionButton(
           onPressed: () {
             _exibeContatoPage();
@@ -42,44 +43,33 @@ class _HomePageState extends State<HomePage> {
           child: Icon(Icons.add),
         ),*/
 
-        floatingActionButton: FloatingActionButton(
 
-          onPressed: () {
-            _exibeContatoPage();
-          },
-          child: Container(
-            height: 60,
-            width: 60,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle, // circular shape
-              gradient: LinearGradient(
-                begin: Alignment.topRight,
-                end: Alignment.centerLeft,
-                stops: [0.3, 1.0],
-                colors: [
-                  Color.fromARGB(255,230,119,53), Color.fromARGB(255,161,88,52)
-                ],
-              ),
-            ),
-            child: Icon(Icons.add, size: 50.0),
-          ),
-        ),
 
       body: Stack(
           overflow: Overflow.visible,
-
         children: <Widget>[
-
+          Container(
+            //this is the problem
+            //padding: new EdgeInsets.all(105.0),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              image: DecorationImage(
+                  image: AssetImage("Image/tela2.png"),
+                  fit: BoxFit.fill,
+                  colorFilter: new ColorFilter.mode(
+                      Colors.green.withOpacity(1.0), BlendMode.dstATop)),
+            ),
+          ),
           Positioned(
-            left: 5,
-            top: 5,
+            //left: 5,
+            //top: 5,
             child: FloatingActionButton(
               elevation: 0.0,
               onPressed: () {
               },
               child: Container(
-                //height: 60,
-                //width: 60,
+                height: 60,
+                width: 60,
                 decoration: BoxDecoration(
                     shape: BoxShape.circle, // circular shape
                     color: Color.fromARGB(255,255,246,161),
@@ -100,20 +90,6 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-
-          Container(
-            //this is the problem
-            //padding: new EdgeInsets.all(105.0),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              image: DecorationImage(
-                  image: AssetImage("Image/tela2.png"),
-                  fit: BoxFit.fill,
-                  colorFilter: new ColorFilter.mode(
-                      Colors.green.withOpacity(1.0), BlendMode.dstATop)),
-            ),
-          ),
-
           Padding(
             padding: const EdgeInsets.fromLTRB(10, 80, 10, 0),
             child: Card(
@@ -164,7 +140,6 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-
       /*body: ListView.builder(
         padding: EdgeInsets.all(10.0),
         itemCount: contatos.length ,
@@ -173,7 +148,30 @@ class _HomePageState extends State<HomePage> {
         },
       ),*/
     ]
-    )
+    ),
+      floatingActionButton: FloatingActionButton(
+        //heroTag: null,
+        heroTag: 'unq2',
+        onPressed: () {
+          _exibeContatoPage();
+        },
+        child: Container(
+          height: 60,
+          width: 60,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle, // circular shape
+            gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.centerLeft,
+              stops: [0.3, 1.0],
+              colors: [
+                Color.fromARGB(255,230,119,53), Color.fromARGB(255,161,88,52)
+              ],
+            ),
+          ),
+          child: Icon(Icons.add, size: 50.0),
+        ),
+      ),
     );
   }
 

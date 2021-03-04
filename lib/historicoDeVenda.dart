@@ -79,7 +79,6 @@ class _HomePageState extends State<HistVenda> {
                     Colors.green.withOpacity(1.0), BlendMode.dstATop)),
           ),
         ),
-
         Positioned(
           left: 5,
           top: 5,
@@ -127,25 +126,6 @@ class _HomePageState extends State<HistVenda> {
               height: 750.0,
               child: Column(
                 children: <Widget>[
-                  /*Icon(Icons.history, size: 60.0, color: Colors.brown),
-                  Text("Histórico de Venda",
-                    style: new TextStyle(
-                      fontSize: 30.0,
-                      color: Colors.brown,
-                    ),),*/
-
-                  /*
-                  * Align(
-      alignment: Alignment.centerLeft,
-      child: Container(
-        color: Colors.red,
-        child: Text(
-          "Should be left",
-        ),
-      ),
-    ),
-                  * */
-
                   Wrap(
                     crossAxisAlignment: WrapCrossAlignment.center,
                     children: [
