@@ -114,8 +114,6 @@ class MyHome extends StatelessWidget {
           ),
         ),*/
       body: Stack(children: <Widget>[
-
-
         Container(
           //this is the problem
           //padding: new EdgeInsets.all(105.0),
@@ -123,7 +121,7 @@ class MyHome extends StatelessWidget {
               color: Colors.white,
 
               image: DecorationImage(
-                  image: AssetImage("Image/tela2.png"),
+                  image: AssetImage("Image/bibiimagem.jpg"),
                   fit: BoxFit.fill,
                   colorFilter: new ColorFilter.mode(
                       Colors.green.withOpacity(1.0), BlendMode.dstATop)),
