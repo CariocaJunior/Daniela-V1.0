@@ -5,8 +5,6 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:core';
 
-
-
 class DatabaseHelper{
 
   static DatabaseHelper _databaseHelper;
@@ -23,7 +21,6 @@ class DatabaseHelper{
     DatabaseHelper._createInstance();
 
     factory DatabaseHelper(){
-
       if (_databaseHelper == null){
         _databaseHelper = DatabaseHelper._createInstance();
       }

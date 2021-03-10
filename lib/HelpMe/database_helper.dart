@@ -64,7 +64,7 @@ class DatabaseHelper{
 
     return resultado;
   }
-
+  //Inutil?
   Future<Contato> getContato(int id) async {
     Database db = await this.database;
 
