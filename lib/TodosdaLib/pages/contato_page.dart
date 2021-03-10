@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:daniela/TodosdaLib/models/contato.dart';
 import 'package:flutter/material.dart';
 import 'package:daniela/main.dart';
@@ -47,13 +46,13 @@ class _ContatoPageState extends State<ContatoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
+        /*appBar: AppBar(
           backgroundColor: Colors.indigo,
-          title: Text(_editaContato.mes == '' ? "Tabela Mês" :
+          title: Text(_editaContato.mes == '' ? "Nova Venda" :
           _editaContato.mes ),
           centerTitle: true,
-        ),
-        floatingActionButton: FloatingActionButton(
+        ),*/
+        /*floatingActionButton: FloatingActionButton(
           onPressed: () {
             if(_editaContato.mes != null && _editaContato.mes.isNotEmpty)
             {
@@ -65,8 +64,8 @@ class _ContatoPageState extends State<ContatoPage> {
           },
           child: Icon(Icons.save),
           backgroundColor: Colors.indigo,
-        ),
-        body: SingleChildScrollView(
+        ),*/
+        /*body: SingleChildScrollView(
             padding: EdgeInsets.all(10.0),
             child: Column(
               children: <Widget>[
@@ -137,9 +136,199 @@ class _ContatoPageState extends State<ContatoPage> {
 
               ],
             )
-        )
+        )*/
+      body: Stack(
+          overflow: Overflow.visible,
+          children: <Widget>[
+
+
+            /*body: ListView.builder(
+        padding: EdgeInsets.all(10.0),
+        itemCount: hists.length ,
+        itemBuilder: (context, index) {
+          return listaContatos(context,index);
+        },
+      ),*/
+
+            Container(
+              //this is the problem
+              //padding: new EdgeInsets.all(105.0),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                image: DecorationImage(
+                    image: AssetImage("Image/tela2.png"),
+                    fit: BoxFit.fill,
+                    colorFilter: new ColorFilter.mode(
+                        Colors.green.withOpacity(1.0), BlendMode.dstATop)),
+              ),
+            ),
+            Positioned(
+              left: 5,
+              top: 5,
+              child: FloatingActionButton(
+                elevation: 0.0,
+                onPressed: () {
+                },
+                child: Container(
+                  height: 60,
+                  width: 60,
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle, // circular shape
+                      color: Color.fromARGB(255,255,246,161),
+                      /*image: DecorationImage(
+                          image: AssetImage("Image/Left_Arrow.png"),
+                          scale: 1.9
+                      ),*/
+                      boxShadow: [
+                        BoxShadow(
+                          //color: Colors.yellow[16774817].withOpacity(0.0),
+                          color: Color.fromARGB(255,255,246,161).withOpacity(1.0),
+                          spreadRadius: 10.0,
+                          blurRadius: 0,
+                          offset: Offset(0,0),
+                        )
+                      ]
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10, 80, 10, 0),
+              child: Card(
+                elevation: 3.0,
+                color: Colors.white,
+                shape: RoundedRectangleBorder(
+                  //borderRadius: BorderRadius.circular(20.0),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
+                    )
+                ),
+                child: Container(
+                  width: 750.0,
+                  height: 750.0,
+                  child: Column(
+                    children: <Widget>[
+                      Wrap(
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        children: [
+                          Icon(Icons.point_of_sale_sharp, size: 37.0, color: Colors.brown),
+                          Padding(padding:  EdgeInsets.fromLTRB(0, 40, 0, 20)),
+                          Text('Nova Venda',
+                              //textAlign: TextAlign.end,
+                              style: new TextStyle(
+                                fontSize: 30.0,
+                                color: Colors.brown,
+                              )),
+                        ],
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                            top: 10, bottom: 10.0, left: 10.0, right: 10.0),
+                      ),
+
+                      Container(
+                        width: 330,
+                        height: 100,
+                        child: Directionality(
+                          textDirection: TextDirection.ltr,
+                          child: TextField(
+                            autofocus: true,
+                            cursorColor: Colors.brown,
+                            style: TextStyle(fontSize: 22.0, height: 1.5, color: Colors.brown),
+                            textAlign: TextAlign.left,
+                            controller: _nomeController,
+                            focusNode: _nomeFocus,
+                            decoration: InputDecoration(
+                              //errorText: 'Error!!!',
+                              //prefix: Text('R\$ '),
+                              labelText: 'Data',
+                              //hintText: 'Mês',
+                              labelStyle: TextStyle(color: Colors.brown, fontSize: 22.0),
+                              alignLabelWithHint: true,
+                              //contentPadding: EdgeInsets.only(top: -20.0),
+                              //border: OutlineInputBorder(),
+                            ),
+                            onChanged: (text){
+                              editado = true;
+                              setState(() {
+                                _editaContato.mes = text;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 330,
+                        height: 100,
+                        child: Directionality(
+                          textDirection: TextDirection.ltr,
+                          child: TextField(
+                            autofocus: true,
+                            cursorColor: Colors.brown,
+                            style: TextStyle(fontSize: 22.0, height: 1.5, color: Colors.brown),
+                            textAlign: TextAlign.left,
+                            controller: _HTController,
+                            decoration: InputDecoration(
+                              labelText: "Venda",
+                              labelStyle: TextStyle(color: Colors.brown, fontSize: 22.0),
+                              contentPadding: EdgeInsets.only(left: 0, bottom: 15, top: 2.0),
+                              //contentPadding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                              alignLabelWithHint: true,
+                            ),
+                            onChanged: (text){
+                              editado = true;
+                              setState(() {
+                                //final rendaMensalController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',', leftSymbol: 'R\$');
+                                _editaContato.TotVendas = double.parse(text);
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                      TextField(
+                        controller: _LEController,
+                        decoration: InputDecoration(labelText: "Lucro do Mês"),
+                        onChanged: (text){
+                          editado = true;
+                          setState(() {
+                            _editaContato.markup = double.parse(text);
+                          });
+                        },
+                      ),
+                      TextField(
+                        controller: _VLController,
+                        decoration: InputDecoration(labelText: "Caixa"),
+                        onChanged: (text){
+                          editado = true;
+                          setState(() {
+                            //icone: Icons.monetization_on;
+                            _editaContato.caixa = double.parse(text);
+                          });
+                        },
+                      ),
+                      TextField(
+                        controller: _producao,
+                        decoration: InputDecoration(labelText: "Producao"),
+                        onChanged: (text){
+                          editado = true;
+                          setState(() {
+                            //icone: Icons.monetization_on;
+                            _editaContato.Producao = double.parse(text);
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ]
+      ),
     );
   }
+   /* );
+  }*/
 
   void _exibeAviso() {
     showDialog(
