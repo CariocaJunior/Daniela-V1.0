@@ -50,12 +50,13 @@ class DatabaseHelper{
     var contatosDatabase = await openDatabase(path, version: 1, onCreate: _createDb);
     return contatosDatabase;
   }
-
+  //Provael que ira ser apagado
   void _createDb(Database db, int newVersion) async {
     await db.execute('CREATE TABLE $contatoTable($colId INTEGER PRIMARY KEY AUTOINCREMENT,$colNome TEXT,$colHT TEXT, $colLE DOUBLE, $colVL DOUBLE, $colES int, $colVA DOUBLE, $colTEC TEXT, $colELA  TEXT)');
     await db.execute('CREATE TABLE Tabela_De_Distribuicao(id INTEGER PRIMARY KEY AUTOINCREMENT,mes TEXT,caixa DOUBLE, markup DOUBLE, TotVendas DOUBLE, Producao DOUBLE)');
     await db.execute('CREATE TABLE HIST($colId INTEGER PRIMARY KEY AUTOINCREMENT,$colNome TEXT,$colHT TEXT, $colLE DOUBLE, $colVL DOUBLE, $colES int, $colVA DOUBLE, $colTEC TEXT, $colELA  TEXT)');
   }
+  //Usando
   Future<int> insertContato(Contato contato) async {
 
     Database db = await this.database;
@@ -79,7 +80,7 @@ class DatabaseHelper{
       return null;
     }
   }
-
+  //Este é usado no home_page
   Future<List<Contato>> getContatos() async {
     Database db = await this.database;
 
@@ -88,9 +89,8 @@ class DatabaseHelper{
     List<Contato> lista = resultado.isNotEmpty ? resultado.map(
             (c) => Contato.fromMap(c)).toList() : [];
     return lista;
-
   }
-
+  //Utilizado no update(Ainda tenho que descobrir para que)
   Future<List<Contato>> getContatos2() async {
     Database db = await this.database;
 
@@ -103,7 +103,7 @@ class DatabaseHelper{
   }
 
 
-
+//Atualizar o contato
   Future<int> updateContato(Contato contato) async {
       var db = await this.database;
       Contato d = contato;
@@ -166,7 +166,7 @@ class DatabaseHelper{
     int resultado = Sqflite.firstIntValue(x);
     return resultado;
   }
-
+//Fechar a conecção com o banco
   Future close() async {
     Database db = await this.database;
     db.close();
