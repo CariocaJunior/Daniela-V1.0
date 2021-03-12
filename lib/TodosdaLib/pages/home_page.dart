@@ -116,9 +116,15 @@ class _HomePageState extends State<HomePage> {
                     Wrap(
                       crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
-                        Icon(Icons.history, size: 43.0, color: Colors.brown),
-                        Padding(padding:  EdgeInsets.fromLTRB(0, 40, 0, 20)),
-                        Text('Tabela de distribuição',
+                        //Icon(Icons.history, size: 43.0, color: Colors.brown),
+                        Image(
+                          image: AssetImage('Image/Venda.png',),
+                          width: 45,
+                          fit: BoxFit.cover,
+                          color: Colors.brown,
+                        ),
+                        Padding(padding:  EdgeInsets.fromLTRB(0, 40, 7, 20)),//AJUSTA O ESPAÇAMENTO ENTRE A IMAGEM E O TEXTO
+                        Text('Tabela de venda',
                             //textAlign: TextAlign.end,
                             style: new TextStyle(
                               fontSize: 30.0,
@@ -149,28 +155,35 @@ class _HomePageState extends State<HomePage> {
       ),*/
     ]
     ),
-      floatingActionButton: FloatingActionButton(
-        //heroTag: null,
-        heroTag: 'unq2',
-        onPressed: () {
-          _exibeContatoPage();
-        },
-        child: Container(
-          height: 60,
-          width: 60,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle, // circular shape
-            gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.centerLeft,
-              stops: [0.3, 1.0],
-              colors: [
-                Color.fromARGB(255,230,119,53), Color.fromARGB(255,161,88,52)
-              ],
+      floatingActionButton: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 340.0),
+            child: FloatingActionButton(
+              //heroTag: null,
+              heroTag: 'unq2',
+              onPressed: () {
+                _exibeContatoPage();
+              },
+              child: Container(
+                height: 60,
+                width: 60,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle, // circular shape
+                  gradient: LinearGradient(
+                    begin: Alignment.topRight,
+                    end: Alignment.centerLeft,
+                    stops: [0.3, 1.0],
+                    colors: [
+                      Color.fromARGB(255,230,119,53), Color.fromARGB(255,161,88,52)
+                    ],
+                  ),
+                ),
+                child: Icon(Icons.add, size: 50.0),
+              ),
             ),
           ),
-          child: Icon(Icons.add, size: 50.0),
-        ),
+        ],
       ),
     );
   }
