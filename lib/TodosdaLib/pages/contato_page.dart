@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:daniela/main.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
-
+//atualização de tela
 class ContatoPage extends StatefulWidget {
 
   final Contato contato;
