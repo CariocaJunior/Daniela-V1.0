@@ -116,10 +116,11 @@ class DatabaseHelper{
         .get()
         .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
-
+        // The Biggest Problem
         /*final Map<dynamic, dynamic> doc = documentSnapshot.data() as Map<dynamic, dynamic>;
         List<Contato> lista = doc != null ? doc.map(
                 (c) => Contato.fromMap(c)).toList() : [];*/
+
       }
     });
     //List<Contato> lista = resultado.toObject(UserDocument).users;
