@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
@@ -20,8 +21,10 @@ class DatabaseHelper{
   String colVL = 'VL';
   String colES = 'ES';
   String colVA = 'VA';
-  String colTEC = 'TEC';
-  String colELA = 'ELA';
+  String colTECQTD = 'TECQTD';
+  String colTECCUS = 'TECCUS';
+  String colELAQTD = 'ELAQTD';
+  String colELACUS = 'ELACUS';
 
   List<Contato> hists = List<Contato>();
 
@@ -52,25 +55,37 @@ class DatabaseHelper{
   }
   //Provael que ira ser apagado
   void _createDb(Database db, int newVersion) async {
-    await db.execute('CREATE TABLE $contatoTable($colId INTEGER PRIMARY KEY AUTOINCREMENT,$colNome TEXT,$colHT TEXT, $colLE DOUBLE, $colVL DOUBLE, $colES int, $colVA DOUBLE, $colTEC TEXT, $colELA  TEXT)');
+    /*await db.execute('CREATE TABLE $contatoTable($colId INTEGER PRIMARY KEY AUTOINCREMENT,$colNome TEXT,$colHT TEXT, $colLE DOUBLE, $colVL DOUBLE, $colES int, $colVA DOUBLE, $colTEC TEXT, $colELA  TEXT)');
     await db.execute('CREATE TABLE Tabela_De_Distribuicao(id INTEGER PRIMARY KEY AUTOINCREMENT,mes TEXT,caixa DOUBLE, markup DOUBLE, TotVendas DOUBLE, Producao DOUBLE)');
-    await db.execute('CREATE TABLE HIST($colId INTEGER PRIMARY KEY AUTOINCREMENT,$colNome TEXT,$colHT TEXT, $colLE DOUBLE, $colVL DOUBLE, $colES int, $colVA DOUBLE, $colTEC TEXT, $colELA  TEXT)');
+    await db.execute('CREATE TABLE HIST($colId INTEGER PRIMARY KEY AUTOINCREMENT,$colNome TEXT,$colHT TEXT, $colLE DOUBLE, $colVL DOUBLE, $colES int, $colVA DOUBLE, $colTEC TEXT, $colELA  TEXT)');*/
   }
   //Usando
   Future<int> insertContato(Contato contato) async {
 
-    Database db = await this.database;
-    var resul2 = await db.insert('HIST', contato.toMap());
-    var resultado = await db.insert(contatoTable, contato.toMap());
+    //Database db = await this.database;
+    FirebaseFirestore.instance.collection('pedido').doc(contato.nome).set(
+        { colId: '(Lembrar de colocar uma forma de id aleatório)',
+          colNome: contato.nome,
+          colHT: contato.HT,
+          colLE: contato.LE,
+          colVL: contato.VL,
+          colES: contato.ES,
+          //colVA: contato.VA,
+          colTECQTD: contato.TECQTD,
+          colTECCUS: contato.TECCUS,
+          colELAQTD: contato.ELAQTD,
+          colELACUS: contato.ELACUS});
+    //var resul2 = await db.insert('HIST', contato.toMap());
+    //var resultado = await db.insert(contatoTable, contato.toMap());
 
-    return resultado;
+    //return resultado;
   }
   //Inutil?
   Future<Contato> getContato(int id) async {
     Database db = await this.database;
 
     List<Map> maps = await db.query(contatoTable,
-        columns: [colId, colNome, colHT, colLE, colVL, colES, colVA, colTEC, colELA],
+        columns: [colId, colNome, colHT, colLE, colVL, colES, colVA, colTECQTD, colTECCUS, colELAQTD, colELACUS],
         where: "$colId = ?",
         whereArgs: [id] );
 
@@ -92,12 +107,26 @@ class DatabaseHelper{
   }
   //Utilizado no update(Ainda tenho que descobrir para que)
   Future<List<Contato>> getContatos2() async {
-    Database db = await this.database;
+    //Delete Later
+    //Database db = await this.database;
 
-    var resultado = await db.query('HIST');
+    var resultado = await FirebaseFirestore.instance
+        .collection('pedido')
+        .doc('ss')
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+
+        /*final Map<dynamic, dynamic> doc = documentSnapshot.data() as Map<dynamic, dynamic>;
+        List<Contato> lista = doc != null ? doc.map(
+                (c) => Contato.fromMap(c)).toList() : [];*/
+      }
+    });
+    //List<Contato> lista = resultado.toObject(UserDocument).users;
 
     List<Contato> lista = resultado.isNotEmpty ? resultado.map(
             (c) => Contato.fromMap(c)).toList() : [];
+    print(lista);
     return lista;
 
   }
