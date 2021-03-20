@@ -61,26 +61,28 @@ Future<void> deleteUser() {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  //Inicializa o Firebase no Aplicativo e dps Redireciona para a parte de Login
   await Firebase.initializeApp();
   User user = await FirebaseAuth.instance.currentUser;
-
   runApp(MyApp2());
 }
 
+//Deletar se for Inutil
 TextEditingController _txtCtrl = TextEditingController();
-
-final FocusNode myFocusNodeEmailLogi = FocusNode();
-
 TextEditingController loginEmailControlle = new TextEditingController();
+final FocusNode myFocusNodeEmailLogi = FocusNode();
+//
 
 
+//Deletar se for Inutil
 var tabela = '';
+//
+
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-
         initialRoute: '/',
         onGenerateRoute: RouteGenerator.generateRoute,
         home: MyHome());
@@ -100,6 +102,7 @@ class MyHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //Função para dar opções quando o botão voltar do celular for pressionado
     Future<bool> _onBackPressed() {
       /*Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => Historico_De_Venda()));*/
@@ -124,6 +127,7 @@ class MyHome extends StatelessWidget {
           false;
     }
     return WillPopScope(
+      // Chama a Função Para o botão voltar do celular
       onWillPop: _onBackPressed,
       child: Scaffold(
 
@@ -158,8 +162,10 @@ class MyHome extends StatelessWidget {
         ),*/
       body: Stack(children: <Widget>[
         Container(
-          //this is the problem
+          //Talvez apagar
           //padding: new EdgeInsets.all(105.0),
+
+          //Imagem de Fundo da Tela Principal
           decoration: BoxDecoration(
               color: Colors.white,
 
@@ -245,6 +251,7 @@ class MyHome extends StatelessWidget {
             ),
           ),
         ),*/
+        //Gradiente Na parte debaixo da Tela Principal
         Container(
           height: 810.0,
           decoration: BoxDecoration(
@@ -258,8 +265,10 @@ class MyHome extends StatelessWidget {
                   ],
                   stops: [0.85, 1.0])),
         ),
+          //Coluna para Colocar os Botões
           Column(
             children: [
+              //Configurações e Posicionamento dos Botões Produto e Histórico
               Center(
                 child: new Column(
                   children: <Widget>[
@@ -269,15 +278,16 @@ class MyHome extends StatelessWidget {
                       child: new SizedBox(
                         child: Row(
                           children: <Widget>[
-                        Flexible(
+                            //Botão Histórico
+                            Flexible(
                               child: Padding(
                                 padding: const EdgeInsets.fromLTRB(18, 230, 12, 12),
                                 child: Column(
                                   children: [
                                   Container(
-
                                   width: 240.0,
                                   height: 140.0,
+
                                     child: RaisedButton(
                                         shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.circular(18.0),
@@ -307,8 +317,8 @@ class MyHome extends StatelessWidget {
                                 ),
                               ),
                         ),
-                        Flexible(
-
+                          //Botão Produto
+                          Flexible(
                             child: Padding(
                               padding: const EdgeInsets.fromLTRB(12, 230, 18, 12),
                               child: Column(
@@ -347,7 +357,6 @@ class MyHome extends StatelessWidget {
                                         ),
                                       ),
 
-
                                       textColor: Colors.black,
                                       color: Colors.white,
                                       onPressed: () {
@@ -355,9 +364,7 @@ class MyHome extends StatelessWidget {
                                             builder: (context) => prodhome.HomePage()));
                                       } // ação ,
                                   ),
-
                               ),
-
                                 ],
                               ),
                             ),
@@ -366,11 +373,10 @@ class MyHome extends StatelessWidget {
                         ),
                       ),
                     ),
-
                   ],
                 ),
-
               ),
+              //Configurações e Posicionamento do Botão Vendas
               Center(
                 child: new Column(
                   children: <Widget>[
@@ -380,8 +386,8 @@ class MyHome extends StatelessWidget {
                       child: new SizedBox(
 
                         child: Row(
-
                           children: <Widget>[
+                            //Botão Vendas
                             Flexible(
                               child: Padding(
                                 padding: const EdgeInsets.fromLTRB(100, 0, 12, 60),
@@ -443,14 +449,13 @@ class MyHome extends StatelessWidget {
             ],
           ),
 
-
         ],
       ),
     ),
     );
   }
 }
-
+// Ver Utilidade do Conteudo inteiro abaixo
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
 
@@ -462,6 +467,8 @@ class MyHomePage extends StatefulWidget {
   // case the title) provided by the parent (in this case the App widget) and
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
+
+
 
   final String title;
 

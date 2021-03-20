@@ -32,6 +32,8 @@ class _HomePageState extends State<HomePage>{
 
   void _exibeTodosContatos(){
     db.getContatos().then( (lista) {
+
+      print(lista);
       setState(() {
         contatos = lista;
       });
@@ -103,10 +105,10 @@ class _HomePageState extends State<HomePage>{
                           Text("Estoque: " + contatos[index].ES.toString() ?? "",
                               style: TextStyle(fontSize: 15)
                           ),
-                          Text("Tecido quant/custo: " + contatos[index].TEC ?? "",
+                          Text("Tecido quant/custo: " + contatos[index].TECQTD.toStringAsFixed(2) ?? "",
                               style: TextStyle(fontSize: 15)
                           ),
-                          Text("Elastico quant/custo: " + contatos[index].ELA ?? "",
+                          Text("Elastico quant/custo: " + contatos[index].ELAQTD.toStringAsFixed(2) ?? "",
                               style: TextStyle(fontSize: 15)
                           ),
                           Text("Data: ${(new DateFormat.yMMMd().format(new DateTime.now()))}",

@@ -7,13 +7,13 @@ class Contato{
   double LE;
   double VL;
   int ES;
-  double VA;
-  String TEC;
-  String ELA;
+  int TECQTD;
+  double TECCUS;
+  int ELAQTD;
+  double ELACUS;
 
 
-
-  Contato(this.id, this.nome, this.HT, this.LE, this.VL, this.ES, this.VA, this.TEC, this.ELA);
+  Contato(this.id, this.nome, this.HT, this.LE, this.VL, this.ES, this.TECQTD, this.TECCUS, this.ELAQTD, this.ELACUS);
 
   Map<String,dynamic> toMap () {
 
@@ -24,9 +24,10 @@ class Contato{
       'LE': LE,
       'VL': VL,
       'ES': ES,
-      'VA': VA,
-      'TEC': TEC,
-      'ELA': ELA
+      'TECQTD': TECQTD,
+      'TECCUS': TECCUS,
+      'ELAQTD': ELAQTD,
+      'ELACUS': ELACUS
 
     };
     return map;
@@ -39,8 +40,10 @@ class Contato{
     LE = map['LE'];
     VL = map['VL'];
     ES = map['ES'];
-    VA = map['VA'];
-    TEC = map['TEC'];
-    ELA = map['ELA'];
+    TECQTD = map['TECQTD'];
+    TECCUS = map['TECCUS'];
+    ELAQTD = map['ELAQTD'];
+    ELACUS = map['ELACUS'];
+
   }
 }
