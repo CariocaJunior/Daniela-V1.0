@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 
+/*Provavel q ira ser deletado
 class Colors {
 
   const Colors();
@@ -16,3 +17,5 @@ class Colors {
     end: Alignment.bottomCenter,
   );
 }
+
+*/

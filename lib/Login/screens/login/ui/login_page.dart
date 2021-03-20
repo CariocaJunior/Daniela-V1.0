@@ -34,7 +34,7 @@ var email = "", password = "", resetEmail;
 
 //var isLogged = new VerifyLogin();
 //verifyLogin();
-void teste(String value) {
+/*void teste(String value) {
   new SnackBar(
       content: new Text(
         value,
@@ -47,14 +47,14 @@ void teste(String value) {
       backgroundColor: Colors.blue /*,
       duration: Duration(seconds: 3),*/
       );
-}
+}*/
 
-void teste2() async {
+/*void teste2() async {
   auth.User user = await auth.FirebaseAuth.instance.currentUser;
   if (user != null) {
     MaterialPageRoute(builder: (context) => Menu());
   }
-}
+}*/
 //verifyLogin() {
 
 //}
@@ -72,10 +72,9 @@ class _LoginPageState extends State<LoginPage>
 
   final FocusNode myFocusNodeEmailLogin = FocusNode();
   final FocusNode myFocusNodePasswordLogin = FocusNode();
-
-  final FocusNode myFocusNodePassword = FocusNode();
-  final FocusNode myFocusNodeEmail = FocusNode();
-  final FocusNode myFocusNodeName = FocusNode();
+  //final FocusNode myFocusNodePassword = FocusNode();
+  //final FocusNode myFocusNodeEmail = FocusNode();
+  //final FocusNode myFocusNodeName = FocusNode();
 
   auth.User user = auth.FirebaseAuth.instance.currentUser;
 
@@ -89,12 +88,13 @@ class _LoginPageState extends State<LoginPage>
   bool _obscureTextLogin = true;
   bool _obscureTextSignup = true;
   bool _obscureTextSignupConfirm = true;
-
+  /*
   TextEditingController signupEmailController = new TextEditingController();
   TextEditingController signupNameController = new TextEditingController();
   TextEditingController signupPasswordController = new TextEditingController();
   TextEditingController signupConfirmPasswordController =
       new TextEditingController();
+  */
 
   PageController _pageController;
 
@@ -111,6 +111,7 @@ class _LoginPageState extends State<LoginPage>
         },
         child: SingleChildScrollView(
           child: Container(
+              //Imagem de Fundo do Login
               decoration: BoxDecoration(
                 color: Colors.white,
 
@@ -153,6 +154,7 @@ class _LoginPageState extends State<LoginPage>
                 ),*/
                 Expanded(
                   flex: 2,
+                  //Controlador de pagina para arrastar para esquerda ou para a direita
                   child: PageView(
                     controller: _pageController,
                     onPageChanged: (i) {
@@ -169,14 +171,16 @@ class _LoginPageState extends State<LoginPage>
                       }
                     },
                     children: <Widget>[
+                      //Tela de Sign up do Login
                       new ConstrainedBox(
                         constraints: const BoxConstraints.expand(),
                         child: _buildSignIn(context),
                       ),
-                      new ConstrainedBox(
+                      //Adiciona outra tela arrastando para a direita (Era a tela de trocar Senha)
+                      /*new ConstrainedBox(
                         constraints: const BoxConstraints.expand(),
                         child: _buildSignUp(context),
-                      ),
+                      ),*/
                     ],
                   ),
                 ),
@@ -187,12 +191,12 @@ class _LoginPageState extends State<LoginPage>
       ),
     );
   }
-
+// Nsei pra que serve :)
   @override
   void dispose() {
-    myFocusNodePassword.dispose();
-    myFocusNodeEmail.dispose();
-    myFocusNodeName.dispose();
+    //myFocusNodePassword.dispose();
+    //myFocusNodeEmail.dispose();
+    //myFocusNodeName.dispose();
     _pageController?.dispose();
     super.dispose();
   }
@@ -278,7 +282,7 @@ class _LoginPageState extends State<LoginPage>
         ));
   }
 
-  void showInSnackBar(String value) {
+  /*void showInSnackBar(String value) {
     FocusScope.of(context).requestFocus(new FocusNode());
     _scaffoldKey.currentState?.removeCurrentSnackBar();
     _scaffoldKey.currentState.showSnackBar(new SnackBar(
@@ -293,9 +297,9 @@ class _LoginPageState extends State<LoginPage>
       backgroundColor: Colors.blue,
       duration: Duration(seconds: 3),
     ));
-  }
+  }*/
 
-  Widget _buildMenuBar(BuildContext context) {
+  /*Widget _buildMenuBar(BuildContext context) {
     return Container(
       width: 300.0,
       height: 50.0,
@@ -344,8 +348,9 @@ class _LoginPageState extends State<LoginPage>
         ),
       ),
     );
-  }
+  }*/
 
+  //Tela Principal do Login
   Widget _buildSignIn(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(top: 23.0),
@@ -366,7 +371,7 @@ class _LoginPageState extends State<LoginPage>
                   ),
                   child: Container(
                     width: 300.0,
-                    height: 380.0,
+                    height: 386.0,
                     child: Column(
                       children: <Widget>[
                         Padding(
@@ -601,7 +606,9 @@ class _LoginPageState extends State<LoginPage>
     );
   }
 
-  Widget _buildSignUp(BuildContext context) {
+
+  //Função para outra tela(Antes era a tela de nova senha)
+  /*Widget _buildSignUp(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(top: 23.0),
       child: Column(
@@ -670,7 +677,7 @@ class _LoginPageState extends State<LoginPage>
                               FontAwesomeIcons.envelope,
                               color: Colors.black,
                             ),
-                            hintText: "E-mail",
+                            hintText: "E-masssssil",
                             hintStyle: TextStyle(
                                 fontFamily: "WorkSansSemiBold", fontSize: 16.0),
                           ),
@@ -861,7 +868,7 @@ class _LoginPageState extends State<LoginPage>
         ],
       ),
     );
-  }
+  }*/
 
   void _onSignInButtonPress() {
     _pageController.animateToPage(0,

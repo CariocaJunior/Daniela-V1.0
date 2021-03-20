@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:daniela/models/contato.dart';
 import 'package:flutter/material.dart';
 import 'package:daniela/contato.dart' as d2;
-
+import 'package:flutter_masked_text/flutter_masked_text.dart';
 class ContatoPages extends StatefulWidget {
 
   final Contato contato;
@@ -13,14 +13,16 @@ class ContatoPages extends StatefulWidget {
 }
 
 class _ContatoPageState extends State<ContatoPages> {
-
+  //var controller = new MoneyMaskedTextController();
   final _nomeController = TextEditingController();
   final _HTController = TextEditingController();
   final _LEController = TextEditingController();
   final _VLController = TextEditingController();
   final _ESController = TextEditingController();
-  final _TECController = TextEditingController();
-  final _ELAController = TextEditingController();
+  final _TECQTDController = TextEditingController();
+  final _TECCUSController = TextEditingController();
+  final _ELAQTDController = TextEditingController();
+  final _ELACUSController = TextEditingController();
   final _nomeFocus = FocusNode();
 
   bool editado= false;
@@ -31,7 +33,7 @@ class _ContatoPageState extends State<ContatoPages> {
     super.initState();
 
     if(widget.contato == null){
-      _editaContato = Contato(null,'','',0,0,0,0,'','');
+      _editaContato = Contato(null,'','',0,0,0,0,0,0,0);
     }else{
       _editaContato = Contato.fromMap(widget.contato.toMap());
       _editaContato2 = d2.Contato.fromMap(widget.contato.toMap());
@@ -40,8 +42,10 @@ class _ContatoPageState extends State<ContatoPages> {
       _LEController.text = _editaContato.LE.toString();
       _HTController.text = _editaContato.HT;
       _ESController.text = _editaContato.ES.toString();
-      _TECController.text = _editaContato.TEC;
-      _ELAController.text = _editaContato.ELA;
+      _TECQTDController.text = _editaContato.TECQTD.toString();
+      _TECCUSController.text = _editaContato.TECCUS.toString();
+      _ELAQTDController.text = _editaContato.ELAQTD.toString();
+      _ELACUSController.text = _editaContato.ELACUS.toString();
     }
   }
 
@@ -116,6 +120,7 @@ class _ContatoPageState extends State<ContatoPages> {
                     });
                   },
                 ),
+
                 TextField(
                   controller: _VLController,
                   decoration: InputDecoration(labelText: "Valor Liquido"),
@@ -140,29 +145,44 @@ class _ContatoPageState extends State<ContatoPages> {
                   },
                 ),
                 TextField(
-                  controller: _TECController,
+                  controller: _TECQTDController,
                   decoration: InputDecoration(labelText: "Tecido quant/custo"),
                   onChanged: (text){
                     editado = true;
                     setState(() {
                       //final rendaMensalController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',', leftSymbol: 'R\$');
 
-                      _editaContato.TEC = text;
+                      _editaContato.TECQTD = int.parse(text);
                     });
                   },
                 ),
                 TextField(
-                  controller: _ELAController,
+                  controller: _ELAQTDController,
                   decoration: InputDecoration(labelText: "Elastico quant/custo"),
                   onChanged: (text){
                     editado = true;
                     setState(() {
                       //final rendaMensalController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',', leftSymbol: 'R\$');
 
-                      _editaContato.ELA = text;
+                      _editaContato.ELAQTD = int.parse(text);
                     });
                   },
                 ),
+                /*Row(children: [
+                  Expanded(
+                    child: TextField(
+                      decoration: InputDecoration(hintText: "TextField 1"),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Expanded(
+                    child: TextField(
+                      decoration: InputDecoration(hintText: "TextField 2"),
+                    ),
+                  )
+                ]),*/
 
 
               ],

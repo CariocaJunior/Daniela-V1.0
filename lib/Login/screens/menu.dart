@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
+/* Bem provavel que ira ser deletado (Deletar no routes.dart tambem)
 class Menu extends StatelessWidget {
   int _counter = 0;
 
@@ -121,3 +121,4 @@ class Menu extends StatelessWidget {
     );
   }
 }
+*/
