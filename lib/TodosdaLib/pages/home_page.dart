@@ -48,6 +48,13 @@ class _HomePageState extends State<HomePage> {
       body: Stack(
           overflow: Overflow.visible,
         children: <Widget>[
+          ListView.builder(
+            padding: EdgeInsets.all(10.0),
+            itemCount: contatos.length ,
+            itemBuilder: (context, index) {
+              return _listaContatos(context,index);
+            },
+          ),
           Container(
             //this is the problem
             //padding: new EdgeInsets.all(105.0),
@@ -60,32 +67,68 @@ class _HomePageState extends State<HomePage> {
                       Colors.green.withOpacity(1.0), BlendMode.dstATop)),
             ),
           ),
-          Positioned(
-            //left: 5,
-            //top: 5,
-            child: FloatingActionButton(
-              elevation: 0.0,
-              onPressed: () {
-              },
-              child: Container(
-                height: 60,
-                width: 60,
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle, // circular shape
-                    color: Color.fromARGB(255,255,246,161),
-                    image: DecorationImage(
-                        image: AssetImage("Image/Left_Arrow.png"),
-                        scale: 1.9
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        //color: Colors.yellow[16774817].withOpacity(0.0),
-                        color: Color.fromARGB(255,255,246,161).withOpacity(1.0),
-                        spreadRadius: 10.0,
-                        blurRadius: 0,
-                        offset: Offset(0,0),
-                      )
-                    ]
+          // Positioned( //RETORNO SETA, PARTE SUEPERIOR
+          //   //left: 5,
+          //   //top: 5,
+          //   child: FloatingActionButton(
+          //     elevation: 0.0,
+          //     onPressed: () {
+          //     },
+          //     child: Container(
+          //       height: 60,
+          //       width: 60,
+          //       decoration: BoxDecoration(
+          //           shape: BoxShape.circle, // circular shape
+          //           color: Color.fromARGB(255,255,246,161),
+          //           image: DecorationImage(
+          //               image: AssetImage("Image/Left_Arrow.png"),
+          //               scale: 1.9
+          //           ),
+          //           boxShadow: [
+          //             BoxShadow(
+          //               //color: Colors.yellow[16774817].withOpacity(0.0),
+          //               color: Color.fromARGB(255,255,246,161).withOpacity(1.0),
+          //               spreadRadius: 10.0,
+          //               blurRadius: 0,
+          //               offset: Offset(0,0),
+          //             )
+          //           ]
+          //       ),
+          //     ),
+          //   ),
+          // ),
+          Padding( //BOTÃO DE RETORNO - SETA
+            padding: const EdgeInsets.only(top: 15.0),
+            child: Positioned(
+              left: 5,
+              top: 5,
+              child: FloatingActionButton(
+                elevation: 0.0,
+                onPressed: () { Navigator.pop(context);
+                },
+                child: Container(
+                  height: 60,
+                  width: 60,
+                  child:
+                  Image(
+                    image: AssetImage('Image/Left_Arrow.png',),
+                    width: 50,
+                    fit: BoxFit.scaleDown,
+                    color: Colors.brown,
+                  ),
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle, // circular shape
+                      color: Color.fromARGB(255,255,246,161),
+                      boxShadow: [
+                        BoxShadow(
+                          //color: Colors.yellow[16774817].withOpacity(0.0),
+                          color: Color.fromARGB(255,255,246,161).withOpacity(1.0),
+                          spreadRadius: 10.0,
+                          blurRadius: 0,
+                          offset: Offset(0,0),
+                        )
+                      ]
+                  ),
                 ),
               ),
             ),
@@ -146,22 +189,22 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-      /*body: ListView.builder(
-        padding: EdgeInsets.all(10.0),
-        itemCount: contatos.length ,
-        itemBuilder: (context, index) {
-          return _listaContatos(context,index);
-        },
-      ),*/
+      // body: ListView.builder(
+      //   padding: EdgeInsets.all(10.0),
+      //   itemCount: contatos.length ,
+      //   itemBuilder: (context, index) {
+      //     return _listaContatos(context,index);
+      //   },
+      // ),
     ]
     ),
       floatingActionButton: Row(
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 340.0),
+            padding: const EdgeInsets.only(left: 325.0),
             child: FloatingActionButton(
-              //heroTag: null,
-              heroTag: 'unq2',
+              heroTag: null,
+              //heroTag: 'unq2',
               onPressed: () {
                 _exibeContatoPage();
               },

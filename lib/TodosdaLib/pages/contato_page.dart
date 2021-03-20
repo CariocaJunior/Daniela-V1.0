@@ -177,7 +177,7 @@ class _ContatoPageState extends State<ContatoPage> {
                 top: 5,
                 child: FloatingActionButton(
                   elevation: 0.0,
-                  onPressed: () { //Navigator.pop(context);
+                  onPressed: () { Navigator.pop(context);
                   },
                   child: Container(
                     height: 60,
@@ -446,7 +446,7 @@ class _ContatoPageState extends State<ContatoPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding( //AJUSTA O POSICIONAMENTO DO BOTÃO
-            padding: const EdgeInsets.only(left: 340.0),
+            padding: const EdgeInsets.only(left: 325.0),
             child: FloatingActionButton(
               //heroTag: null,
               heroTag: 'unq2',
