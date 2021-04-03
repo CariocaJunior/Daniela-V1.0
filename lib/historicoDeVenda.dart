@@ -11,10 +11,8 @@ class Historico_De_Venda extends StatelessWidget {
   Widget build(BuildContext context) {
     return HistVenda(
     );
-
   }
 }
-
 
 class HistVenda extends StatefulWidget {
   @override
@@ -36,8 +34,6 @@ class _HomePageState extends State<HistVenda> {
      _exibeTodosContatos();
     //print(Contato(2,"Maria",2,2,2,4));
   }
-
-
   void _exibeTodosContatos(){
     db.getContatos2().then((lista) {
       setState(() {
@@ -50,15 +46,12 @@ class _HomePageState extends State<HistVenda> {
       });
     });
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
           overflow: Overflow.visible,
           children: <Widget>[
-
-
       /*body: ListView.builder(
         padding: EdgeInsets.all(10.0),
         itemCount: hists.length ,
@@ -66,8 +59,7 @@ class _HomePageState extends State<HistVenda> {
           return listaContatos(context,index);
         },
       ),*/
-
-        Container(
+        Container( // PLANO DE FUNDO
         //this is the problem
         //padding: new EdgeInsets.all(105.0),
           decoration: BoxDecoration(
@@ -79,38 +71,47 @@ class _HomePageState extends State<HistVenda> {
                     Colors.green.withOpacity(1.0), BlendMode.dstATop)),
           ),
         ),
-        Positioned(
-          left: 5,
-          top: 5,
-          child: FloatingActionButton(
-            elevation: 0.0,
-            onPressed: () {
-
-            },
-            child: Container(
-              height: 60,
-              width: 60,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle, // circular shape
-                color: Color.fromARGB(255,255,246,161),
-                image: DecorationImage(
-                    image: AssetImage("Image/Left_Arrow.png"),
-                    scale: 1.9
+            Padding( //BOTÃO DE RETORNO - SETA
+              padding: const EdgeInsets.only(top: 15.0),
+              child: Positioned(
+                left: 5,
+                top: 5,
+                child: FloatingActionButton(
+                  elevation: 0.0,
+                  onPressed: () { Navigator.pop(context);
+                  },
+                  child: Container(
+                    height: 60,
+                    width: 60,
+                    child:
+                    Image(
+                      image: AssetImage('Image/Left_Arrow.png',),
+                      width: 50,
+                      fit: BoxFit.scaleDown,
+                      color: Colors.brown,
+                    ),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle, // circular shape
+                        color: Color.fromARGB(255,255,246,161),
+                        // image: DecorationImage(
+                        //     image: AssetImage("Image/Left_Arrow.png"),
+                        //     scale: 1.9
+                        // ),
+                        boxShadow: [
+                          BoxShadow(
+                            //color: Colors.yellow[16774817].withOpacity(0.0),
+                            color: Color.fromARGB(255,255,246,161).withOpacity(1.0),
+                            spreadRadius: 10.0,
+                            blurRadius: 0,
+                            offset: Offset(0,0),
+                          )
+                        ]
+                    ),
+                  ),
                 ),
-                boxShadow: [
-                  BoxShadow(
-                    //color: Colors.yellow[16774817].withOpacity(0.0),
-                    color: Color.fromARGB(255,255,246,161).withOpacity(1.0),
-                    spreadRadius: 10.0,
-                    blurRadius: 0,
-                    offset: Offset(0,0),
-                  )
-                ]
               ),
             ),
-          ),
-        ),
-        Padding(
+        Padding( // AJUSTE DE POSIÇÃO, CARD PRINCIPAL
           padding: const EdgeInsets.fromLTRB(10, 80, 10, 0),
           child: Card(
             elevation: 3.0,
@@ -131,7 +132,7 @@ class _HomePageState extends State<HistVenda> {
                     crossAxisAlignment: WrapCrossAlignment.center,
                     children: [
                       Icon(Icons.history, size: 43.0, color: Colors.brown),
-                      Padding(padding:  EdgeInsets.fromLTRB(0, 40, 0, 20)),
+                      Padding(padding:  EdgeInsets.fromLTRB(0, 40, 0, 20)), // AJUSTE ENTRE ÍCONE E TEXTO
                       Text('Histórico de venda',
                           //textAlign: TextAlign.end,
                           style: new TextStyle(
@@ -156,6 +157,37 @@ class _HomePageState extends State<HistVenda> {
         ),
     ]
     ),
+      floatingActionButton: //BOTÃO SALVAR
+      Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding( //AJUSTA O POSICIONAMENTO DO BOTÃO
+            padding: const EdgeInsets.only(left: 325.0),
+            child: FloatingActionButton(
+              //heroTag: null,
+              heroTag: 'unq2',
+              onPressed: () {
+              },
+              child: Container(
+                height: 60,
+                width: 60,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle, // circular shape
+                  gradient: LinearGradient(
+                    begin: Alignment.topRight,
+                    end: Alignment.centerLeft,
+                    stops: [0.3, 1.0],
+                    colors: [
+                      Color.fromARGB(255,230,119,53), Color.fromARGB(255,161,88,52)
+                    ],
+                  ),
+                ),
+                child: Icon(Icons.filter_list_alt, size: 40.0),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -197,7 +229,6 @@ class _HomePageState extends State<HistVenda> {
               )
           )
       ),
-
     );
   }
 

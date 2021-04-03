@@ -4,15 +4,12 @@ import 'package:daniela/models/contato.dart';
 import 'package:daniela/pages/contatoPage.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomePage extends StatefulWidget{
   @override
   _HomePageState createState()=> _HomePageState();
-
 }
-
 class _HomePageState extends State<HomePage>{
   DateTime data = DateTime.now();
   DatabaseHelper db = DatabaseHelper();
@@ -26,24 +23,22 @@ class _HomePageState extends State<HomePage>{
     // Contato c1 = Contato(2,"Pedro","pedro@uol.com.br",null);
     //db.insertContato(c);
     // db.insertContato(c1);
-
     _exibeTodosContatos();
   }
 
-  void _exibeTodosContatos(){
-    db.getContatos().then( (lista) {
-
-      print(lista);
-      setState(() {
-        contatos = lista;
-      });
-    });
+  void _exibeTodosContatos(){ // FUNÇÃO SEM UTILIDADE
+    // db.getContatos().then( (lista) {
+    //
+    //   print(lista);
+    //   setState(() {
+    //     contatos = lista;
+    //   });
+    // });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       appBar: AppBar(
         title: Text("Produtos"),
         backgroundColor: Colors.indigo,
@@ -58,13 +53,51 @@ class _HomePageState extends State<HomePage>{
         child: Icon(Icons.add),
       ),
 
-      body: ListView.builder(
-        padding: EdgeInsets.all(10.0),
-        itemCount: contatos.length ,
-        itemBuilder: (context, index) {
-          return _listaContatos(context,index);
+      // LISTA DADOS DO CLOUD FIRESTORE (FIREBASE)
+      body: StreamBuilder(
+        stream: FirebaseFirestore.instance.collection('pedido').snapshots(), // INSTANCIA A COLEÇÃO 'PEDIDO'
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (!snapshot.hasData) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          // CRIAR UMA FUNÇÃO PARA RETORNAR A LISTA
+          // CRIAR UMA FUNÇÃO PARA REALIZAR UPDATE DE ITENS LISTA
+          // CRIAR UMA FUNÇÃO PARA REALIZAR DELETE DE ITENS DA LISTA
+          // CRIAR UM FILTRO
+          return // RETORNA A LISTA DO CLOUD FIRESTORE
+            ListView(
+            children:
+            snapshot.data.docs.map((collection){ // PRINTA NA TELA OS DADOS DO BANCO, MAPEANDO A COLEÇÃO
+              return  new ListTile( // LISTA OS DOCUMENTOS COMO TÍTULO E OS CAMPOS COMO SUBTÍTULO
+                title: Text('Nome: ' + collection['nome']),
+                subtitle: Text('Horas Trabalhadas: ' + collection['HT']),
+              );
+            }).toList(),
+          );
         },
       ),
+      // TESTE: LISTAR DADOS DO FIREBASE
+      // body: StreamBuilder(
+      //   stream: FirebaseFirestore.instance.collection('pedido').snapshots(),
+      //   builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+      //     if (!snapshot.hasData) {
+      //       return Center(
+      //         child: CircularProgressIndicator(),
+      //       );
+      //     }
+      //     return ListView(
+      //       children:
+      //       snapshot.data.docs.map((collection){
+      //         return Container(
+      //           child: Center(child:
+      //             Text(collection['nome'])),
+      //         );
+      //       }).toList(),
+      //     );
+      //   },
+      // ),
     );
   }
 
@@ -76,12 +109,10 @@ class _HomePageState extends State<HomePage>{
               child:Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-
                   Container(
                     width: 70.0, height: 70.0,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-
                     ),
                   ),
                   Padding(
@@ -152,6 +183,21 @@ class _HomePageState extends State<HomePage>{
       _exibeTodosContatos();
     }
   }
+
+  // ATUALIZAR NO FIREBASE
+  CollectionReference users = FirebaseFirestore.instance.collection('pedido');
+  Future<void> updateDoc() {
+  return users
+      .doc('pedido')
+      .update({'alguem feio': 'docUm'})
+      .then((value) => print("Update realizado com êxito!!!"))
+      .catchError((error) => print("Falha ao atualizar os dados: $error"));
+  }
+  
+  // Future<void> _updateData(Map data) async{
+  //   final pedido = await Firebase
+  // }
+
   void _confirmaExclusao(BuildContext context, int contatoid, index) {
       showDialog(
           context: context,
