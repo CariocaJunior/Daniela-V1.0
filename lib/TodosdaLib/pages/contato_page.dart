@@ -53,12 +53,6 @@ class _ContatoPageState extends State<ContatoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomPadding: false, //RETIRA O OVERFLOW DO BACKGROUND
-        /*appBar: AppBar(
-          backgroundColor: Colors.indigo,
-          title: Text(_editaContato.mes == '' ? "Nova Venda" :
-          _editaContato.mes ),
-          centerTitle: true,
-        ),*/
         /*floatingActionButton: FloatingActionButton(
           onPressed: () {
             if(_editaContato.mes != null && _editaContato.mes.isNotEmpty)
@@ -406,38 +400,6 @@ class _ContatoPageState extends State<ContatoPage> {
                 ),
               ),
             ),
-                // Row(
-                //   crossAxisAlignment: CrossAxisAlignment.start,
-                //   children: [
-                //     Padding(
-                //       padding: const EdgeInsets.only(top: 15.0),
-                //       child: Container(
-                //         height: 60,
-                //         width: 60,
-                //         child:
-                //           Image(
-                //               image: AssetImage('Image/Left_Arrow.png',),
-                //               width: 50,
-                //               fit: BoxFit.scaleDown,
-                //               color: Colors.brown,
-                //           ),
-                //           decoration: BoxDecoration(
-                //             shape: BoxShape.circle, // circular shape
-                //             color: Color.fromARGB(255,255,246,161),
-                //             boxShadow: [
-                //               BoxShadow(
-                //                 //color: Colors.yellow[16774817].withOpacity(0.0),
-                //                 color: Color.fromARGB(255,255,246,161).withOpacity(1.0),
-                //                 spreadRadius: 10.0,
-                //                 blurRadius: 0,
-                //                 offset: Offset(0,0),
-                //               )
-                //             ]
-                //         ),
-                //       ),
-                //     ),
-                //   ],
-                // ),
           ]
       ),
 
@@ -483,7 +445,6 @@ class _ContatoPageState extends State<ContatoPage> {
   }
    /* );
   }*/
-
   void _exibeAviso() {
     showDialog(
       context: context,

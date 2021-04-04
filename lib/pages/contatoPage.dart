@@ -183,8 +183,6 @@ class _ContatoPageState extends State<ContatoPages> {
                     ),
                   )
                 ]),*/
-
-
               ],
             )
         )

@@ -67,36 +67,6 @@ class _HomePageState extends State<HomePage> {
                       Colors.green.withOpacity(1.0), BlendMode.dstATop)),
             ),
           ),
-          // Positioned( //RETORNO SETA, PARTE SUEPERIOR
-          //   //left: 5,
-          //   //top: 5,
-          //   child: FloatingActionButton(
-          //     elevation: 0.0,
-          //     onPressed: () {
-          //     },
-          //     child: Container(
-          //       height: 60,
-          //       width: 60,
-          //       decoration: BoxDecoration(
-          //           shape: BoxShape.circle, // circular shape
-          //           color: Color.fromARGB(255,255,246,161),
-          //           image: DecorationImage(
-          //               image: AssetImage("Image/Left_Arrow.png"),
-          //               scale: 1.9
-          //           ),
-          //           boxShadow: [
-          //             BoxShadow(
-          //               //color: Colors.yellow[16774817].withOpacity(0.0),
-          //               color: Color.fromARGB(255,255,246,161).withOpacity(1.0),
-          //               spreadRadius: 10.0,
-          //               blurRadius: 0,
-          //               offset: Offset(0,0),
-          //             )
-          //           ]
-          //       ),
-          //     ),
-          //   ),
-          // ),
           Padding( //BOTÃO DE RETORNO - SETA
             padding: const EdgeInsets.only(top: 15.0),
             child: Positioned(
@@ -150,12 +120,6 @@ class _HomePageState extends State<HomePage> {
                 height: 750.0,
                 child: Column(
                   children: <Widget>[
-                    /*Icon(Icons.history, size: 60.0, color: Colors.brown),
-                  Text("Histórico de Venda",
-                    style: new TextStyle(
-                      fontSize: 30.0,
-                      color: Colors.brown,
-                    ),),*/
                     Wrap(
                       crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
@@ -189,7 +153,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-      // body: ListView.builder(
+      // ListView.builder( // EXIBE ITENS ADCIONADOS NO BOTÃO
       //   padding: EdgeInsets.all(10.0),
       //   itemCount: contatos.length ,
       //   itemBuilder: (context, index) {
@@ -242,7 +206,6 @@ class _HomePageState extends State<HomePage> {
                     width: 70.0, height: 70.0,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-
                     ),
                   ),
                   Padding(

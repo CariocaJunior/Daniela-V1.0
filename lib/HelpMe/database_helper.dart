@@ -125,10 +125,11 @@ class DatabaseHelper{
     });
     //List<Contato> lista = resultado.toObject(UserDocument).users;
 
-    List<Contato> lista = resultado.isNotEmpty ? resultado.map(
-            (c) => Contato.fromMap(c)).toList() : [];
-    print(lista);
-    return lista;
+    // List<Contato> lista = resultado.isNotEmpty ? resultado.map(
+    //         (c) => Contato.fromMap(c)).toList() : [];
+    // print(lista);
+    // return lista;
+    return null;
 
   }
 
