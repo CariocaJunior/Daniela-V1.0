@@ -3,6 +3,9 @@ import 'package:daniela/models/contato.dart';
 import 'package:flutter/material.dart';
 import 'package:daniela/contato.dart' as d2;
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:intl/intl.dart';
+import 'package:uuid/uuid.dart';
+import 'package:intl/date_symbol_data_local.dart';
 class ContatoPages extends StatefulWidget {
 
   final Contato contato;
@@ -23,6 +26,7 @@ class _ContatoPageState extends State<ContatoPages> {
   final _TECCUSController = TextEditingController();
   final _ELAQTDController = TextEditingController();
   final _ELACUSController = TextEditingController();
+  final _DTController = TextEditingController();
   final _nomeFocus = FocusNode();
 
   bool editado= false;
@@ -33,7 +37,7 @@ class _ContatoPageState extends State<ContatoPages> {
     super.initState();
 
     if(widget.contato == null){
-      _editaContato = Contato(null,'','',0,0,0,0,0,0,0);
+      _editaContato = Contato(_idRandom(),'','',0,0,0,0,0,0,0, _dataFormat());
     }else{
       _editaContato = Contato.fromMap(widget.contato.toMap());
       _editaContato2 = d2.Contato.fromMap(widget.contato.toMap());
@@ -46,6 +50,7 @@ class _ContatoPageState extends State<ContatoPages> {
       _TECCUSController.text = _editaContato.TECCUS.toString();
       _ELAQTDController.text = _editaContato.ELAQTD.toString();
       _ELACUSController.text = _editaContato.ELACUS.toString();
+      _DTController.text = _editaContato.DT.toString();
     }
   }
 
@@ -165,9 +170,21 @@ class _ContatoPageState extends State<ContatoPages> {
                       //final rendaMensalController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',', leftSymbol: 'R\$');
 
                       _editaContato.ELAQTD = int.parse(text);
+                      //_editaContato.DT = DateTime.now();
                     });
                   },
                 ),
+                // TextField(
+                //   controller: _DTController,
+                //   decoration: InputDecoration(labelText: "Data atual"),
+                //   onChanged: (text){
+                //     editado = true;
+                //     setState(() {
+                //       //final rendaMensalController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',', leftSymbol: 'R\$');
+                //       _editaContato.DT = DateTime.parse(text);
+                //     });
+                //   },
+                // ),
                 /*Row(children: [
                   Expanded(
                     child: TextField(
@@ -188,6 +205,26 @@ class _ContatoPageState extends State<ContatoPages> {
         )
     );
   }
+
+  _idRandom(){ // ID RANDÔMICO
+    var uuid = Uuid();
+    return uuid.v4();
+  }
+
+  _dataFormat(){ // DATA ATUAL
+    var dtAtual = new DateTime.now().toUtc();
+    var dtFormat = new DateFormat('dd/MM/yyyy - kk:mm:ss');
+    String dataFormatada = dtFormat.format(dtAtual.toLocal().toUtc());
+    var formatado = dtAtual.toLocal().toString();
+
+    return dataFormatada;
+  }
+
+  // Future<void> setup() async {
+  //   await tz.initializeTimeZone();
+  //   var detroit = tz.getLocation('America/Detroit');
+  //   var now = tz.TZDateTime.now(detroit);
+  // }
 
   void _exibeAviso() {
     showDialog(

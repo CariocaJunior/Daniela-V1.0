@@ -25,6 +25,7 @@ class DatabaseHelper{
   String colTECCUS = 'TECCUS';
   String colELAQTD = 'ELAQTD';
   String colELACUS = 'ELACUS';
+  String colDT = 'DT';
 
   List<Contato> hists = List<Contato>();
 
@@ -64,7 +65,7 @@ class DatabaseHelper{
 
     //Database db = await this.database;
     FirebaseFirestore.instance.collection('pedido').doc(contato.nome).set(
-        { colId: '(Lembrar de colocar uma forma de id aleatório)',
+        { colId: contato.id,
           colNome: contato.nome,
           colHT: contato.HT,
           colLE: contato.LE,
@@ -74,7 +75,8 @@ class DatabaseHelper{
           colTECQTD: contato.TECQTD,
           colTECCUS: contato.TECCUS,
           colELAQTD: contato.ELAQTD,
-          colELACUS: contato.ELACUS});
+          colELACUS: contato.ELACUS,
+          colDT: contato.DT});
     //var resul2 = await db.insert('HIST', contato.toMap());
     //var resultado = await db.insert(contatoTable, contato.toMap());
 
@@ -85,7 +87,7 @@ class DatabaseHelper{
     Database db = await this.database;
 
     List<Map> maps = await db.query(contatoTable,
-        columns: [colId, colNome, colHT, colLE, colVL, colES, colVA, colTECQTD, colTECCUS, colELAQTD, colELACUS],
+        columns: [colId, colNome, colHT, colLE, colVL, colES, colVA, colTECQTD, colTECCUS, colELAQTD, colELACUS, colDT],
         where: "$colId = ?",
         whereArgs: [id] );
 

@@ -1,7 +1,7 @@
 import 'dart:ffi';
 import 'package:flutter/material.dart';
 class Contato{
-  int id;
+  String id;
   String nome;
   String HT;
   double LE;
@@ -11,9 +11,10 @@ class Contato{
   double TECCUS;
   int ELAQTD;
   double ELACUS;
+  String DT;
 
 
-  Contato(this.id, this.nome, this.HT, this.LE, this.VL, this.ES, this.TECQTD, this.TECCUS, this.ELAQTD, this.ELACUS);
+  Contato(this.id, this.nome, this.HT, this.LE, this.VL, this.ES, this.TECQTD, this.TECCUS, this.ELAQTD, this.ELACUS, this.DT);
 
   Map<String,dynamic> toMap () {
 
@@ -27,8 +28,8 @@ class Contato{
       'TECQTD': TECQTD,
       'TECCUS': TECCUS,
       'ELAQTD': ELAQTD,
-      'ELACUS': ELACUS
-
+      'ELACUS': ELACUS,
+      'DT' : DT
     };
     return map;
   }
@@ -44,6 +45,7 @@ class Contato{
     TECCUS = map['TECCUS'];
     ELAQTD = map['ELAQTD'];
     ELACUS = map['ELACUS'];
+    DT = map['DT'];
 
   }
 }
