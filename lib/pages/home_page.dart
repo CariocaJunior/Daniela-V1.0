@@ -110,6 +110,10 @@ class _HomePageState extends State<HomePage>{
                                   style: TextStyle(color: Colors.brown,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 15),),
+                                Text('Data Produ :' + collection['DT'],
+                                  style: TextStyle(color: Colors.brown,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15),),
                               ],
                             ),
                           ),
@@ -117,33 +121,48 @@ class _HomePageState extends State<HomePage>{
                       trailing:
                         Column(
                             children: <Widget>[
-                              Expanded(
-                                child: Container(
-                                  child: IconButton(
-                                    icon: Padding(
-                                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 50),
-                                      child: Icon(Icons.delete),
-                                    ),
-                                    color: Colors.brown,
-                                    iconSize: 30,
-                                    onPressed: () {_deletar();},
+                              Container(
+                                child: IconButton(
+                                  icon: Padding(
+                                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 50),
+                                    child: Icon(Icons.list_sharp),
                                   ),
+                                  color: Colors.brown,
+                                  iconSize: 30,
+                                  onPressed: () {
+                                    //_deletar(collection['id']);
+                                    //_atualizar(collection['id']);
+                                    _exibeContatoPage();
+                                    },
                                 ),
                               ),
-                              //Padding(padding: EdgeInsets.all(40),),
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
-                                  child: Container(
-                                    child: IconButton(
-                                      icon: Icon(Icons.system_update_alt_sharp),
-                                      color: Colors.brown,
-                                      iconSize: 30,
-                                      onPressed: () {_atualizar();},
-                                    ),
-                                  ),
-                                ),
-                              )
+                              // Container(
+                              //   child: IconButton(
+                              //     icon: Padding(
+                              //       padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                              //       child: Icon(Icons.system_update_tv_sharp),
+                              //     ),
+                              //     color: Colors.brown,
+                              //     iconSize: 30,
+                              //     onPressed: () {
+                              //       _atualizar(collection['id']);
+                              //       //_exibeContatoPage();
+                              //       },
+                              //   ),
+                              // ),
+                              // Expanded(
+                              //   child: Padding(
+                              //     padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
+                              //     child: Container(
+                              //       child: IconButton(
+                              //         icon: Icon(Icons.system_update_alt_sharp),
+                              //         color: Colors.brown,
+                              //         iconSize: 30,
+                              //         onPressed: () {_atualizar(collection['id']);},
+                              //       ),
+                              //     ),
+                              //   ),
+                              // )
                             ],
                         ),
                   ),
@@ -156,23 +175,10 @@ class _HomePageState extends State<HomePage>{
     );
   }
 
-  // void _deletar(BuildContext context, idDoc, index) {
-  //   FirebaseFirestore.instance
-  //       .collection("pedido")
-  //       .where("nome", isEqualTo : "anel")
-  //       .get().then((value){
-  //     value.docs.forEach((element) {
-  //       FirebaseFirestore.instance.collection("pedido").doc(element.id).delete().then((value){
-  //         //ESCREVER UMA MENSAGEM
-  //       });
-  //     });
-  //   });
-  // }
-
-  void _deletar() {
+  void _deletar(indice) {
     FirebaseFirestore.instance
         .collection("pedido")
-        .where("nome", isEqualTo : "anel")
+        .where("id", isEqualTo : indice)
         .get().then((value){
       value.docs.forEach((element) {
         FirebaseFirestore.instance.collection("pedido").doc(element.id).delete().then((value){
@@ -182,13 +188,13 @@ class _HomePageState extends State<HomePage>{
     });
   }
 
-  void _atualizar(){
+  void _atualizar(indice){
     FirebaseFirestore.instance
         .collection('pedido')
-        .where("nome", isEqualTo : "bolsa")
+        .where("id", isEqualTo : indice)
         .get().then((value){
       value.docs.forEach((element){
-        FirebaseFirestore.instance.collection("pedido").doc('bolsa').update({
+        FirebaseFirestore.instance.collection("pedido").doc(indice).update({
           'ELACUS': 5,
           'ELAQTD': 100,
           'ES': 3,
@@ -198,7 +204,8 @@ class _HomePageState extends State<HomePage>{
           'TECQTD': 5,
           'VL': 100,
           'id': '001',
-          'nome': 'vaso grande'});
+          'nome': 'vaso grande'
+           });
       });
     });
   }
