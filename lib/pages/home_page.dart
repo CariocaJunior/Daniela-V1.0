@@ -125,30 +125,31 @@ class _HomePageState extends State<HomePage>{
                                 child: IconButton(
                                   icon: Padding(
                                     padding: const EdgeInsets.fromLTRB(0, 0, 0, 50),
-                                    child: Icon(Icons.delete),
+                                    child: Icon(Icons.list_sharp),
                                   ),
                                   color: Colors.brown,
                                   iconSize: 30,
                                   onPressed: () {
-                                    _deletar(collection['id']);
+                                    //_deletar(collection['id']);
                                     //_atualizar(collection['id']);
+                                    _exibeContatoPage();
                                     },
                                 ),
                               ),
-                              Container(
-                                child: IconButton(
-                                  icon: Padding(
-                                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                                    child: Icon(Icons.system_update_tv_sharp),
-                                  ),
-                                  color: Colors.brown,
-                                  iconSize: 30,
-                                  onPressed: () {
-                                    _atualizar(collection['id']);
-                                    //_exibeContatoPage();
-                                    },
-                                ),
-                              ),
+                              // Container(
+                              //   child: IconButton(
+                              //     icon: Padding(
+                              //       padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                              //       child: Icon(Icons.system_update_tv_sharp),
+                              //     ),
+                              //     color: Colors.brown,
+                              //     iconSize: 30,
+                              //     onPressed: () {
+                              //       _atualizar(collection['id']);
+                              //       //_exibeContatoPage();
+                              //       },
+                              //   ),
+                              // ),
                               // Expanded(
                               //   child: Padding(
                               //     padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
