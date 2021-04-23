@@ -53,7 +53,7 @@ class _ContatoPageState extends State<ContatoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomPadding: false, //RETIRA O OVERFLOW DO BACKGROUND
-        /*floatingActionButton: FloatingActionButton(
+        /*floatresizeToAvoidBottomPadding: false,ingActionButton: FloatingActionButton(
           onPressed: () {
             if(_editaContato.mes != null && _editaContato.mes.isNotEmpty)
             {

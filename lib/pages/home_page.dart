@@ -40,100 +40,191 @@ class _HomePageState extends State<HomePage>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-      appBar: AppBar(
-        title: Text("Produtos"),
-        backgroundColor: Colors.indigo,
-        centerTitle: true,
-        actions: <Widget>[],
-      ),
-      backgroundColor: Colors.white,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _exibeContatoPage();
-        },
-        child: Icon(Icons.add),
-      ),
-
       body: StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('pedido').snapshots(), // INSTANCIA A COLEÇÃO 'PEDIDO'
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (!snapshot.hasData) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          return // RETORNA A LISTA DO CLOUD FIRESTORE
-            ListView(
-            children:
-            snapshot.data.docs.map((collection){ // PRINTA NA TELA OS DADOS DO BANCO, MAPEANDO A COLEÇÃO
-              return  Card(
-                child: Padding(
-                  padding: EdgeInsets.only(left: 10.0),
-                  child:
-                  ListTile(
-                      title: Row( // TITULO (NOME DO DOCUMENTO DO FIREBASE)
+          stream: FirebaseFirestore.instance.collection('pedido').snapshots(), // INSTANCIA A COLEÇÃO 'PEDIDO'
+          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (!snapshot.hasData) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          return Stack(
+              overflow: Overflow.visible,
+              children: <Widget>[
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    image: DecorationImage(
+                        image: AssetImage("Image/tela2.png"),
+                        fit: BoxFit.fill,
+                        colorFilter: new ColorFilter.mode(
+                            Colors.green.withOpacity(1.0), BlendMode.dstATop)),
+                  ),
+                ),
+                Padding( //BOTÃO DE RETORNO - SETA
+                  padding: const EdgeInsets.only(top: 15.0),
+                  child: Positioned(
+                    left: 5,
+                    top: 5,
+                    child: FloatingActionButton(
+                      elevation: 0.0,
+                      onPressed: () { Navigator.pop(context);
+                      },
+                      child: Container(
+                        height: 60,
+                        width: 60,
+                        child:
+                        Image(
+                          image: AssetImage('Image/Left_Arrow.png',),
+                          width: 50,
+                          fit: BoxFit.scaleDown,
+                          color: Colors.brown,
+                        ),
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle, // circular shape
+                            color: Color.fromARGB(255,255,246,161),
+                            boxShadow: [
+                              BoxShadow(
+                                //color: Colors.yellow[16774817].withOpacity(0.0),
+                                color: Color.fromARGB(255,255,246,161).withOpacity(1.0),
+                                spreadRadius: 10.0,
+                                blurRadius: 0,
+                                offset: Offset(0,0),
+                              )
+                            ]
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 80, 10, 0),
+                  child: Card(
+                    elevation: 3.0,
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      //borderRadius: BorderRadius.circular(20.0),
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20),
+                        )
+                    ),
+                    child: Container(
+                      width: 750.0,
+                      height: 750.0,
+                      child: Column(
                         children: <Widget>[
-                          Expanded(
-                              child: Text(collection['nome'].toUpperCase(), // PRINTA NA TELA O NOME DO PRODUTO EM MAIUSCULO
-                                textAlign: TextAlign.left,
-                                          style: // ESTILOS DO TEXTO
-                                            TextStyle(color: Colors.brown,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20),)
+                          Wrap(
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            children: [
+                              //Icon(Icons.history, size: 43.0, color: Colors.brown),
+                              Image(
+                                image: AssetImage('Image/Produto.png',),
+                                width: 45,
+                                fit: BoxFit.cover,
+                                color: Colors.brown,
+                              ),
+                              Padding(padding:  EdgeInsets.fromLTRB(0, 40, 7, 20)),//AJUSTA O ESPAÇAMENTO ENTRE A IMAGEM E O TEXTO
+                              Text('Tabela de produto',
+                                  //textAlign: TextAlign.end,
+                                  style: new TextStyle(
+                                    fontSize: 30.0,
+                                    color: Colors.brown,
+                                  )),
+                            ],
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: 10, bottom: 10.0, left: 10.0, right: 10.0),
+                          ),
+                          Container(
+                            width: 1.0,
+                            height: 1.0,
+                            color: Colors.grey[400],
                           ),
                         ],
                       ),
-                      subtitle: // SUBTITULO (OS CAMPOS DO FIREBASE)
-                        Container(
-                          child: Padding(
-                            padding: const EdgeInsets.all(5),
-                            child: Column( // LISTA NA TELA OS CAMPOS DO FIREBASE
-                              children: [
-                                Text('Horas Trab : ' + collection['HT'],
-                                  style: TextStyle(color: Colors.brown,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15),),
-                                Text('Lucro Estm : ${collection['LE']}',
-                                  style: TextStyle(color: Colors.brown,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15),),
-                                Text('Valor Liqu : ${collection['ELAQTD']}',
-                                  style: TextStyle(color: Colors.brown,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15),),
-                                Text('Tecido Cus : ${collection['TECCUS']}',
-                                  style: TextStyle(color: Colors.brown,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15),),
-                                Text('Valor Liqu : ${collection['VL']}',
-                                  style: TextStyle(color: Colors.brown,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15),),
-                                Text('Data Produ :' + collection['DT'],
-                                  style: TextStyle(color: Colors.brown,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15),),
-                              ],
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 140, 10, 80),
+                  child: ListView(
+                    scrollDirection: Axis.vertical,// EXIBE ITENS ADCIONADOS NO BOTÃO
+                    children:
+                    snapshot.data.docs.map((collection){ // PRINTA NA TELA OS DADOS DO BANCO, MAPEANDO A COLEÇÃO
+                      return  Card(
+                        elevation: 5.0,
+                        shape: RoundedRectangleBorder(
+                          //borderRadius: BorderRadius.circular(20.0),
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20),
+                            )
+                        ),
+                        child: ListTile(
+                          title: Row( // TITULO (NOME DO DOCUMENTO DO FIREBASE)
+                            children: <Widget>[
+                              Expanded(
+                                  child: Text(collection['nome'].toUpperCase(), // PRINTA NA TELA O NOME DO PRODUTO EM MAIUSCULO
+                                    textAlign: TextAlign.left,
+                                    style: // ESTILOS DO TEXTO
+                                    TextStyle(color: Colors.brown,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20),)
+                              ),
+                            ],
+                          ),
+                          subtitle: // SUBTITULO (OS CAMPOS DO FIREBASE)
+                          Container(
+                            child: Padding(
+                              padding: const EdgeInsets.all(5),
+                              child: Column( // LISTA NA TELA OS CAMPOS DO FIREBASE
+                                children: [
+                                  Text('Horas Trab : ' + collection['HT'],
+                                    style: TextStyle(color: Colors.brown,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15),),
+                                  Text('Lucro Estm : ${collection['LE']}',
+                                    style: TextStyle(color: Colors.brown,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15),),
+                                  Text('Valor Liqu : ${collection['ELAQTD']}',
+                                    style: TextStyle(color: Colors.brown,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15),),
+                                  Text('Tecido Cus : ${collection['TECCUS']}',
+                                    style: TextStyle(color: Colors.brown,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15),),
+                                  Text('Valor Liqu : ${collection['VL']}',
+                                    style: TextStyle(color: Colors.brown,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15),),
+                                  Text('Data Produ :' + collection['DT'],
+                                    style: TextStyle(color: Colors.brown,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15),),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      trailing:
-                        Column(
+                          trailing:
+                          Column(
                             children: <Widget>[
                               Container(
                                 child: IconButton(
                                   icon: Padding(
                                     padding: const EdgeInsets.fromLTRB(0, 0, 0, 50),
-                                    child: Icon(Icons.list_sharp),
+                                    child: Icon(Icons.keyboard_arrow_up),
                                   ),
                                   color: Colors.brown,
-                                  iconSize: 30,
+                                  iconSize: 40,
                                   onPressed: () {
                                     //_deletar(collection['id']);
                                     //_atualizar(collection['id']);
                                     _exibeContatoPage();
-                                    },
+                                  },
                                 ),
                               ),
                               // Container(
@@ -164,13 +255,45 @@ class _HomePageState extends State<HomePage>{
                               //   ),
                               // )
                             ],
+                          ),
                         ),
+                      );
+                    }).toList(),
                   ),
                 ),
-              );
-            }).toList(),
+              ]
           );
-        },
+        }
+      ),
+      floatingActionButton: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 325.0),
+            child: FloatingActionButton(
+              heroTag: null,
+              //heroTag: 'unq2',
+              onPressed: () {
+                _exibeContatoPage();
+              },
+              child: Container(
+                height: 60,
+                width: 60,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle, // circular shape
+                  gradient: LinearGradient(
+                    begin: Alignment.topRight,
+                    end: Alignment.centerLeft,
+                    stops: [0.3, 1.0],
+                    colors: [
+                      Color.fromARGB(255,230,119,53), Color.fromARGB(255,161,88,52)
+                    ],
+                  ),
+                ),
+                child: Icon(Icons.add, size: 50.0),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
