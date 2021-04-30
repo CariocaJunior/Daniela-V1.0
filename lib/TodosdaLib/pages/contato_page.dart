@@ -311,62 +311,62 @@ class _ContatoPageState extends State<ContatoPage> {
                           ),
                         ),
                       ),
-                      Container( //CONTAINER INPUT LUCRO
-                        width: 330,
-                        height: 70,
-                        child: Directionality(
-                          textDirection: TextDirection.ltr,
-                          child: TextField(
-                            autofocus: true,
-                            cursorColor: Colors.brown,
-                            style: TextStyle(fontSize: 22.0, height: 1.5, color: Colors.brown),
-                            textAlign: TextAlign.left,
-                            controller: LucController,
-                            decoration: InputDecoration(
-                              prefix: Text('R\$ '), //PREFIXO PARA DIGITAÇÃO
-                                labelText: "Lucro Mensal",
-                                labelStyle: TextStyle(color: Colors.brown, fontSize: 22.0),
-                                isDense: true,
-                                contentPadding: EdgeInsets.all(2.0),
-                                //contentPadding: EdgeInsets.only(left: 0, bottom: 15, top: 2.0),                                alignLabelWithHint: true,
-                            ),
-                            onChanged: (text){
-                              editado = true;
-                              setState(() {
-                                _editaContato.markup = double.parse(text);
-                              });
-                            },
-                          ),
-                        ),
-                      ),
-                      Container( //CONTAINER PARA CAIXA
-                        width: 330,
-                        height: 70,
-                        child: Directionality(
-                          textDirection: TextDirection.ltr,
-                          child: TextField(
-                            autofocus: true,
-                            cursorColor: Colors.brown,
-                            style: TextStyle(fontSize: 22.0, height: 1.5, color: Colors.brown,),
-                            textAlign: TextAlign.left,
-                            controller: _VLController,
-                            decoration: InputDecoration(
-                                labelText: "Caixa",
-                                labelStyle: TextStyle(color: Colors.brown, fontSize: 22.0),
-                                isDense: true,
-                                contentPadding: EdgeInsets.all(2.0),
-                                //alignLabelWithHint: true,
-                            ),
-                            onChanged: (text){
-                              editado = true;
-                              setState(() {
-                                //icone: Icons.monetization_on;
-                                _editaContato.caixa = double.parse(text);
-                              });
-                            },
-                          ),
-                        ),
-                      ),
+                      // Container( //CONTAINER INPUT LUCRO
+                      //   width: 330,
+                      //   height: 70,
+                      //   child: Directionality(
+                      //     textDirection: TextDirection.ltr,
+                      //     child: TextField(
+                      //       autofocus: true,
+                      //       cursorColor: Colors.brown,
+                      //       style: TextStyle(fontSize: 22.0, height: 1.5, color: Colors.brown),
+                      //       textAlign: TextAlign.left,
+                      //       controller: LucController,
+                      //       decoration: InputDecoration(
+                      //         prefix: Text('R\$ '), //PREFIXO PARA DIGITAÇÃO
+                      //           labelText: "Lucro Mensal",
+                      //           labelStyle: TextStyle(color: Colors.brown, fontSize: 22.0),
+                      //           isDense: true,
+                      //           contentPadding: EdgeInsets.all(2.0),
+                      //           //contentPadding: EdgeInsets.only(left: 0, bottom: 15, top: 2.0),                                alignLabelWithHint: true,
+                      //       ),
+                      //       onChanged: (text){
+                      //         editado = true;
+                      //         setState(() {
+                      //           _editaContato.markup = double.parse(text);
+                      //         });
+                      //       },
+                      //     ),
+                      //   ),
+                      // ),
+                      // Container( //CONTAINER PARA CAIXA
+                      //   width: 330,
+                      //   height: 70,
+                      //   child: Directionality(
+                      //     textDirection: TextDirection.ltr,
+                      //     child: TextField(
+                      //       autofocus: true,
+                      //       cursorColor: Colors.brown,
+                      //       style: TextStyle(fontSize: 22.0, height: 1.5, color: Colors.brown,),
+                      //       textAlign: TextAlign.left,
+                      //       controller: _VLController,
+                      //       decoration: InputDecoration(
+                      //           labelText: "Caixa",
+                      //           labelStyle: TextStyle(color: Colors.brown, fontSize: 22.0),
+                      //           isDense: true,
+                      //           contentPadding: EdgeInsets.all(2.0),
+                      //           //alignLabelWithHint: true,
+                      //       ),
+                      //       onChanged: (text){
+                      //         editado = true;
+                      //         setState(() {
+                      //           //icone: Icons.monetization_on;
+                      //           _editaContato.caixa = double.parse(text);
+                      //         });
+                      //       },
+                      //     ),
+                      //   ),
+                      // ),
                       Container( //CONTAINER PRODUÇÃO
                         width: 330,
                         height: 70,
@@ -379,7 +379,7 @@ class _ContatoPageState extends State<ContatoPage> {
                             textAlign: TextAlign.left,
                             controller: _producao,
                             decoration: InputDecoration(
-                                labelText: "Producao",
+                                labelText: "Total de itens",
                                 labelStyle: TextStyle(color: Colors.brown, fontSize: 22.0),
                                 isDense: true,
                                 contentPadding: EdgeInsets.all(2.0),

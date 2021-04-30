@@ -4,8 +4,14 @@ import 'package:daniela/models/contato.dart';
 import 'package:daniela/pages/contatoPage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:unicorndial/unicorndial.dart';
+import 'package:menu_button/menu_button.dart';
+import 'biblioteca.dart' as VarEstrangeira;
+import 'dart:math';
 
 class HomePage extends StatefulWidget{
   @override
@@ -16,39 +22,30 @@ class _HomePageState extends State<HomePage>{
   DatabaseHelper db = DatabaseHelper();
   List<Contato> contatos = List<Contato>();
 
+  bool testVar = VarEstrangeira.varTeste;
+  bool option = true; // CONTROLA A TELA DE EDIÇÃO/CRIAÇÃO DO PRODUTO (TRUE-> EDITAR | FALSE-> ADICIOANAR)
+
   @override
   void initState() {
     super.initState();
 
-    //Contato c = Contato(null,"Maria",2,2,2,2,0);
-    // Contato c1 = Contato(2,"Pedro","pedro@uol.com.br",null);
-    //db.insertContato(c);
-    // db.insertContato(c1);
-    _exibeTodosContatos();
   }
 
-  void _exibeTodosContatos(){ // FUNÇÃO SEM UTILIDADE
-    // db.getContatos().then( (lista) {
-    //
-    //   print(lista);
-    //   setState(() {
-    //     contatos = lista;
-    //   });
-    // });
-  }
+  var VARelaCus = 0;
+  var VARelaQtd = 0;
+  var VARes = 0;
+  Widget VARht = null;
+  var varVARle = 0;
+  var VARtecCus = 0;
+  var VARtecqtd = 0;
+  var VARvl = 0;
+  var VARid = null;
+  final String VARnome = '';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: StreamBuilder(
-          stream: FirebaseFirestore.instance.collection('pedido').snapshots(), // INSTANCIA A COLEÇÃO 'PEDIDO'
-          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (!snapshot.hasData) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-          return Stack(
+      body: Stack(
               overflow: Overflow.visible,
               children: <Widget>[
                 Container(
@@ -147,154 +144,163 @@ class _HomePageState extends State<HomePage>{
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 140, 10, 80),
-                  child: ListView(
-                    scrollDirection: Axis.vertical,// EXIBE ITENS ADCIONADOS NO BOTÃO
-                    children:
-                    snapshot.data.docs.map((collection){ // PRINTA NA TELA OS DADOS DO BANCO, MAPEANDO A COLEÇÃO
-                      return  Card(
-                        elevation: 5.0,
-                        shape: RoundedRectangleBorder(
-                          //borderRadius: BorderRadius.circular(20.0),
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(20),
-                              topRight: Radius.circular(20),
-                            )
-                        ),
-                        child: ListTile(
-                          title: Row( // TITULO (NOME DO DOCUMENTO DO FIREBASE)
-                            children: <Widget>[
-                              Expanded(
-                                  child: Text(collection['nome'].toUpperCase(), // PRINTA NA TELA O NOME DO PRODUTO EM MAIUSCULO
-                                    textAlign: TextAlign.left,
+                StreamBuilder(
+                    stream: FirebaseFirestore.instance.collection('pedido').snapshots(), // INSTANCIA A COLEÇÃO 'PEDIDO'
+                    builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                      if (!snapshot.hasData) {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                    return Padding(
+                      padding: const EdgeInsets.fromLTRB(10, 140, 10, 80),
+                      child: ListView(
+                        children:
+                        snapshot.data.docs.map((collection){ // PRINTA NA TELA OS DADOS DO BANCO, MAPEANDO A COLEÇÃO
+                          return  Card(
+                            elevation: 5.0,
+                            shape: RoundedRectangleBorder(
+                              //borderRadius: BorderRadius.circular(20.0),
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20),
+                                )
+                            ),
+                            child: ListTile(
+                              title: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(collection['nome'].toUpperCase(), // PRINTA NA TELA O NOME DO PRODUTO EM MAIUSCULO
                                     style: // ESTILOS DO TEXTO
                                     TextStyle(color: Colors.brown,
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 20),)
-                              ),
-                            ],
-                          ),
-                          subtitle: // SUBTITULO (OS CAMPOS DO FIREBASE)
-                          Container(
-                            child: Padding(
-                              padding: const EdgeInsets.all(5),
-                              child: Column( // LISTA NA TELA OS CAMPOS DO FIREBASE
-                                children: [
-                                  Text('Horas Trab : ' + collection['HT'],
-                                    style: TextStyle(color: Colors.brown,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15),),
-                                  Text('Lucro Estm : ${collection['LE']}',
-                                    style: TextStyle(color: Colors.brown,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15),),
-                                  Text('Valor Liqu : ${collection['ELAQTD']}',
-                                    style: TextStyle(color: Colors.brown,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15),),
-                                  Text('Tecido Cus : ${collection['TECCUS']}',
-                                    style: TextStyle(color: Colors.brown,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15),),
-                                  Text('Valor Liqu : ${collection['VL']}',
-                                    style: TextStyle(color: Colors.brown,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15),),
-                                  Text('Data Produ :' + collection['DT'],
-                                    style: TextStyle(color: Colors.brown,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15),),
+                                        fontSize: 20),),
                                 ],
                               ),
-                            ),
-                          ),
-                          trailing:
-                          Column(
-                            children: <Widget>[
+                              subtitle: // SUBTITULO (OS CAMPOS DO FIREBASE)
                               Container(
-                                child: IconButton(
-                                  icon: Padding(
-                                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 50),
-                                    child: Icon(Icons.keyboard_arrow_up),
-                                  ),
-                                  color: Colors.brown,
-                                  iconSize: 40,
-                                  onPressed: () {
-                                    //_deletar(collection['id']);
-                                    //_atualizar(collection['id']);
-                                    _exibeContatoPage();
-                                  },
+                                child: Column( // LISTA NA TELA OS CAMPOS DO FIREBASE
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('Horas trabalhada : ' + collection['HT'] + ' hrs',
+                                      style: TextStyle(color: Colors.brown,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15),),
+                                    Text('Lucro estimado : R\$ ' + collection['LE'].toStringAsFixed(2),
+                                      style: TextStyle(color: Colors.brown,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15),),
+                                    Text('Valor líquido : R\$ ' + collection['VL'].toStringAsFixed(2),
+                                      style: TextStyle(color: Colors.brown,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15),),
+                                    Text('Elástico gasto : ' + collection['ELAQTD'].toStringAsFixed(2) + ' cm',
+                                    style: TextStyle(color: Colors.brown,
+                                    fontWeight: FontWeight.bold,
+                                        fontSize: 15),),
+                                    Text('Custo do elástico : R\$ ' + collection['ELACUS'].toStringAsFixed(2),
+                                      style: TextStyle(color: Colors.brown,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15),),
+                                    Text('Tecido gasto : ' + collection['TECQTD'].toStringAsFixed(2) + ' cm',
+                                      style: TextStyle(color: Colors.brown,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15),),
+                                    Text('Custo do tecido : R\$ ' + collection['TECCUS'].toStringAsFixed(2),
+                                      style: TextStyle(color: Colors.brown,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15),),
+                                    Text('Estoque do produto : ${collection['ES']}',
+                                      style: TextStyle(color: Colors.brown,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15),),
+                                    Text('Data do cadastro : ' + collection['DT'],
+                                      style: TextStyle(color: Colors.brown,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15),),
+                                  ],
                                 ),
                               ),
-                              // Container(
-                              //   child: IconButton(
-                              //     icon: Padding(
-                              //       padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                              //       child: Icon(Icons.system_update_tv_sharp),
-                              //     ),
-                              //     color: Colors.brown,
-                              //     iconSize: 30,
-                              //     onPressed: () {
-                              //       _atualizar(collection['id']);
-                              //       //_exibeContatoPage();
-                              //       },
-                              //   ),
-                              // ),
-                              // Expanded(
-                              //   child: Padding(
-                              //     padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
-                              //     child: Container(
-                              //       child: IconButton(
-                              //         icon: Icon(Icons.system_update_alt_sharp),
-                              //         color: Colors.brown,
-                              //         iconSize: 30,
-                              //         onPressed: () {_atualizar(collection['id']);},
-                              //       ),
-                              //     ),
-                              //   ),
-                              // )
-                            ],
-                          ),
-                        ),
-                      );
-                    }).toList(),
+                              trailing:
+                                PopupMenuButton(
+                                  itemBuilder: (context) => [
+                                    PopupMenuItem(
+                                      value: 1,
+                                      child: Text("Cancelar", style: TextStyle(color: Colors.brown, fontSize: 18.0)),
+                                    ),
+                                    PopupMenuItem(
+                                      value: 2,
+                                      child: Text("Editar", style: TextStyle(color: Colors.brown, fontSize: 18.0)),
+                                    ),
+                                    PopupMenuItem(
+                                      value: 3,
+                                      child: Text("Delete", style: TextStyle(color: Colors.brown, fontSize: 18.0)),
+                                    ),
+                                  ],
+                                  //initialValue: 2,
+                                  onCanceled: () {
+                                    print("You have canceled the menu.");
+                                  },
+                                  onSelected: (value) {
+                                    if(value==1){
+                                      //cancelar
+                                    }
+                                    if(value==2){
+                                      VarEstrangeira.varTeste = false; // VARIÁVEL DE CONTROLE EDIÇÃO E ADIÇÃO DE PRODUTO
+                                      _exibeContatoPage();
+                                      //editar
+                                    }
+                                    if(value==3){
+                                      _deletar(collection['id']);
+                                    }
+                                    else{
+                                      print('ERROR!!!');
+                                    }
+                                  },
+                                  icon: Icon(Icons.keyboard_arrow_up, size: 30, color: Colors.brown,),
+                                  color: Colors.white,
+                                ),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    );
+                }
+            ),
+          ]
+        ),
+
+        floatingActionButton: Row( // BOTÃO ADD NOVO PRODUTO
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 325.0),
+              child: FloatingActionButton(
+                heroTag: null,
+                //heroTag: 'unq2',
+                onPressed: () {
+                  _exibeContatoPage();
+                  VarEstrangeira.varTeste = true; // VARIÁVEL PARA CONTROLE DE EDIÇÃO E ADIÇÃO DE PRODUTO
+                },
+                child: Container(
+                  height: 60,
+                  width: 60,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle, // circular shape
+                    gradient: LinearGradient(
+                      begin: Alignment.topRight,
+                      end: Alignment.centerLeft,
+                      stops: [0.3, 1.0],
+                      colors: [
+                        Color.fromARGB(255,230,119,53), Color.fromARGB(255,161,88,52)
+                      ],
+                    ),
                   ),
+                  child: Icon(Icons.add, size: 50.0),
                 ),
-              ]
-          );
-        }
-      ),
-      floatingActionButton: Row(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 325.0),
-            child: FloatingActionButton(
-              heroTag: null,
-              //heroTag: 'unq2',
-              onPressed: () {
-                _exibeContatoPage();
-              },
-              child: Container(
-                height: 60,
-                width: 60,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle, // circular shape
-                  gradient: LinearGradient(
-                    begin: Alignment.topRight,
-                    end: Alignment.centerLeft,
-                    stops: [0.3, 1.0],
-                    colors: [
-                      Color.fromARGB(255,230,119,53), Color.fromARGB(255,161,88,52)
-                    ],
-                  ),
-                ),
-                child: Icon(Icons.add, size: 50.0),
               ),
             ),
-          ),
-        ],
-      ),
+          ],
+        ),
     );
   }
 
@@ -331,7 +337,15 @@ class _HomePageState extends State<HomePage>{
            });
       });
     });
+    return _exibeContatoPage();
   }
+
+  double roundDouble(double value, int places){
+    double mod = pow(10.0, places);
+    return ((value * mod).round().toDouble() / mod);
+  }
+
+
 
   // _listaContatos(BuildContext context, int index) {
   //   return GestureDetector(
@@ -397,14 +411,14 @@ class _HomePageState extends State<HomePage>{
   //   );
   // }
 
-  void _exibeContatoPage({Contato contato}) async {
-    final contatoRecebido =  await Navigator.push(context,
-      MaterialPageRoute(
-          builder: (
-              context)=> ContatoPages(contato: contato)
-      ),
-    );
 
+    void _exibeContatoPage({Contato contato}) async {
+      final contatoRecebido =  await Navigator.push(context,
+        MaterialPageRoute(
+            builder: (
+                context)=> ContatoPages(contato: contato)
+        ),
+      );
     if(contatoRecebido != null){
       if(contato != null )
       {
@@ -412,7 +426,7 @@ class _HomePageState extends State<HomePage>{
       }else{
         await db.insertContato(contatoRecebido);
       }
-      _exibeTodosContatos();
+      //_exibeTodosContatos();
     }
   }
 
