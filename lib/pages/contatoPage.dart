@@ -42,9 +42,18 @@ class _ContatoPageState extends State<ContatoPages> {
   bool editado = false;
   Contato _editaContato;
   d2.Contato _editaContato2;
-  Animation<double> _animation;
-  AnimationController _animationController;
   String testeInput;
+
+  var DTLocal = VarEstrangeira.dataLibrary;
+  var ELACUSLocal = VarEstrangeira.elastCustLibrary;
+  var ELAQTDLocal = VarEstrangeira.elastQTDLibrary;
+  var ESLocal = VarEstrangeira.estLibrary;
+  var HTLocal = VarEstrangeira.horaTrabLibrary;
+  var LELocal = VarEstrangeira.lucroEstLibrary;
+  var TECCUSLocal = VarEstrangeira.tecCustLibrary;
+  var TECQTDLocal = VarEstrangeira.tecQTDLibrary;
+  var VLLocal = VarEstrangeira.valorLiqLibrary;
+  var nomeLocal = VarEstrangeira.nomeLibrary;
 
   @override
   void initState(){
@@ -52,7 +61,7 @@ class _ContatoPageState extends State<ContatoPages> {
     _testRead();
 
     if(widget.contato == null){
-      _editaContato = Contato(_idRandom(),'','',0,0,0,0,0,0,0, _dataFormat());
+      _editaContato = Contato(VarEstrangeira.idRandom(),'','',0,0,0,0,0,0,0, VarEstrangeira.dataFormat());
     }else{
       _editaContato = Contato.fromMap(widget.contato.toMap());
       _editaContato2 = d2.Contato.fromMap(widget.contato.toMap());
@@ -85,16 +94,7 @@ class _ContatoPageState extends State<ContatoPages> {
           return Stack(
               overflow: Overflow.visible,
               children: <Widget>[
-                // Container(
-                //   width: MediaQuery.of(context).size.width,
-                //   height: 100,
-                //   decoration: BoxDecoration(
-                //     image: DecorationImage(
-                //       fit: BoxFit.fill,
-                //       image: NetworkImage("Image/tela2.png"),
-                //     ),
-                //   ),
-                // ),
+
                 Expanded(
                   child: Container( //BACKGROUND
                     decoration: BoxDecoration(
@@ -170,7 +170,6 @@ class _ContatoPageState extends State<ContatoPages> {
                             Wrap(
                               crossAxisAlignment: WrapCrossAlignment.center,
                               children: [
-                                //if(VarEstrangeira.varTeste == true)
                                   Image(
                                     image: AssetImage('Image/Produto.png',),
                                     width: 45,
@@ -179,29 +178,13 @@ class _ContatoPageState extends State<ContatoPages> {
                                   ),
                                   //Icon(Icons.point_of_sale_sharp, size: 37.0, color: Colors.brown),
                                   Padding(padding:  EdgeInsets.fromLTRB(0, 40, 7, 20)), //AJUSTA O ESPAÇAMENTO ENTRE A IMAGEM E O TEXTO
-                                  Text('Novo Produto',
+                                  Text(VarEstrangeira.conditionalName(VarEstrangeira.varLibrary),
                                       //textAlign: TextAlign.end,
                                       style: new TextStyle(
                                         fontSize: 30.0,
                                         color: Colors.brown,
                                       )
                                   ),
-                                // if(VarEstrangeira.varTeste == false)
-                                //   Image(
-                                //     image: AssetImage('Image/Produto.png',),
-                                //     width: 45,
-                                //     fit: BoxFit.cover,
-                                //     color: Colors.brown,
-                                //   ),
-                                // //Icon(Icons.point_of_sale_sharp, size: 37.0, color: Colors.brown),
-                                // Padding(padding:  EdgeInsets.fromLTRB(0, 40, 7, 20)), //AJUSTA O ESPAÇAMENTO ENTRE A IMAGEM E O TEXTO
-                                //   Text('Editar Produto',
-                                //       //textAlign: TextAlign.end,
-                                //       style: new TextStyle(
-                                //         fontSize: 30.0,
-                                //         color: Colors.brown,
-                                //       )
-                                //   ),
                               ],
                             ),
                             Padding(
@@ -223,13 +206,13 @@ class _ContatoPageState extends State<ContatoPages> {
                                           );
                                         }
                                       return TextFormField(
-                                        //initialValue: 'TESTE',
-                                        //initialValue: testandoAinda(),
+                                        //initialValue: VarEstrangeira.nomeLibrary.toString(),
+                                        initialValue: nomeLocal,
                                         autofocus: true,
                                         cursorColor: Colors.brown,
                                         style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown),
                                         textAlign: TextAlign.left,
-                                        controller: _nomeController,
+                                        //controller: _nomeController,
                                         //focusNode: _nomeFocus,
                                         decoration: InputDecoration(
                                           labelText: 'Nome',
@@ -252,12 +235,13 @@ class _ContatoPageState extends State<ContatoPages> {
                                   width: 330,
                                   height: 50,
                                   child: TextFormField(
-                                    //initialValue: testeInput,
+                                    //initialValue: VarEstrangeira.horaTrabLibrary.toString(),
+                                    initialValue: HTLocal,
                                     autofocus: true,
                                     cursorColor: Colors.brown,
                                     style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown),
                                     textAlign: TextAlign.left,
-                                    controller: _HTController,
+                                    //controller: _HTController,
                                     decoration: InputDecoration(
                                       //prefix: Text('R\$ '),
                                       labelText: "Hora Trabalhada EX: 30.5",
@@ -280,12 +264,14 @@ class _ContatoPageState extends State<ContatoPages> {
                             Container( //CONTAINER INPUT LUCRO
                               width: 330,
                               height: 50,
-                              child: TextField(
+                              child: TextFormField(
+                                //initialValue: VarEstrangeira.lucroEstLibrary.toString(),
+                                initialValue: LELocal.toString(),
                                 autofocus: true,
                                 cursorColor: Colors.brown,
                                 style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown),
                                 textAlign: TextAlign.left,
-                                controller: _LEController,
+                                //controller: _LEController,
                                 decoration: InputDecoration(
                                   prefix: Text('R\$ '), //PREFIXO PARA DIGITAÇÃO
                                   labelText: "Lucro Esperado",
@@ -305,12 +291,14 @@ class _ContatoPageState extends State<ContatoPages> {
                             Container( //CONTAINER PARA VALOR LÍQUIDO
                               width: 330,
                               height: 50,
-                              child: TextField(
+                              child: TextFormField(
+                                //initialValue: VarEstrangeira.valorLiqLibrary.toString(),
+                                initialValue: VLLocal.toString(),
                                 autofocus: true,
                                 cursorColor: Colors.brown,
                                 style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown,),
                                 textAlign: TextAlign.left,
-                                controller: _VLController,
+                                //controller: _VLController,
                                 decoration: InputDecoration(
                                   prefix: Text('R\$ '),
                                   labelText: "Valor Líquido",
@@ -331,12 +319,14 @@ class _ContatoPageState extends State<ContatoPages> {
                             Container( //CONTAINER ESTOQUE
                               width: 330,
                               height: 50,
-                              child: TextField(
+                              child: TextFormField(
+                                //initialValue: VarEstrangeira.estLibrary.toString(),
+                                initialValue: ESLocal.toString(),
                                 autofocus: true,
                                 cursorColor: Colors.brown,
                                 style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown),
                                 textAlign: TextAlign.left,
-                                controller: _ESController,
+                                //controller: _ESController,
                                 decoration: InputDecoration(
                                   labelText: "Estoque",
                                   labelStyle: TextStyle(color: Colors.brown, fontSize: 16.0),
@@ -357,12 +347,14 @@ class _ContatoPageState extends State<ContatoPages> {
                             Container( // TECIDO/QUANT CUSTO
                               width: 330,
                               height: 50,
-                              child: TextField(
+                              child: TextFormField(
+                                //initialValue: VarEstrangeira.tecCustLibrary.toString(),
+                                initialValue: TECCUSLocal.toString(),
                                 autofocus: true,
                                 cursorColor: Colors.brown,
                                 style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown),
                                 textAlign: TextAlign.left,
-                                controller: _TECCUSController,
+                                //controller: _TECCUSController,
                                 decoration: InputDecoration(
                                   prefix: Text('R\$ '),
                                   labelText: "Tecido custo",
@@ -383,12 +375,14 @@ class _ContatoPageState extends State<ContatoPages> {
                             Container( // TECIDO/QUANT CUSTO
                               width: 330,
                               height: 50,
-                              child: TextField(
+                              child: TextFormField(
+                                //initialValue: VarEstrangeira.tecQTDLibrary.toString(),
+                                initialValue: TECQTDLocal.toString(),
                                 autofocus: true,
                                 cursorColor: Colors.brown,
                                 style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown),
                                 textAlign: TextAlign.left,
-                                controller: _TECQTDController,
+                                //controller: _TECQTDController,
                                 decoration: InputDecoration(
                                   labelText: "Tecido comprimento",
                                   labelStyle: TextStyle(color: Colors.brown, fontSize: 16.0),
@@ -405,59 +399,61 @@ class _ContatoPageState extends State<ContatoPages> {
                                 },
                               ),
                             ),
-                            // Container( // ELÁSTICO/QUANT CUSTO
-                            //   width: 330,
-                            //   height: 50,
-                            //   child: TextFormField(
-                            //     //initialValue: testeInput,
-                            //     autofocus: true,
-                            //     cursorColor: Colors.brown,
-                            //     style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown),
-                            //     textAlign: TextAlign.left,
-                            //     controller: _ELACUSController,
-                            //     decoration: InputDecoration(
-                            //       prefix: Text('R\$ '),
-                            //       labelText: "Elástico custo",
-                            //       labelStyle: TextStyle(color: Colors.brown, fontSize: 16.0),
-                            //       isDense: true,
-                            //       contentPadding: EdgeInsets.all(2.0),
-                            //       //alignLabelWithHint: true,
-                            //     ),
-                            //     onChanged: (text){
-                            //       editado = true;
-                            //       setState(() {
-                            //         //final rendaMensalController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',', leftSymbol: 'R\$');
-                            //         _editaContato.ELACUS = int.parse(text) as double;
-                            //       });
-                            //     },
-                            //   ),
-                            // ),
-                            // Container( // ELÁSTICO/QUANT CUSTO
-                            //   width: 330,
-                            //   height: 50,
-                            //   child: TextFormField(
-                            //     //initialValue: testeInput,
-                            //     autofocus: true,
-                            //     cursorColor: Colors.brown,
-                            //     style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown),
-                            //     textAlign: TextAlign.left,
-                            //     controller: _ELAQTDController,
-                            //     decoration: InputDecoration(
-                            //       labelText: "Elástico comprimento",
-                            //       labelStyle: TextStyle(color: Colors.brown, fontSize: 16.0),
-                            //       isDense: true,
-                            //       contentPadding: EdgeInsets.all(2.0),
-                            //       //alignLabelWithHint: true,
-                            //     ),
-                            //     onChanged: (text){
-                            //       editado = true;
-                            //       setState(() {
-                            //         //final rendaMensalController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',', leftSymbol: 'R\$');
-                            //         _editaContato.ELAQTD = int.parse(text);
-                            //       });
-                            //     },
-                            //   ),
-                            // ),
+                            Container( // ELÁSTICO/QUANT CUSTO
+                              width: 330,
+                              height: 50,
+                              child: TextFormField(
+                                //initialValue: VarEstrangeira.elastCustLibrary.toString(),
+                                initialValue: ELACUSLocal.toString(),
+                                autofocus: true,
+                                cursorColor: Colors.brown,
+                                style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown),
+                                textAlign: TextAlign.left,
+                                //controller: _ELACUSController,
+                                decoration: InputDecoration(
+                                  prefix: Text('R\$ '),
+                                  labelText: "Elástico custo",
+                                  labelStyle: TextStyle(color: Colors.brown, fontSize: 16.0),
+                                  isDense: true,
+                                  contentPadding: EdgeInsets.all(2.0),
+                                  //alignLabelWithHint: true,
+                                ),
+                                onChanged: (text){
+                                  editado = true;
+                                  setState(() {
+                                    //final rendaMensalController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',', leftSymbol: 'R\$');
+                                    _editaContato.ELACUS = int.parse(text) as double;
+                                  });
+                                },
+                              ),
+                            ),
+                            Container( // ELÁSTICO/QUANT CUSTO
+                              width: 330,
+                              height: 50,
+                              child: TextFormField(
+                                //initialValue: VarEstrangeira.elastQTDLibrary.toString(),
+                                initialValue: ELAQTDLocal.toString(),
+                                autofocus: true,
+                                cursorColor: Colors.brown,
+                                style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown),
+                                textAlign: TextAlign.left,
+                                //controller: _ELAQTDController,
+                                decoration: InputDecoration(
+                                  labelText: "Elástico comprimento",
+                                  labelStyle: TextStyle(color: Colors.brown, fontSize: 16.0),
+                                  isDense: true,
+                                  contentPadding: EdgeInsets.all(2.0),
+                                  //alignLabelWithHint: true,
+                                ),
+                                onChanged: (text){
+                                  editado = true;
+                                  setState(() {
+                                    //final rendaMensalController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',', leftSymbol: 'R\$');
+                                    _editaContato.ELAQTD = int.parse(text);
+                                  });
+                                },
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -481,7 +477,8 @@ class _ContatoPageState extends State<ContatoPages> {
                 {
                   Navigator.pop(context, _editaContato);
                   Navigator.pop(context, _editaContato2);
-                }else{
+                }
+                else{
                   _exibeAviso();
                   FocusScope.of(context).requestFocus(_nomeFocus);
                 }
@@ -509,29 +506,6 @@ class _ContatoPageState extends State<ContatoPages> {
     );
   }
 
-  testandoAinda(){
-    bool tt = false;
-
-    return 'teste';
-  }
-
-  _documento(){
-    FirebaseFirestore.instance.collection("pedido").get().then((querySnapshot) {
-      querySnapshot.docs.forEach((result) {
-        FirebaseFirestore.instance
-            .collection("pedido")
-            .doc(result.id)
-            .collection("nome")
-            .get()
-            .then((querySnapshot) {
-          querySnapshot.docs.forEach((result) {
-            return (result.data());
-          });
-        });
-      });
-    });
-  }
-
   Future<String> _testRead() async{// TESTE DE LEITURA DE DADO
     await
     FirebaseFirestore.instance
@@ -543,6 +517,23 @@ class _ContatoPageState extends State<ContatoPages> {
         //return teste;
         setState(() {
           testeInput = teste;
+        });
+      });
+    });
+  }
+
+  Future<String> _variaveisInput(indice) async{// TESTE DE LEITURA DE DADO
+    await
+    FirebaseFirestore.instance
+        .collection('pedido')
+        .where("id", isEqualTo : indice)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((collection) {
+        var teste = collection['HT'];
+        setState(() {
+          testeInput = teste;
+          //VarEstrangeira.horaTrabLibrary = teste;
         });
       });
     });
@@ -570,19 +561,6 @@ class _ContatoPageState extends State<ContatoPages> {
       });
     });
     //return _exibeContatoPage();
-  }
-
-  _idRandom(){ // ID RANDÔMICO
-    var uuid = Uuid();
-    return uuid.v4();
-  }
-
-  _dataFormat(){ // DATA ATUAL
-    var dtAtual = new DateTime.now().toUtc();
-    var dtFormat = new DateFormat('dd/MM/yyyy - kk:mm:ss');
-    String dataFormatada = dtFormat.format(dtAtual.toLocal().toUtc());
-    //var formatado = dtAtual.toLocal().toString();
-    return dataFormatada;
   }
 
   void _exibeAviso() {

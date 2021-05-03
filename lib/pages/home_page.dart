@@ -7,9 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:unicorndial/unicorndial.dart';
-import 'package:menu_button/menu_button.dart';
 import 'biblioteca.dart' as VarEstrangeira;
 import 'dart:math';
 
@@ -22,25 +19,26 @@ class _HomePageState extends State<HomePage>{
   DatabaseHelper db = DatabaseHelper();
   List<Contato> contatos = List<Contato>();
 
-  bool testVar = VarEstrangeira.varTeste;
+  bool testVar = VarEstrangeira.varLibrary;
   bool option = true; // CONTROLA A TELA DE EDIÇÃO/CRIAÇÃO DO PRODUTO (TRUE-> EDITAR | FALSE-> ADICIOANAR)
 
   @override
   void initState() {
     super.initState();
+    //_editarCampos;
 
   }
 
-  var VARelaCus = 0;
-  var VARelaQtd = 0;
-  var VARes = 0;
-  Widget VARht = null;
-  var varVARle = 0;
-  var VARtecCus = 0;
-  var VARtecqtd = 0;
-  var VARvl = 0;
-  var VARid = null;
-  final String VARnome = '';
+  String DTLocal;
+  double ELACUSLocal;
+  double ELAQTDLocal;
+  int ESLocal;
+  String HTLocal;
+  double LELocal;
+  double TECCUSLocal;
+  double TECQTDLocal;
+  double VLLocal;
+  String nomeLocal;
 
   @override
   Widget build(BuildContext context) {
@@ -223,21 +221,45 @@ class _HomePageState extends State<HomePage>{
                               ),
                               trailing:
                                 PopupMenuButton(
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                                   itemBuilder: (context) => [
                                     PopupMenuItem(
                                       value: 1,
-                                      child: Text("Cancelar", style: TextStyle(color: Colors.brown, fontSize: 18.0)),
+                                      child: Padding(
+                                        padding: const EdgeInsets.fromLTRB(9, 0, 0, 0),
+                                        child: Row(
+                                          children: [
+                                            Icon(Icons.cancel, size: 20, color: Colors.brown,),
+                                            Text(" Cancelar", style: TextStyle(color: Colors.brown, fontSize: 18.0)),
+                                          ],
+                                        ),
+                                      ),
                                     ),
                                     PopupMenuItem(
                                       value: 2,
-                                      child: Text("Editar", style: TextStyle(color: Colors.brown, fontSize: 18.0)),
+                                      child: Padding(
+                                        padding: const EdgeInsets.fromLTRB(9, 0, 0, 0),
+                                        child: Row(
+                                          children: [
+                                            Icon(Icons.edit, size: 20, color: Colors.brown,),
+                                            Text(" Editar", style: TextStyle(color: Colors.brown, fontSize: 18.0)),
+                                          ],
+                                        ),
+                                      ),
                                     ),
                                     PopupMenuItem(
                                       value: 3,
-                                      child: Text("Delete", style: TextStyle(color: Colors.brown, fontSize: 18.0)),
+                                      child: Padding(
+                                        padding: const EdgeInsets.fromLTRB(9, 0, 0, 0),
+                                        child: Row(
+                                          children: [
+                                            Icon(Icons.delete_rounded, size: 20, color: Colors.brown,),
+                                            Text(" Deletar", style: TextStyle(color: Colors.brown, fontSize: 18.0)),
+                                          ],
+                                        ),
+                                      ),
                                     ),
                                   ],
-                                  //initialValue: 2,
                                   onCanceled: () {
                                     print("You have canceled the menu.");
                                   },
@@ -246,12 +268,14 @@ class _HomePageState extends State<HomePage>{
                                       //cancelar
                                     }
                                     if(value==2){
-                                      VarEstrangeira.varTeste = false; // VARIÁVEL DE CONTROLE EDIÇÃO E ADIÇÃO DE PRODUTO
+                                      _editarCampos(collection['id']);
+                                      VarEstrangeira.varLibrary = false; // VARIÁVEL DE CONTROLE EDIÇÃO E ADIÇÃO DE PRODUTO
                                       _exibeContatoPage();
                                       //editar
                                     }
                                     if(value==3){
-                                      _deletar(collection['id']);
+                                      VarEstrangeira.deletar(collection['id']);
+                                      //deletar
                                     }
                                     else{
                                       print('ERROR!!!');
@@ -279,7 +303,7 @@ class _HomePageState extends State<HomePage>{
                 //heroTag: 'unq2',
                 onPressed: () {
                   _exibeContatoPage();
-                  VarEstrangeira.varTeste = true; // VARIÁVEL PARA CONTROLE DE EDIÇÃO E ADIÇÃO DE PRODUTO
+                  VarEstrangeira.varLibrary = true; // VARIÁVEL PARA CONTROLE DE EDIÇÃO E ADIÇÃO DE PRODUTO
                 },
                 child: Container(
                   height: 60,
@@ -304,46 +328,108 @@ class _HomePageState extends State<HomePage>{
     );
   }
 
-  void _deletar(indice) {
-    FirebaseFirestore.instance
-        .collection("pedido")
-        .where("id", isEqualTo : indice)
-        .get().then((value){
-      value.docs.forEach((element) {
-        FirebaseFirestore.instance.collection("pedido").doc(element.id).delete().then((value){
-          //ESCREVER UMA MENSAGEM
-        });
-      });
-    });
-  }
-
-  void _atualizar(indice){
+  Future<String> _editarCampos(indice) async{// VARIÁVEL DA BIBLIOTECA RECEBE OS DADOS DO FIREBASE DAS RESPECTIVAS VARIÁVEIS LOCAIS
+    await
     FirebaseFirestore.instance
         .collection('pedido')
         .where("id", isEqualTo : indice)
-        .get().then((value){
-      value.docs.forEach((element){
-        FirebaseFirestore.instance.collection("pedido").doc(indice).update({
-          'ELACUS': 5,
-          'ELAQTD': 100,
-          'ES': 3,
-          'HT': '10',
-          'LE': 670,
-          'TECCUS': 10,
-          'TECQTD': 5,
-          'VL': 100,
-          'id': '001',
-          'nome': 'vaso grande'
-           });
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((collection) {
+        var editdt = collection['DT'];
+        var editelacus = collection['ELACUS'];
+        var editelaqtd = collection['ELAQTD'];
+        var edites = collection['ES'];
+        var editht = collection['HT'];
+        var editle = collection['LE'];
+        var editteccus = collection['TECCUS'];
+        var edittecqtd = collection['TECQTD'];
+        var editvl = collection['VL'];
+        var editnome = collection['nome'];
+        setState(() {
+          VarEstrangeira.dataLibrary = editdt;
+          VarEstrangeira.elastCustLibrary = editelacus;
+          VarEstrangeira.elastQTDLibrary = editelaqtd;
+          VarEstrangeira.estLibrary = edites;
+          VarEstrangeira.horaTrabLibrary = editht;
+          VarEstrangeira.lucroEstLibrary = editle;
+          VarEstrangeira.tecCustLibrary = editteccus;
+          VarEstrangeira.tecQTDLibrary = edittecqtd;
+          VarEstrangeira.valorLiqLibrary = editvl;
+          VarEstrangeira.nomeLibrary = editnome;
+        });
       });
     });
-    return _exibeContatoPage();
   }
 
   double roundDouble(double value, int places){
     double mod = pow(10.0, places);
     return ((value * mod).round().toDouble() / mod);
   }
+
+  void _deleteExito() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Deletado com êxito!!!"),
+            //content: Text("Confirma a exclusão do Contato"),
+          );
+        }
+    );
+  }
+  void _exibeContatoPage({Contato contato}) async {
+    final contatoRecebido =  await Navigator.push(context,
+      MaterialPageRoute(
+          builder: (
+              context)=> ContatoPages(contato: contato)
+      ),
+    );
+    if(contatoRecebido != null){
+      if(contato != null )
+      {
+        await db.updateContato(contatoRecebido);
+      }else{
+        await db.insertContato(contatoRecebido);
+      }
+      //_exibeTodosContatos();
+    }
+  }
+
+  // ATUALIZAR NO FIREBASE
+  CollectionReference users = FirebaseFirestore.instance.collection('pedido');
+  Future<void> updateDoc() {
+    return users
+        .doc('pedido')
+        .update({'alguem feio': 'docUm'})
+        .then((value) => print("Update realizado com êxito!!!"))
+        .catchError((error) => print("Falha ao atualizar os dados: $error"));
+  }
+
+  void _confirmaExclusao(BuildContext context, int contatoid, index) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Excluir Contato"),
+            content: Text("Confirma a exclusão do Contato"),
+            actions: <Widget>[
+              FlatButton(onPressed: () {Navigator.of(context).pop();}
+                  , child: Text('Cancelar')),
+              FlatButton(onPressed: () {
+                setState(() {
+                  contatos.removeAt(index);
+                  db.deleteContato(contatoid);
+                });
+                Navigator.of(context).pop();
+              }
+                  , child: Text('Excluir'))
+            ],
+          );
+        }
+    );
+  }
+}
 
 
 
@@ -410,57 +496,3 @@ class _HomePageState extends State<HomePage>{
   //     },
   //   );
   // }
-
-
-    void _exibeContatoPage({Contato contato}) async {
-      final contatoRecebido =  await Navigator.push(context,
-        MaterialPageRoute(
-            builder: (
-                context)=> ContatoPages(contato: contato)
-        ),
-      );
-    if(contatoRecebido != null){
-      if(contato != null )
-      {
-        await db.updateContato(contatoRecebido);
-      }else{
-        await db.insertContato(contatoRecebido);
-      }
-      //_exibeTodosContatos();
-    }
-  }
-
-  // ATUALIZAR NO FIREBASE
-  CollectionReference users = FirebaseFirestore.instance.collection('pedido');
-  Future<void> updateDoc() {
-  return users
-      .doc('pedido')
-      .update({'alguem feio': 'docUm'})
-      .then((value) => print("Update realizado com êxito!!!"))
-      .catchError((error) => print("Falha ao atualizar os dados: $error"));
-  }
-
-  void _confirmaExclusao(BuildContext context, int contatoid, index) {
-      showDialog(
-          context: context,
-        builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text("Excluir Contato"),
-              content: Text("Confirma a exclusão do Contato"),
-              actions: <Widget>[
-                FlatButton(onPressed: () {Navigator.of(context).pop();}
-                , child: Text('Cancelar')),
-                FlatButton(onPressed: () {
-                  setState(() {
-                    contatos.removeAt(index);
-                    db.deleteContato(contatoid);
-                  });
-                  Navigator.of(context).pop();
-                }
-                , child: Text('Excluir'))
-              ],
-            );
-        }
-      );
-  }
-}
