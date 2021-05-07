@@ -53,7 +53,7 @@ class _ContatoPageState extends State<ContatoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomPadding: false, //RETIRA O OVERFLOW DO BACKGROUND
-        /*floatingActionButton: FloatingActionButton(
+        /*floatresizeToAvoidBottomPadding: false,ingActionButton: FloatingActionButton(
           onPressed: () {
             if(_editaContato.mes != null && _editaContato.mes.isNotEmpty)
             {
@@ -379,7 +379,7 @@ class _ContatoPageState extends State<ContatoPage> {
                             textAlign: TextAlign.left,
                             controller: _producao,
                             decoration: InputDecoration(
-                                labelText: "Producao",
+                                labelText: "Total de itens",
                                 labelStyle: TextStyle(color: Colors.brown, fontSize: 22.0),
                                 isDense: true,
                                 contentPadding: EdgeInsets.all(2.0),
