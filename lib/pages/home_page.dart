@@ -7,8 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'biblioteca.dart' as VarEstrangeira;
+import 'biblioteca.dart' as Biblioteca;
 import 'dart:math';
+import 'package:expand_widget/expand_widget.dart';
 
 class HomePage extends StatefulWidget{
   @override
@@ -19,7 +20,7 @@ class _HomePageState extends State<HomePage>{
   DatabaseHelper db = DatabaseHelper();
   List<Contato> contatos = List<Contato>();
 
-  bool testVar = VarEstrangeira.varLibrary;
+  bool testVar = Biblioteca.varLibrary;
   bool option = true; // CONTROLA A TELA DE EDIÇÃO/CRIAÇÃO DO PRODUTO (TRUE-> EDITAR | FALSE-> ADICIOANAR)
 
   @override
@@ -171,118 +172,129 @@ class _HomePageState extends State<HomePage>{
                                   Text(collection['nome'].toUpperCase(), // PRINTA NA TELA O NOME DO PRODUTO EM MAIUSCULO
                                     style: // ESTILOS DO TEXTO
                                     TextStyle(color: Colors.brown,
-                                        fontWeight: FontWeight.bold,
+                                        fontWeight: FontWeight.w700,
                                         fontSize: 20),),
                                 ],
                               ),
                               subtitle: // SUBTITULO (OS CAMPOS DO FIREBASE)
-                              Container(
-                                child: Column( // LISTA NA TELA OS CAMPOS DO FIREBASE
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text('Horas trabalhada : ' + collection['HT'] + ' hrs',
+                              ExpandChild(
+                                arrowPadding: EdgeInsets.fromLTRB(55, 0, 0, 0),
+                                //hideArrowOnExpanded: true,
+                                arrowColor: Colors.brown,
+                                arrowSize: 20,
+                                expandArrowStyle: ExpandArrowStyle.icon,
+                                icon: Icons.arrow_drop_down,
+                                child: Container(
+                                  child: Column( // LISTA NA TELA OS CAMPOS DO FIREBASE
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text('Horas trabalhada : ' + collection['HT'] + ' hrs',
+                                        style: TextStyle(color: Colors.brown,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15),),
+                                      Text('Lucro estimado : R\$ ' + collection['LE'].toStringAsFixed(2),
+                                        style: TextStyle(color: Colors.brown,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15),),
+                                      Text('Valor líquido : R\$ ' + collection['VL'].toStringAsFixed(2),
+                                        style: TextStyle(color: Colors.brown,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15),),
+                                      Text('Elástico gasto : ' + collection['ELAQTD'].toStringAsFixed(2) + ' cm',
                                       style: TextStyle(color: Colors.brown,
-                                          fontWeight: FontWeight.bold,
+                                      fontWeight: FontWeight.bold,
                                           fontSize: 15),),
-                                    Text('Lucro estimado : R\$ ' + collection['LE'].toStringAsFixed(2),
-                                      style: TextStyle(color: Colors.brown,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15),),
-                                    Text('Valor líquido : R\$ ' + collection['VL'].toStringAsFixed(2),
-                                      style: TextStyle(color: Colors.brown,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15),),
-                                    Text('Elástico gasto : ' + collection['ELAQTD'].toStringAsFixed(2) + ' cm',
-                                    style: TextStyle(color: Colors.brown,
-                                    fontWeight: FontWeight.bold,
-                                        fontSize: 15),),
-                                    Text('Custo do elástico : R\$ ' + collection['ELACUS'].toStringAsFixed(2),
-                                      style: TextStyle(color: Colors.brown,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15),),
-                                    Text('Tecido gasto : ' + collection['TECQTD'].toStringAsFixed(2) + ' cm',
-                                      style: TextStyle(color: Colors.brown,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15),),
-                                    Text('Custo do tecido : R\$ ' + collection['TECCUS'].toStringAsFixed(2),
-                                      style: TextStyle(color: Colors.brown,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15),),
-                                    Text('Estoque do produto : ${collection['ES']}',
-                                      style: TextStyle(color: Colors.brown,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15),),
-                                    Text('Data do cadastro : ' + collection['DT'],
-                                      style: TextStyle(color: Colors.brown,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15),),
-                                  ],
+                                      Text('Custo do elástico : R\$ ' + collection['ELACUS'].toStringAsFixed(2),
+                                        style: TextStyle(color: Colors.brown,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15),),
+                                      Text('Tecido gasto : ' + collection['TECQTD'].toStringAsFixed(2) + ' cm',
+                                        style: TextStyle(color: Colors.brown,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15),),
+                                      Text('Custo do tecido : R\$ ' + collection['TECCUS'].toStringAsFixed(2),
+                                        style: TextStyle(color: Colors.brown,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15),),
+                                      Text('Estoque do produto : ${collection['ES']}',
+                                        style: TextStyle(color: Colors.brown,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15),),
+                                      Text('Data do cadastro : ' + collection['DT'],
+                                        style: TextStyle(color: Colors.brown,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15),),
+                                    ],
+                                  ),
                                 ),
                               ),
                               trailing:
-                                PopupMenuButton(
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                                  itemBuilder: (context) => [
-                                    PopupMenuItem(
-                                      value: 1,
-                                      child: Padding(
-                                        padding: const EdgeInsets.fromLTRB(9, 0, 0, 0),
-                                        child: Row(
-                                          children: [
-                                            Icon(Icons.cancel, size: 20, color: Colors.brown,),
-                                            Text(" Cancelar", style: TextStyle(color: Colors.brown, fontSize: 18.0)),
-                                          ],
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                  child: PopupMenuButton(
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+                                    itemBuilder: (context) => [
+                                      PopupMenuItem(
+                                        value: 1,
+                                        child: Padding(
+                                          padding: const EdgeInsets.fromLTRB(9, 0, 0, 0),
+                                          child: Row(
+                                            children: [
+                                              Icon(Icons.cancel, size: 20, color: Colors.brown,),
+                                              Text(" Cancelar", style: TextStyle(color: Colors.brown, fontSize: 18.0, fontWeight: FontWeight.w700)),
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    PopupMenuItem(
-                                      value: 2,
-                                      child: Padding(
-                                        padding: const EdgeInsets.fromLTRB(9, 0, 0, 0),
-                                        child: Row(
-                                          children: [
-                                            Icon(Icons.edit, size: 20, color: Colors.brown,),
-                                            Text(" Editar", style: TextStyle(color: Colors.brown, fontSize: 18.0)),
-                                          ],
+                                      PopupMenuItem(
+                                        value: 2,
+                                        child: Padding(
+                                          padding: const EdgeInsets.fromLTRB(9, 0, 0, 0),
+                                          child: Row(
+                                            children: [
+                                              Icon(Icons.edit, size: 20, color: Colors.brown,),
+                                              Text(" Editar", style: TextStyle(color: Colors.brown, fontSize: 18.0, fontWeight: FontWeight.w700)),
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    PopupMenuItem(
-                                      value: 3,
-                                      child: Padding(
-                                        padding: const EdgeInsets.fromLTRB(9, 0, 0, 0),
-                                        child: Row(
-                                          children: [
-                                            Icon(Icons.delete_rounded, size: 20, color: Colors.brown,),
-                                            Text(" Deletar", style: TextStyle(color: Colors.brown, fontSize: 18.0)),
-                                          ],
+                                      PopupMenuItem(
+                                        value: 3,
+                                        child: Padding(
+                                          padding: const EdgeInsets.fromLTRB(9, 0, 0, 0),
+                                          child: Row(
+                                            children: [
+                                              Icon(Icons.delete_rounded, size: 20, color: Colors.brown,),
+                                              Text(" Deletar", style: TextStyle(color: Colors.brown, fontSize: 18.0, fontWeight: FontWeight.w700)),
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                  onCanceled: () {
-                                    print("You have canceled the menu.");
-                                  },
-                                  onSelected: (value) {
-                                    if(value==1){
-                                      //cancelar
-                                    }
-                                    if(value==2){
-                                      _editarCampos(collection['id']);
-                                      VarEstrangeira.varLibrary = false; // VARIÁVEL DE CONTROLE EDIÇÃO E ADIÇÃO DE PRODUTO
-                                      _exibeContatoPage();
-                                      //editar
-                                    }
-                                    if(value==3){
-                                      VarEstrangeira.deletar(collection['id']);
-                                      //deletar
-                                    }
-                                    else{
-                                      print('ERROR!!!');
-                                    }
-                                  },
-                                  icon: Icon(Icons.keyboard_arrow_up, size: 30, color: Colors.brown,),
-                                  color: Colors.white,
+                                    ],
+                                    onCanceled: () {
+                                      print("You have canceled the menu.");
+                                    },
+                                    onSelected: (value) {
+                                      if(value==1){
+                                        //cancelar
+                                      }
+                                      if(value==2){
+                                        _editarCampos(collection['id']);
+                                        Biblioteca.varLibrary = false; // VARIÁVEL DE CONTROLE EDIÇÃO E ADIÇÃO DE PRODUTO
+                                        _exibeContatoPage();
+                                        //editar
+                                      }
+                                      if(value==3){
+                                        Biblioteca.deletar(collection['id']);
+                                        //deletar
+                                      }
+                                      else{
+                                        print('ERROR!!!');
+                                      }
+                                    },
+                                    icon: Icon(Icons.more_vert, size: 30, color: Colors.brown,),
+                                    color: Colors.white,
+                                  ),
                                 ),
                             ),
                           );
@@ -303,7 +315,7 @@ class _HomePageState extends State<HomePage>{
                 //heroTag: 'unq2',
                 onPressed: () {
                   _exibeContatoPage();
-                  VarEstrangeira.varLibrary = true; // VARIÁVEL PARA CONTROLE DE EDIÇÃO E ADIÇÃO DE PRODUTO
+                  Biblioteca.varLibrary = true; // VARIÁVEL PARA CONTROLE DE EDIÇÃO E ADIÇÃO DE PRODUTO
                 },
                 child: Container(
                   height: 60,
@@ -346,17 +358,19 @@ class _HomePageState extends State<HomePage>{
         var edittecqtd = collection['TECQTD'];
         var editvl = collection['VL'];
         var editnome = collection['nome'];
+        var editid = collection['id'];
         setState(() {
-          VarEstrangeira.dataLibrary = editdt;
-          VarEstrangeira.elastCustLibrary = editelacus;
-          VarEstrangeira.elastQTDLibrary = editelaqtd;
-          VarEstrangeira.estLibrary = edites;
-          VarEstrangeira.horaTrabLibrary = editht;
-          VarEstrangeira.lucroEstLibrary = editle;
-          VarEstrangeira.tecCustLibrary = editteccus;
-          VarEstrangeira.tecQTDLibrary = edittecqtd;
-          VarEstrangeira.valorLiqLibrary = editvl;
-          VarEstrangeira.nomeLibrary = editnome;
+          Biblioteca.dataLibrary = editdt;
+          Biblioteca.elastCustLibrary = editelacus;
+          Biblioteca.elastQTDLibrary = editelaqtd;
+          Biblioteca.estLibrary = edites;
+          Biblioteca.horaTrabLibrary = editht;
+          Biblioteca.lucroEstLibrary = editle;
+          Biblioteca.tecCustLibrary = editteccus;
+          Biblioteca.tecQTDLibrary = edittecqtd;
+          Biblioteca.valorLiqLibrary = editvl;
+          Biblioteca.nomeLibrary = editnome;
+          Biblioteca.idLibrary = editid;
         });
       });
     });

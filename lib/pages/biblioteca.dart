@@ -24,6 +24,7 @@ var tecCustLibrary   ;
 var tecQTDLibrary    ;
 var valorLiqLibrary  ;
 var nomeLibrary      ;
+var idLibrary        ;
 
 // DELETA O DOCUMENTO DO FIREBASE
 void deletar(indice) {
