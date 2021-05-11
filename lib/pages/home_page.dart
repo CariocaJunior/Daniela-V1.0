@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage>{
   @override
   void initState() {
     super.initState();
-    //_editarCampos;
+    _editarCampos;
 
   }
 
@@ -178,7 +178,7 @@ class _HomePageState extends State<HomePage>{
                               ),
                               subtitle: // SUBTITULO (OS CAMPOS DO FIREBASE)
                               ExpandChild(
-                                arrowPadding: EdgeInsets.fromLTRB(55, 0, 0, 0),
+                                arrowPadding: EdgeInsets.fromLTRB(0, 0, 210, 0),
                                 //hideArrowOnExpanded: true,
                                 arrowColor: Colors.brown,
                                 arrowSize: 20,
@@ -272,7 +272,7 @@ class _HomePageState extends State<HomePage>{
                                       ),
                                     ],
                                     onCanceled: () {
-                                      print("You have canceled the menu.");
+                                      print("ERROR!!!");
                                     },
                                     onSelected: (value) {
                                       if(value==1){

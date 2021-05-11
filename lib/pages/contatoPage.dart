@@ -59,6 +59,15 @@ class _ContatoPageState extends State<ContatoPages> {
   void initState(){
     super.initState();
     _testRead();
+    nomeReturn();
+    horaTrabReturn();
+    lucroEstReturn();
+    valorLiqReturn();
+    estoqueReturn();
+    tecidoCusReturn();
+    tecidoQTDReturn();
+    elastCusReturn();
+    elastQTDReturn();
 
     if(widget.contato == null){
       _editaContato = Contato(Biblioteca.idRandom(),'','',0,0,0,0,0,0,0, Biblioteca.dataFormat());
@@ -210,7 +219,7 @@ class _ContatoPageState extends State<ContatoPages> {
                                         Container(
                                           child: TextFormField(
                                           //initialValue: VarEstrangeira.nomeLibrary.toString(),
-                                          initialValue: nomeLocal,
+                                          initialValue: nomeReturn(),
                                           autofocus: true,
                                           cursorColor: Colors.brown,
                                           style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown),
@@ -240,7 +249,7 @@ class _ContatoPageState extends State<ContatoPages> {
                                   height: 50,
                                   child: TextFormField(
                                     //initialValue: VarEstrangeira.horaTrabLibrary.toString(),
-                                    initialValue: HTLocal,
+                                    initialValue: horaTrabReturn().toString(),
                                     autofocus: true,
                                     cursorColor: Colors.brown,
                                     style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown),
@@ -269,7 +278,7 @@ class _ContatoPageState extends State<ContatoPages> {
                                   height: 50,
                                   child: TextFormField(
                                     //initialValue: VarEstrangeira.lucroEstLibrary.toString(),
-                                    initialValue: LELocal.toString(),
+                                    initialValue: lucroEstReturn().toString(),
                                     autofocus: true,
                                     cursorColor: Colors.brown,
                                     style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown),
@@ -297,7 +306,7 @@ class _ContatoPageState extends State<ContatoPages> {
                                   height: 50,
                                   child: TextFormField(
                                     //initialValue: VarEstrangeira.valorLiqLibrary.toString(),
-                                    initialValue: VLLocal.toString(),
+                                    initialValue: valorLiqReturn().toString(),
                                     autofocus: true,
                                     cursorColor: Colors.brown,
                                     style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown,),
@@ -327,7 +336,7 @@ class _ContatoPageState extends State<ContatoPages> {
                                   height: 50,
                                   child: TextFormField(
                                     //initialValue: VarEstrangeira.estLibrary.toString(),
-                                    initialValue: ESLocal.toString(),
+                                    initialValue: estoqueReturn().toString(),
                                     autofocus: true,
                                     cursorColor: Colors.brown,
                                     style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown),
@@ -362,17 +371,17 @@ class _ContatoPageState extends State<ContatoPages> {
                                         height: 50,
                                         child: TextFormField(
                                           //initialValue: VarEstrangeira.tecCustLibrary.toString(),
-                                          initialValue: TECCUSLocal.toString(),
+                                          //initialValue: tecidoCusReturn().toString(),
                                           autofocus: true,
                                           cursorColor: Colors.brown,
                                           style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown),
                                           textAlign: TextAlign.left,
                                           keyboardType: TextInputType.number,
-                                          //controller: _TECCUSController,
+                                          controller: _TECCUSController,
                                           decoration: InputDecoration(
                                             prefix: Text('R\$ '),
                                             labelText: "Custo",
-                                            labelStyle: TextStyle(color: Colors.brown, fontSize: 16.0),
+                                            labelStyle: TextStyle(color: Colors.brown, fontSize: 16.0, fontWeight: FontWeight.w700),
                                             isDense: true,
                                             contentPadding: EdgeInsets.all(2.0),
                                             //alignLabelWithHint: true,
@@ -392,7 +401,7 @@ class _ContatoPageState extends State<ContatoPages> {
                                         height: 50,
                                         child: TextFormField(
                                           //initialValue: VarEstrangeira.tecQTDLibrary.toString(),
-                                          initialValue: TECQTDLocal.toString(),
+                                          initialValue: tecidoQTDReturn().toString(),
                                           autofocus: true,
                                           cursorColor: Colors.brown,
                                           style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown),
@@ -401,7 +410,7 @@ class _ContatoPageState extends State<ContatoPages> {
                                           //controller: _TECQTDController,
                                           decoration: InputDecoration(
                                             labelText: "Comprimento",
-                                            labelStyle: TextStyle(color: Colors.brown, fontSize: 16.0),
+                                            labelStyle: TextStyle(color: Colors.brown, fontSize: 16.0, fontWeight: FontWeight.w700),
                                             isDense: true,
                                             contentPadding: EdgeInsets.all(2.0),
                                             //alignLabelWithHint: true,
@@ -410,7 +419,7 @@ class _ContatoPageState extends State<ContatoPages> {
                                             editado = true;
                                             setState(() {
                                               //final rendaMensalController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',', leftSymbol: 'R\$');
-                                              _editaContato.TECQTD = int.parse(text);
+                                              _editaContato.TECQTD = int.parse(text) as double;
                                             });
                                           },
                                         ),
@@ -429,7 +438,7 @@ class _ContatoPageState extends State<ContatoPages> {
                                         height: 50,
                                         child: TextFormField(
                                           //initialValue: VarEstrangeira.elastCustLibrary.toString(),
-                                          initialValue: ELACUSLocal.toString(),
+                                          initialValue: elastCusReturn().toString(),
                                           autofocus: true,
                                           cursorColor: Colors.brown,
                                           style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown),
@@ -439,7 +448,7 @@ class _ContatoPageState extends State<ContatoPages> {
                                           decoration: InputDecoration(
                                             prefix: Text('R\$ '),
                                             labelText: "Custo",
-                                            labelStyle: TextStyle(color: Colors.brown, fontSize: 16.0),
+                                            labelStyle: TextStyle(color: Colors.brown, fontSize: 16.0, fontWeight: FontWeight.w700),
                                             isDense: true,
                                             contentPadding: EdgeInsets.all(2.0),
                                             //alignLabelWithHint: true,
@@ -459,7 +468,7 @@ class _ContatoPageState extends State<ContatoPages> {
                                         height: 50,
                                         child: TextFormField(
                                           //initialValue: VarEstrangeira.elastQTDLibrary.toString(),
-                                          initialValue: ELAQTDLocal.toString(),
+                                          initialValue: elastQTDReturn().toString(),
                                           autofocus: true,
                                           cursorColor: Colors.brown,
                                           style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown),
@@ -468,7 +477,7 @@ class _ContatoPageState extends State<ContatoPages> {
                                           //controller: _ELAQTDController,
                                           decoration: InputDecoration(
                                             labelText: "Comprimento",
-                                            labelStyle: TextStyle(color: Colors.brown, fontSize: 16.0),
+                                            labelStyle: TextStyle(color: Colors.brown, fontSize: 16.0, fontWeight: FontWeight.w700),
                                             isDense: true,
                                             contentPadding: EdgeInsets.all(2.0),
                                             //alignLabelWithHint: true,
@@ -477,7 +486,7 @@ class _ContatoPageState extends State<ContatoPages> {
                                             editado = true;
                                             setState(() {
                                               //final rendaMensalController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',', leftSymbol: 'R\$');
-                                              _editaContato.ELAQTD = int.parse(text);
+                                              _editaContato.ELAQTD = int.parse(text) as double;
                                             });
                                           },
                                         ),
@@ -546,6 +555,78 @@ class _ContatoPageState extends State<ContatoPages> {
     );
   }
 
+  nomeReturn (){
+    if(Biblioteca.varLibrary == false){
+      return Biblioteca.nomeLibrary.toString();
+    }
+    else{
+      return '';
+    }
+  }
+  horaTrabReturn (){
+    if(Biblioteca.varLibrary == false){
+      return Biblioteca.horaTrabLibrary.toString();
+    }
+    else{
+      return '';
+    }
+  }
+  lucroEstReturn (){
+    if(Biblioteca.varLibrary == false){
+      return Biblioteca.lucroEstLibrary.toString();
+    }
+    else{
+      return 0.00;
+    }
+  }
+  valorLiqReturn (){
+    if(Biblioteca.varLibrary == false){
+      return Biblioteca.valorLiqLibrary.toString();
+    }
+    else{
+      return 0.00;
+    }
+  }
+  estoqueReturn (){
+    if(Biblioteca.varLibrary == false){
+      return Biblioteca.estLibrary.toString();
+    }
+    else{
+      return 0;
+    }
+  }
+  tecidoCusReturn (){
+    if(Biblioteca.varLibrary == false){
+      return Biblioteca.tecCustLibrary.toString();
+    }
+    else{
+      return 0.00;
+    }
+  }
+  tecidoQTDReturn (){
+    if(Biblioteca.varLibrary == false){
+      return Biblioteca.tecQTDLibrary.toString();
+    }
+    else{
+      return 0.00;
+    }
+  }
+  elastCusReturn (){
+    if(Biblioteca.varLibrary == false){
+      return Biblioteca.elastCustLibrary.toString();
+    }
+    else{
+      return 0;
+    }
+  }
+  elastQTDReturn (){
+    if(Biblioteca.varLibrary == false){
+      return Biblioteca.elastQTDLibrary.toString();
+    }
+    else{
+      return 0.00;
+    }
+  }
   Future<String> _testRead() async{// TESTE DE LEITURA DE DADO
     await
     FirebaseFirestore.instance
