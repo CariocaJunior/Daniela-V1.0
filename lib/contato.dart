@@ -1,6 +1,8 @@
 import 'dart:ffi';
 import 'package:flutter/material.dart';
 
+//Ver se ainda é util
+
 class Contato{
   int id;
   String nome;

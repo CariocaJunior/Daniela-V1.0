@@ -1,7 +1,9 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:daniela/TodosdaLib/helpers/database_helper.dart';
 import 'package:daniela/TodosdaLib/models/contato.dart';
 import 'package:daniela/TodosdaLib/pages/contato_page.dart';
+import 'package:daniela/TodosdaLib/pages/test.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,23 +15,42 @@ class _HomePageState extends State<HomePage> {
 
   DatabaseHelper db = DatabaseHelper();
   List<Contato> contatos = List<Contato>();
-
+  List<String> names2 = [];
+  List<String> names = [];
+  var names3;
+  int inc = 0;
   @override
   void initState() {
     super.initState();
-
+    draggin();
      //Contato c = Contato(null,"Maria",2,2,2,4);
      //db.insertContato(c);
-    _exibeTodosContatos();
+
     //print(Contato(null,"Maria",2,2,2,4));
+    Future.delayed(const Duration(milliseconds: 1000), () {
+      _exibeTodosContatos();
+    });
+
   }
 
+  Future<List> draggin() async {
+    QuerySnapshot dosd = await FirebaseFirestore.instance.collection("pedido").get();
+     dosd.docs.forEach((element) {
+      names2.add(element.get("nome"));
+      setState(() {
+        atua(names2);
+        });
+    });
+  }
+
+
   void _exibeTodosContatos(){
-    db.getContatos().then( (lista) {
+    /*db.getContatos().then((lista) {
+
       setState(() {
         contatos = lista;
-      });
-    });
+      })
+    });*/
   }
 
   @override
@@ -69,38 +90,42 @@ class _HomePageState extends State<HomePage> {
           ),
           Padding( //BOTÃO DE RETORNO - SETA
             padding: const EdgeInsets.only(top: 15.0),
-            child: Positioned(
-              left: 5,
-              top: 5,
-              child: FloatingActionButton(
-                elevation: 0.0,
-                onPressed: () { Navigator.pop(context);
-                },
-                child: Container(
-                  height: 60,
-                  width: 60,
-                  child:
-                  Image(
-                    image: AssetImage('Image/Left_Arrow.png',),
-                    width: 50,
-                    fit: BoxFit.scaleDown,
-                    color: Colors.brown,
-                  ),
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle, // circular shape
-                      color: Color.fromARGB(255,255,246,161),
-                      boxShadow: [
-                        BoxShadow(
-                          //color: Colors.yellow[16774817].withOpacity(0.0),
-                          color: Color.fromARGB(255,255,246,161).withOpacity(1.0),
-                          spreadRadius: 10.0,
-                          blurRadius: 0,
-                          offset: Offset(0,0),
-                        )
-                      ]
+            child: Stack(
+              children: [
+                Positioned(
+                  left: 5,
+                  top: 5,
+                  child: FloatingActionButton(
+                    elevation: 0.0,
+                    onPressed: () { Navigator.pop(context);
+                    },
+                    child: Container(
+                      height: 60,
+                      width: 60,
+                      child:
+                      Image(
+                        image: AssetImage('Image/Left_Arrow.png',),
+                        width: 50,
+                        fit: BoxFit.scaleDown,
+                        color: Colors.brown,
+                      ),
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle, // circular shape
+                          color: Color.fromARGB(255,255,246,161),
+                          boxShadow: [
+                            BoxShadow(
+                              //color: Colors.yellow[16774817].withOpacity(0.0),
+                              color: Color.fromARGB(255,255,246,161).withOpacity(1.0),
+                              spreadRadius: 10.0,
+                              blurRadius: 0,
+                              offset: Offset(0,0),
+                            )
+                          ]
+                      ),
+                    ),
                   ),
                 ),
-              ),
+              ],
             ),
           ),
           Padding(
@@ -170,6 +195,7 @@ class _HomePageState extends State<HomePage> {
               heroTag: null,
               //heroTag: 'unq2',
               onPressed: () {
+
                 _exibeContatoPage();
               },
               child: Container(
@@ -253,7 +279,7 @@ class _HomePageState extends State<HomePage> {
     final contatoRecebido =  await Navigator.push(context,
       MaterialPageRoute(
           builder: (
-              context)=> ContatoPage(contato: contato)
+              context)=> ContatoPage(contato: contato,names: names)
       ),
     );
 

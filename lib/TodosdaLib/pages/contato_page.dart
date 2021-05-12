@@ -1,14 +1,20 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:daniela/TodosdaLib/models/contato.dart';
+import 'package:daniela/TodosdaLib/pages/test.dart';
 import 'package:flutter/material.dart';
 import 'package:daniela/main.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:daniela/TodosdaLib/pages/home_page.dart' as dan;
 
 class ContatoPage extends StatefulWidget {
 
   final Contato contato;
-  ContatoPage({this.contato});
+  final List<String> names;
+  ContatoPage({this.contato, this.names});
+
+
 
   @override
   _ContatoPageState createState() => _ContatoPageState();
@@ -31,8 +37,11 @@ class _ContatoPageState extends State<ContatoPage> {
   //var controller = new MoneyMaskedTextController();
   //var controller = new MaskedTextController(mask: '000.000.000-00');
 
+
+  String _selectedValue = "";
   @override
   void initState(){
+
     super.initState();
 
     if(widget.contato == null){
@@ -48,9 +57,22 @@ class _ContatoPageState extends State<ContatoPage> {
 
     }
   }
+void pass(List<String> names) async{
+
+}
+  /*Future<List> draggin() async {
+    QuerySnapshot dosd = await FirebaseFirestore.instance.collection("pedido").get();
+    dosd.docs.forEach((element) {
+      names2.add(element.get("nome"));
+      setState(() {
+        names = names2;
+      });
+    });
+  }*/
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       resizeToAvoidBottomPadding: false, //RETIRA O OVERFLOW DO BACKGROUND
         /*floatingActionButton: FloatingActionButton(
@@ -166,42 +188,46 @@ class _ContatoPageState extends State<ContatoPage> {
       ),*/
             Padding( //BOTÃO DE RETORNO - SETA
               padding: const EdgeInsets.only(top: 15.0),
-              child: Positioned(
-                left: 5,
-                top: 5,
-                child: FloatingActionButton(
-                  elevation: 0.0,
-                  onPressed: () { Navigator.pop(context);
-                  },
-                  child: Container(
-                    height: 60,
-                    width: 60,
-                    child:
-                      Image(
-                        image: AssetImage('Image/Left_Arrow.png',),
-                        width: 50,
-                        fit: BoxFit.scaleDown,
-                        color: Colors.brown,
+              child: Stack(
+                children: [
+                  Positioned(
+                    left: 5,
+                    top: 5,
+                    child: FloatingActionButton(
+                      elevation: 0.0,
+                      onPressed: () { Navigator.pop(context);
+                      },
+                      child: Container(
+                        height: 60,
+                        width: 60,
+                        child:
+                          Image(
+                            image: AssetImage('Image/Left_Arrow.png',),
+                            width: 50,
+                            fit: BoxFit.scaleDown,
+                            color: Colors.brown,
+                          ),
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle, // circular shape
+                            color: Color.fromARGB(255,255,246,161),
+                            // image: DecorationImage(
+                            //     image: AssetImage("Image/Left_Arrow.png"),
+                            //     scale: 1.9
+                            // ),
+                            boxShadow: [
+                              BoxShadow(
+                                //color: Colors.yellow[16774817].withOpacity(0.0),
+                                color: Color.fromARGB(255,255,246,161).withOpacity(1.0),
+                                spreadRadius: 10.0,
+                                blurRadius: 0,
+                                offset: Offset(0,0),
+                              )
+                            ]
+                        ),
                       ),
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle, // circular shape
-                        color: Color.fromARGB(255,255,246,161),
-                        // image: DecorationImage(
-                        //     image: AssetImage("Image/Left_Arrow.png"),
-                        //     scale: 1.9
-                        // ),
-                        boxShadow: [
-                          BoxShadow(
-                            //color: Colors.yellow[16774817].withOpacity(0.0),
-                            color: Color.fromARGB(255,255,246,161).withOpacity(1.0),
-                            spreadRadius: 10.0,
-                            blurRadius: 0,
-                            offset: Offset(0,0),
-                          )
-                        ]
                     ),
                   ),
-                ),
+                ],
               ),
             ),
 
@@ -379,7 +405,7 @@ class _ContatoPageState extends State<ContatoPage> {
                             textAlign: TextAlign.left,
                             controller: _producao,
                             decoration: InputDecoration(
-                                labelText: "Producao",
+                                labelText: "Produção",
                                 labelStyle: TextStyle(color: Colors.brown, fontSize: 22.0),
                                 isDense: true,
                                 contentPadding: EdgeInsets.all(2.0),
@@ -395,6 +421,44 @@ class _ContatoPageState extends State<ContatoPage> {
                           ),
                         ),
                       ),
+
+                      Row(
+                        children: [
+                          DropdownButton<String>(
+                            items: temp
+                                .map((data) => DropdownMenuItem<String>(
+                              child: Text(data),
+                              value: data,
+                            ))
+                                .toList(),
+                            onChanged: (String value) {
+                              setState(() => _selectedValue = "value");
+                            },
+                            hint: Text('Select Key'),
+                          ),
+                          RaisedButton(
+                              onPressed: (){},
+                            child: Container(
+                              height: 60,
+                              width: 60,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.rectangle, // circular shape
+                                /*gradient: LinearGradient(
+                                  begin: Alignment.topRight,
+                                  end: Alignment.centerLeft,
+                                  stops: [0.3, 1.0],
+                                  colors: [
+                                    Color.fromARGB(255,230,119,53), Color.fromARGB(255,161,88,52)
+                                  ],
+                                ),*/
+                              ),
+                              child: Icon(Icons.save, size: 40.0),
+                            ),
+                          ),
+
+                        ],
+                      ),
+
                     ],
                   ),
                 ),
@@ -443,6 +507,8 @@ class _ContatoPageState extends State<ContatoPage> {
       ),
     );
   }
+
+
    /* );
   }*/
   void _exibeAviso() {

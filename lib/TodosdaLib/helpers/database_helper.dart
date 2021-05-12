@@ -73,13 +73,13 @@ class DatabaseHelper{
     }
 
   Future<List<Contato>> getContatos() async {
-    Database db = await this.database;
+    /*Database db = await this.database;
 
     var resultado = await db.query(contatoTable);
 
     List<Contato> lista = resultado.isNotEmpty ? resultado.map(
-            (c) => Contato.fromMap(c)).toList() : [];
-        return lista;
+            (c) => Contato.fromMap(c)).toList() : [];*/
+        return null;
 
   }
 

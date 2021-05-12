@@ -1,22 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:daniela/screens/TabelaDeDistribuicao.dart';
-import 'package:daniela/screens/planilhaPrecificacao.dart';
 import 'package:flutter/material.dart';
 import 'package:daniela/Roteamento.dart';
 import 'package:daniela/HelpMe/database_helper.dart';
 import 'package:daniela/models/contato.dart';
 import 'package:daniela/pages/home_page.dart' as prodhome;
-import 'package:daniela/TodosdaLib/pages/home_page.dart' as distrihome;
 import 'package:daniela/historicoDeVenda.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'Login/app.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:daniela/Login/screens/menu.dart';
 //import 'package:daniela/Login/screens/login/ui/login_page.dart';
-import 'pages/home_page.dart';
-import 'package:daniela/Login/routes.dart';
 import 'package:daniela/Login/app.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 //Colocar Nomes/Matricula das Pessoas e começar a comentar oque puder sobre o código
 
@@ -60,9 +54,19 @@ Future<void> deleteUser() {
 }*/
 
 void main() async {
+
   WidgetsFlutterBinding.ensureInitialized();
   //Inicializa o Firebase no Aplicativo e dps Redireciona para a parte de Login
   await Firebase.initializeApp();
+  /*await FirebaseFirestore.instance.collection('pedido').doc('sssdd').set(
+      {'usuario': FieldValue.serverTimestamp()});
+
+  DocumentSnapshot fdsf = await FirebaseFirestore.instance
+      .collection('pedido')
+      .doc('sssdd').get();
+  var vvv = await fdsf.get("usuario").toDate();
+  print(vvv);
+  */
   User user = await FirebaseAuth.instance.currentUser;
   runApp(MyApp2());
 }
@@ -93,12 +97,7 @@ class MyHome extends StatelessWidget {
   int _counter = 0;
 
   DatabaseHelper db = DatabaseHelper();
-
   List<Contato> contatos = List<Contato>();
-
-
-  @override
-
 
   @override
   Widget build(BuildContext context) {
