@@ -7,9 +7,9 @@ class Contato{
   double LE;
   double VL;
   int ES;
-  int TECQTD;
+  double TECQTD;
   double TECCUS;
-  int ELAQTD;
+  double ELAQTD;
   double ELACUS;
   String DT;
 

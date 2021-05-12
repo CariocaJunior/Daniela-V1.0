@@ -8,10 +8,15 @@ import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'biblioteca.dart' as Biblioteca;
+
+
 class ContatoPages extends StatefulWidget {
 
   final Contato contato;
   var teste = 'teste';
+  String nomeTeste = '';
+  bool t = true;
 
   ContatoPages({this.contato});
 
@@ -37,12 +42,39 @@ class _ContatoPageState extends State<ContatoPages> {
   bool editado = false;
   Contato _editaContato;
   d2.Contato _editaContato2;
+  String testeInput;
+
+  var DTLocal = Biblioteca.dataLibrary;
+  var ELACUSLocal = Biblioteca.elastCustLibrary;
+  var ELAQTDLocal = Biblioteca.elastQTDLibrary;
+  var ESLocal = Biblioteca.estLibrary;
+  var HTLocal = Biblioteca.horaTrabLibrary;
+  var LELocal = Biblioteca.lucroEstLibrary;
+  var TECCUSLocal = Biblioteca.tecCustLibrary;
+  var TECQTDLocal = Biblioteca.tecQTDLibrary;
+  var VLLocal = Biblioteca.valorLiqLibrary;
+  var nomeLocal = Biblioteca.nomeLibrary;
+
+  TextEditingController _controllerElast;
+
   @override
   void initState(){
     super.initState();
+    _testRead();
+    funcValor();
+    nomeReturn();
+    horaTrabReturn();
+    lucroEstReturn();
+    valorLiqReturn();
+    estoqueReturn();
+    tecidoCusReturn();
+    tecidoQTDReturn();
+    elastCusReturn();
+    elastQTDReturn();
+    _controllerElast = new TextEditingController(text: Biblioteca.nomeLibrary.toString());
 
     if(widget.contato == null){
-      _editaContato = Contato(_idRandom(),'','',0,0,0,0,0,0,0, _dataFormat());
+      _editaContato = Contato(Biblioteca.idRandom(),'','',0,0,0,0,0,0,0, Biblioteca.dataFormat());
     }else{
       _editaContato = Contato.fromMap(widget.contato.toMap());
       _editaContato2 = d2.Contato.fromMap(widget.contato.toMap());
@@ -62,27 +94,10 @@ class _ContatoPageState extends State<ContatoPages> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.indigo,
-          title: Text(_editaContato.nome == '' ? "Novo Produto" :
-          _editaContato.nome ),
-          centerTitle: true,
-        ),
-          floatingActionButton: FloatingActionButton(
-          onPressed: () {
-          if(_editaContato.nome != null && _editaContato.nome.isNotEmpty)
-          {
-          Navigator.pop(context, _editaContato);
-          Navigator.pop(context, _editaContato2);
-          }else{
-          _exibeAviso();
-          FocusScope.of(context).requestFocus(_nomeFocus);
-          }
-          },
-            child: Icon(Icons.save),
-            backgroundColor: Colors.indigo,
-          ),
-        body: StreamBuilder(
+      resizeToAvoidBottomPadding: false,
+
+      body:
+      StreamBuilder(
           stream: FirebaseFirestore.instance.collection('pedido').snapshots(),
           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (!snapshot.hasData) {
@@ -90,178 +105,582 @@ class _ContatoPageState extends State<ContatoPages> {
                 child: CircularProgressIndicator(),
               );
             }
-            //children: snapshot.data.docs.map((collection){
-            return SingleChildScrollView(
-                padding: EdgeInsets.all(10.0),
-                child:
-                Column(
-                  children:
-                  <Widget>[
-                    Container(
-                      width: 70.0, height: 70.0,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
+          return Stack(
+              overflow: Overflow.visible,
+              children: <Widget>[
 
+                Expanded(
+                  child: Container( //BACKGROUND
+                    decoration: BoxDecoration(
+                      //color: Colors.white,
+                      image: DecorationImage(
+                        image: AssetImage("Image/tela2.png"),
+                        //alignment: Alignment.center,
+                        fit: BoxFit.fill,
+                        //colorFilter: new ColorFilter.mode(
+                        //    Colors.green.withOpacity(1.0), BlendMode.dstATop)
                       ),
                     ),
-                    TextField(
-                      controller: _nomeController,
-                      focusNode: _nomeFocus,
-                      decoration: InputDecoration(labelText: "Nome"),
-                      onChanged: (text){
-                        editado = true;
-                        setState(() {
-                          _editaContato.nome = text;
-                          _editaContato2.nome = text;
-                        });
+                  ),
+                ),
+                Padding( //BOTÃO DE RETORNO - SETA
+                  padding: const EdgeInsets.only(top: 15.0),
+                  child: Positioned(
+                    left: 5,
+                    top: 5,
+                    child: FloatingActionButton(
+                      elevation: 0.0,
+                      onPressed: () { Navigator.pop(context);
                       },
-                    ),
-                    TextFormField(// Testando o Update
-                      //autofillHints: _testefunc(),
-                      initialValue: _testRead(),
-                      decoration: InputDecoration(labelText: "Hora Trabalhada (Ex: 00,30)"),
-                      //controller: _HTController,
-                      onChanged: (text){
-                        editado = true;
-                        setState(() {
-                          //final rendaMensalController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',', leftSymbol: 'R\$');
-
-                          _editaContato.HT = text;
-                        });
-                      },
-                    ),
-                    TextField(
-                      controller: _LEController,
-                      decoration: InputDecoration(labelText: "Lucro esperado"),
-                      onChanged: (text){
-                        editado = true;
-                        setState(() {
-                          _editaContato.LE = double.parse(text);
-                        });
-                      },
-                    ),
-
-                    TextField(
-                      controller: _VLController,
-                      decoration: InputDecoration(labelText: "Valor Liquido"),
-                      onChanged: (text){
-                        editado = true;
-                        setState(() {
-                          //icone: Icons.monetization_on;
-                          _editaContato.VL = double.parse(text);
-                        });
-                      },
-                    ),
-                    TextField(
-                      controller: _ESController,
-                      decoration: InputDecoration(enabled: editable, labelText: "Estoque"),
-                      onChanged: (text){
-                        editado = true;
-                        setState(() {
-                          //icone: Icons.monetization_on;
-                          _editaContato.ES = int.parse(text);
-                          _editaContato2.ES = int.parse(text);
-                        });
-                      },
-                    ),
-                    TextField(
-                      controller: _TECQTDController,
-                      decoration: InputDecoration(labelText: "Tecido quant/custo"),
-                      onChanged: (text){
-                        editado = true;
-                        setState(() {
-                          //final rendaMensalController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',', leftSymbol: 'R\$');
-
-                          _editaContato.TECQTD = int.parse(text);
-                        });
-                      },
-                    ),
-                    TextField(
-                      controller: _ELAQTDController,
-                      decoration: InputDecoration(labelText: "Elastico quant/custo"),
-                      onChanged: (text){
-                        editado = true;
-                        setState(() {
-                          //final rendaMensalController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',', leftSymbol: 'R\$');
-
-                          _editaContato.ELAQTD = int.parse(text);
-                          //_editaContato.DT = DateTime.now();
-                        });
-                      },
-                    ),
-                    // TextField(
-                    //   controller: _DTController,
-                    //   decoration: InputDecoration(labelText: "Data atual"),
-                    //   onChanged: (text){
-                    //     editado = true;
-                    //     setState(() {
-                    //       //final rendaMensalController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',', leftSymbol: 'R\$');
-                    //       _editaContato.DT = DateTime.parse(text);
-                    //     });
-                    //   },
-                    // ),
-                    /*Row(children: [
-                      Expanded(
-                        child: TextField(
-                          decoration: InputDecoration(hintText: "TextField 1"),
+                      child: Container(
+                        height: 60,
+                        width: 60,
+                        child:
+                        Image(
+                          image: AssetImage('Image/Left_Arrow.png',),
+                          width: 50,
+                          fit: BoxFit.scaleDown,
+                          color: Colors.brown,
+                        ),
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle, // circular shape
+                            color: Color.fromARGB(255,255,246,161),
+                            // image: DecorationImage(
+                            //     image: AssetImage("Image/Left_Arrow.png"),
+                            //     scale: 1.9
+                            // ),
+                            boxShadow: [
+                              BoxShadow(
+                                //color: Colors.yellow[16774817].withOpacity(0.0),
+                                color: Color.fromARGB(255,255,246,161).withOpacity(1.0),
+                                spreadRadius: 10.0,
+                                blurRadius: 0,
+                                offset: Offset(0,0),
+                              )
+                            ]
                         ),
                       ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Expanded(
-                        child: TextField(
-                          decoration: InputDecoration(hintText: "TextField 2"),
+                    ),
+                  ),
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 80, 10, 0),
+                  child: Card( //CARD COM INPUTS
+                    elevation: 3.0,
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder( //AJUSTA O ARREDONDAMENTO DO CARD
+                      //borderRadius: BorderRadius.circular(20.0),
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20),
+                        )
+                    ),
+                      child: Container(
+                        width: 750.0,
+                        height: 750.0,
+                        child: Column(
+                          children: <Widget>[
+                            Wrap(
+                              crossAxisAlignment: WrapCrossAlignment.center,
+                              children: [
+                                  Image(
+                                    image: AssetImage('Image/Produto.png',),
+                                    width: 45,
+                                    fit: BoxFit.cover,
+                                    color: Colors.brown,
+                                  ),
+                                  //Icon(Icons.point_of_sale_sharp, size: 37.0, color: Colors.brown),
+                                  Padding(padding:  EdgeInsets.fromLTRB(0, 40, 7, 20)), //AJUSTA O ESPAÇAMENTO ENTRE A IMAGEM E O TEXTO
+                                  Text(Biblioteca.conditionalName(Biblioteca.varLibrary),
+                                      //textAlign: TextAlign.end,
+                                      style: new TextStyle(
+                                        fontSize: 30.0,
+                                        color: Colors.brown,
+                                      )
+                                  ),
+                              ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  top: 10, bottom: 10.0, left: 10.0, right: 10.0),
+                            ),
+                            Column(
+                              children: [
+                                Container(
+                                  //CONTAINER - INPUT DATA
+                                  width: 330,
+                                  height: 50,
+                                  child: StreamBuilder(
+                                      stream: FirebaseFirestore.instance.collection('pedido').snapshots(), // INSTANCIA A COLEÇÃO 'PEDIDO'
+                                      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                                        if (!snapshot.hasData) {
+                                          return Center(
+                                            child: CircularProgressIndicator(),
+                                          );
+                                        }
+                                      return
+                                        Container(
+                                          child: TextFormField(
+                                          //initialValue: VarEstrangeira.nomeLibrary.toString(),
+                                          initialValue: nomeReturn(),
+                                          autofocus: true,
+                                          cursorColor: Colors.brown,
+                                          style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown),
+                                          textAlign: TextAlign.left,
+                                          //controller: _nomeController,
+                                            //controller: _controllerElast,
+                                          //focusNode: _nomeFocus,
+                                          decoration: InputDecoration(
+                                          labelText: 'Nome',
+                                          labelStyle: TextStyle(color: Colors.brown, fontSize: 16.0, fontWeight: FontWeight.w700),
+                                          isDense: true,
+                                            contentPadding: EdgeInsets.all(2.0),
+                                          ),
+                                          onChanged: (text){
+                                            editado = true;
+                                            setState(() {
+                                              _editaContato.nome = text;
+                                              _editaContato2.nome = text;
+                                            });
+                                          },
+                                          ),
+                                        );
+                                    }
+                                  ),
+                                ),
+                                Container( //CONTAINER HORA TRABALHADA
+                                  width: 330,
+                                  height: 50,
+                                  child: TextFormField(
+                                    //initialValue: VarEstrangeira.horaTrabLibrary.toString(),
+                                    initialValue: horaTrabReturn().toString(),
+                                    autofocus: true,
+                                    cursorColor: Colors.brown,
+                                    style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown),
+                                    textAlign: TextAlign.left,
+                                    keyboardType: TextInputType.number,
+                                    //controller: _HTController,
+                                    decoration: InputDecoration(
+                                      //prefix: Text('R\$ '),
+                                      labelText: "Hora Trabalhada",
+                                      labelStyle: TextStyle(color: Colors.brown, fontSize: 16.0, fontWeight: FontWeight.w700),
+                                      isDense: true,
+                                      contentPadding: EdgeInsets.all(2.0),
+                                      //alignLabelWithHint: true,
+                                    ),
+                                    onChanged: (text){
+                                      editado = true;
+                                      setState(() {
+                                        //final rendaMensalController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',', leftSymbol: 'R\$');
+                                        _editaContato.HT = text;
+                                      });
+                                    },
+                                  ),
+                                ),
+                                Container( //CONTAINER INPUT LUCRO
+                                  width: 330,
+                                  height: 50,
+                                  child: TextFormField(
+                                    //initialValue: VarEstrangeira.lucroEstLibrary.toString(),
+                                    initialValue: lucroEstReturn().toString(),
+                                    autofocus: true,
+                                    cursorColor: Colors.brown,
+                                    style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown),
+                                    textAlign: TextAlign.left,
+                                    keyboardType: TextInputType.number,
+                                    //controller: _LEController,
+                                    decoration: InputDecoration(
+                                      prefix: Text('R\$ '), //PREFIXO PARA DIGITAÇÃO
+                                      labelText: "Lucro Esperado",
+                                      labelStyle: TextStyle(color: Colors.brown, fontSize: 16.0, fontWeight: FontWeight.w700),
+                                      isDense: true,
+                                      contentPadding: EdgeInsets.all(2.0),
+                                      //contentPadding: EdgeInsets.only(left: 0, bottom: 15, top: 2.0), alignLabelWithHint: true,
+                                    ),
+                                    onChanged: (text){
+                                      editado = true;
+                                      setState(() {
+                                        _editaContato.LE = double.parse(text);
+                                      });
+                                    },
+                                  ),
+                                ),
+                                Container( //CONTAINER PARA VALOR LÍQUIDO
+                                  width: 330,
+                                  height: 50,
+                                  child: TextFormField(
+                                    //initialValue: VarEstrangeira.valorLiqLibrary.toString(),
+                                    initialValue: valorLiqReturn().toString(),
+                                    autofocus: true,
+                                    cursorColor: Colors.brown,
+                                    style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown,),
+                                    textAlign: TextAlign.left,
+                                    keyboardType: TextInputType.number,
+                                    //controller: _VLController,
+                                    decoration: InputDecoration(
+                                      //filled: true,
+                                      prefix: Text('R\$ '),
+                                      labelText: "Valor Líquido",
+                                      labelStyle: TextStyle(color: Colors.brown, fontSize: 16.0, fontWeight: FontWeight.w700),
+                                      isDense: true,
+                                      contentPadding: EdgeInsets.all(2.0),
+                                      //alignLabelWithHint: true,
+                                    ),
+                                    onChanged: (text){
+                                      editado = true;
+                                      setState(() {
+                                        //icone: Icons.monetization_on;
+                                        _editaContato.VL = double.parse(text);
+                                      });
+                                    },
+                                  ),
+                                ),
+                                Container( //CONTAINER ESTOQUE
+                                  width: 330,
+                                  height: 50,
+                                  child: TextFormField(
+                                    //initialValue: VarEstrangeira.estLibrary.toString(),
+                                    initialValue: estoqueReturn().toString(),
+                                    autofocus: true,
+                                    cursorColor: Colors.brown,
+                                    style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown),
+                                    textAlign: TextAlign.left,
+                                    keyboardType: TextInputType.number,
+                                    //controller: _ESController,
+                                    decoration: InputDecoration(
+                                      labelText: "Estoque",
+                                      labelStyle: TextStyle(color: Colors.brown, fontSize: 16.0, fontWeight: FontWeight.w700),
+                                      isDense: true,
+                                      contentPadding: EdgeInsets.all(2.0),
+                                      //alignLabelWithHint: true,
+                                    ),
+                                    onChanged: (text){
+                                      editado = true;
+                                      setState(() {
+                                        //icone: Icons.monetization_on;
+                                        _editaContato.ES = int.parse(text);
+                                        _editaContato2.ES = int.parse(text);
+                                      });
+                                    },
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(20, 0, 0, 0), // ESPAÇAMENTO PARA ALINHAR
+                                  child: Row(
+                                    children: [
+                                      Text('Tecido:  ', style: TextStyle(color: Colors.brown, fontSize: 20.0, fontWeight: FontWeight.w700),),
+                                      Padding(padding: EdgeInsets.fromLTRB(0, 0, 10, 0),),
+                                      Container( // TECIDO/QUANT CUSTO
+                                        width: 115,
+                                        height: 50,
+                                        child: TextFormField(
+                                          //initialValue: VarEstrangeira.tecCustLibrary.toString(),
+                                          //initialValue: tecidoCusReturn().toString(),
+                                          autofocus: true,
+                                          cursorColor: Colors.brown,
+                                          style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown),
+                                          textAlign: TextAlign.left,
+                                          keyboardType: TextInputType.number,
+                                          controller: _TECCUSController,
+                                          decoration: InputDecoration(
+                                            prefix: Text('R\$ '),
+                                            labelText: "Custo",
+                                            labelStyle: TextStyle(color: Colors.brown, fontSize: 16.0, fontWeight: FontWeight.w700),
+                                            isDense: true,
+                                            contentPadding: EdgeInsets.all(2.0),
+                                            //alignLabelWithHint: true,
+                                          ),
+                                          onChanged: (text){
+                                            editado = true;
+                                            setState(() {
+                                              //final rendaMensalController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',', leftSymbol: 'R\$');
+                                              _editaContato.TECCUS = int.parse(text) as double;
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                      Padding(padding: EdgeInsets.fromLTRB(0, 0, 10, 0),),
+                                      Container( // TECIDO/QUANT CUSTO
+                                        width: 115,
+                                        height: 50,
+                                        child: TextFormField(
+                                          //initialValue: VarEstrangeira.tecQTDLibrary.toString(),
+                                          initialValue: tecidoQTDReturn().toString(),
+                                          autofocus: true,
+                                          cursorColor: Colors.brown,
+                                          style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown),
+                                          textAlign: TextAlign.left,
+                                          keyboardType: TextInputType.number,
+                                          //controller: _TECQTDController,
+                                          decoration: InputDecoration(
+                                            labelText: "Comprimento",
+                                            labelStyle: TextStyle(color: Colors.brown, fontSize: 16.0, fontWeight: FontWeight.w700),
+                                            isDense: true,
+                                            contentPadding: EdgeInsets.all(2.0),
+                                            //alignLabelWithHint: true,
+                                          ),
+                                          onChanged: (text){
+                                            editado = true;
+                                            setState(() {
+                                              //final rendaMensalController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',', leftSymbol: 'R\$');
+                                              _editaContato.TECQTD = int.parse(text) as double;
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Padding( // ELÁSTICO
+                                  padding: const EdgeInsets.fromLTRB(20, 0, 0, 0), // ESPAÇAMENTO PARA ALINHAR
+                                  child: Row(
+                                    children: [
+                                      Text('Elástico:', style: TextStyle(color: Colors.brown, fontSize: 20.0, fontWeight: FontWeight.w700),),
+                                      Padding(padding: EdgeInsets.fromLTRB(0, 0, 10, 0),),
+                                      Container( // ELÁSTICO/QUANT CUSTO
+                                        width: 115,
+                                        height: 50,
+                                        child: TextFormField(
+                                          //initialValue: VarEstrangeira.elastCustLibrary.toString(),
+                                          initialValue: elastCusReturn().toString(),
+                                          autofocus: true,
+                                          cursorColor: Colors.brown,
+                                          style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown),
+                                          textAlign: TextAlign.left,
+                                          keyboardType: TextInputType.number,
+                                          //controller: _ELACUSController,
+                                          decoration: InputDecoration(
+                                            prefix: Text('R\$ '),
+                                            labelText: "Custo",
+                                            labelStyle: TextStyle(color: Colors.brown, fontSize: 16.0, fontWeight: FontWeight.w700),
+                                            isDense: true,
+                                            contentPadding: EdgeInsets.all(2.0),
+                                            //alignLabelWithHint: true,
+                                          ),
+                                          onChanged: (text){
+                                            editado = true;
+                                            setState(() {
+                                              //final rendaMensalController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',', leftSymbol: 'R\$');
+                                              _editaContato.ELACUS = int.parse(text) as double;
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                      Padding(padding: EdgeInsets.fromLTRB(0, 0, 10, 0),),
+                                      Container(
+                                        width: 115,
+                                        height: 50,
+                                        child: TextFormField(
+                                          //initialValue: VarEstrangeira.elastQTDLibrary.toString(),
+                                          initialValue: elastQTDReturn().toString(),
+                                          autofocus: true,
+                                          cursorColor: Colors.brown,
+                                          style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown),
+                                          textAlign: TextAlign.left,
+                                          keyboardType: TextInputType.number,
+                                          //controller: _ELAQTDController,
+                                          decoration: InputDecoration(
+                                            labelText: "Comprimento",
+                                            labelStyle: TextStyle(color: Colors.brown, fontSize: 16.0, fontWeight: FontWeight.w700),
+                                            isDense: true,
+                                            contentPadding: EdgeInsets.all(2.0),
+                                            //alignLabelWithHint: true,
+                                          ),
+                                          onChanged: (text){
+                                            editado = true;
+                                            setState(() {
+                                              //final rendaMensalController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',', leftSymbol: 'R\$');
+                                              _editaContato.ELAQTD = int.parse(text) as double;
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
-                      )
-                    ]),*/
-                  ],
-                )
-            );
-          }
-        )
+                      ),
+                    ),
+                  ),
+              ]
+          );
+        }
+      ),
+      floatingActionButton: //BOTÃO SALVAR
+      Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding( //AJUSTA O POSICIONAMENTO DO BOTÃO
+            padding: const EdgeInsets.only(left: 325.0),
+            child: FloatingActionButton(
+              //heroTag: null,
+              heroTag: 'unq2',
+              onPressed: () {
+                if(_editaContato.nome != null && _editaContato.nome.isNotEmpty && Biblioteca.varLibrary == false)
+                {
+                  Navigator.pop(context, _editaContato);
+                  Navigator.pop(context, _editaContato2);
+                  Biblioteca.deletar(Biblioteca.idLibrary);
+                }
+                if(_editaContato.nome != null && _editaContato.nome.isNotEmpty)
+                {
+                  Navigator.pop(context, _editaContato);
+                  Navigator.pop(context, _editaContato2);
+                }
+                else
+                {
+                  _exibeAviso();
+                  FocusScope.of(context).requestFocus(_nomeFocus);
+                }
+              },
+              child: Container(
+                height: 60,
+                width: 60,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle, // circular shape
+                  gradient: LinearGradient(
+                    begin: Alignment.topRight,
+                    end: Alignment.centerLeft,
+                    stops: [0.3, 1.0],
+                    colors: [
+                      Color.fromARGB(255,230,119,53), Color.fromARGB(255,161,88,52)
+                    ],
+                  ),
+                ),
+                child: Icon(Icons.save, size: 40.0),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
-
-  _documento(indice, dado){
-    FirebaseFirestore.instance
-        .collection('pedido')
-        .where("id", isEqualTo: indice)
-        .get().then((value){
-          value.docs.forEach((element) {
-            return FirebaseFirestore.instance.collection('pedido').doc(element.id).collection(dado);
-          });
-    });
+  void funcValor(){
+    _editaContato.nome = Biblioteca.nomeLibrary;
+    _editaContato.VL = Biblioteca.valorLiqLibrary;
+    _editaContato.ES = Biblioteca.estLibrary;
+    _editaContato.ELAQTD = Biblioteca.elastQTDLibrary;
+    // _editaContato.ELACUS = Biblioteca.elastCustLibrary;
+    // _editaContato.TECQTD = Biblioteca.tecQTDLibrary;
+    _editaContato.TECCUS = Biblioteca.tecCustLibrary;
+    _editaContato.HT = Biblioteca.horaTrabLibrary;
   }
 
-  _testRead(){ // TESTE DE LEITURA DE DADO
+  nomeReturn (){
+    if(Biblioteca.varLibrary == false){
+      return Biblioteca.nomeLibrary.toString();
+    }
+    else{
+      return '';
+    }
+  }
+  horaTrabReturn (){
+    if(Biblioteca.varLibrary == false){
+      return Biblioteca.horaTrabLibrary.toString();
+    }
+    else{
+      return '';
+    }
+  }
+  lucroEstReturn (){
+    if(Biblioteca.varLibrary == false){
+      return Biblioteca.lucroEstLibrary.toString();
+    }
+    else{
+      return 0.00;
+    }
+  }
+  valorLiqReturn (){
+    if(Biblioteca.varLibrary == false){
+      return Biblioteca.valorLiqLibrary.toString();
+    }
+    else{
+      return 0.00;
+    }
+  }
+  estoqueReturn (){
+    if(Biblioteca.varLibrary == false){
+      return Biblioteca.estLibrary.toString();
+    }
+    else{
+      return 0;
+    }
+  }
+  tecidoCusReturn (){
+    if(Biblioteca.varLibrary == false){
+      return Biblioteca.tecCustLibrary.toString();
+    }
+    else{
+      return 0.00;
+    }
+  }
+  tecidoQTDReturn (){
+    if(Biblioteca.varLibrary == false){
+      return Biblioteca.tecQTDLibrary.toString();
+    }
+    else{
+      return 0.00;
+    }
+  }
+  elastCusReturn (){
+    if(Biblioteca.varLibrary == false){
+      return Biblioteca.elastCustLibrary.toString();
+    }
+    else{
+      return 0;
+    }
+  }
+  elastQTDReturn (){
+    if(Biblioteca.varLibrary == false){
+      return Biblioteca.elastQTDLibrary.toString();
+    }
+    else{
+      return 0.00;
+    }
+  }
+  Future<String> _testRead() async{// TESTE DE LEITURA DE DADO
+    await
     FirebaseFirestore.instance
         .collection('pedido')
         .get()
         .then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((collection) {
-        return (collection['HT']);
+        var teste = collection['HT'];
+        //return teste;
+        setState(() {
+          testeInput = teste;
+        });
       });
     });
   }
 
-  _testefunc(){ // TESTE DE LEITURA DE DADO
-    String teste = 'teste';
-    return teste;
-  }
 
-  _idRandom(){ // ID RANDÔMICO
-    var uuid = Uuid();
-    return uuid.v4();
-  }
+  void _atualizar(indice){
 
-  _dataFormat(){ // DATA ATUAL
-    var dtAtual = new DateTime.now().toUtc();
-    var dtFormat = new DateFormat('dd/MM/yyyy - kk:mm:ss');
-    String dataFormatada = dtFormat.format(dtAtual.toLocal().toUtc());
-    var formatado = dtAtual.toLocal().toString();
-
-    return dataFormatada;
+    FirebaseFirestore.instance
+        .collection('pedido')
+        .where("id", isEqualTo : indice)
+        .get().then((value){
+      value.docs.forEach((element){
+        FirebaseFirestore.instance.collection("pedido").doc(indice).update({
+          'ELACUS': 5,
+          'ELAQTD': 100,
+          'ES': 3,
+          'HT': '10',
+          'LE': 670,
+          'TECCUS': 10,
+          'TECQTD': 5,
+          'VL': 100,
+          'id': '001',
+          'nome': 'vaso grande'
+        });
+      });
+    });
+    //return _exibeContatoPage();
   }
 
   void _exibeAviso() {
