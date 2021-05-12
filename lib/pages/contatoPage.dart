@@ -8,7 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'biblioteca.dart' as VarEstrangeira;
+import 'biblioteca.dart' as Biblioteca;
 
 
 class ContatoPages extends StatefulWidget {
@@ -44,24 +44,37 @@ class _ContatoPageState extends State<ContatoPages> {
   d2.Contato _editaContato2;
   String testeInput;
 
-  var DTLocal = VarEstrangeira.dataLibrary;
-  var ELACUSLocal = VarEstrangeira.elastCustLibrary;
-  var ELAQTDLocal = VarEstrangeira.elastQTDLibrary;
-  var ESLocal = VarEstrangeira.estLibrary;
-  var HTLocal = VarEstrangeira.horaTrabLibrary;
-  var LELocal = VarEstrangeira.lucroEstLibrary;
-  var TECCUSLocal = VarEstrangeira.tecCustLibrary;
-  var TECQTDLocal = VarEstrangeira.tecQTDLibrary;
-  var VLLocal = VarEstrangeira.valorLiqLibrary;
-  var nomeLocal = VarEstrangeira.nomeLibrary;
+  var DTLocal = Biblioteca.dataLibrary;
+  var ELACUSLocal = Biblioteca.elastCustLibrary;
+  var ELAQTDLocal = Biblioteca.elastQTDLibrary;
+  var ESLocal = Biblioteca.estLibrary;
+  var HTLocal = Biblioteca.horaTrabLibrary;
+  var LELocal = Biblioteca.lucroEstLibrary;
+  var TECCUSLocal = Biblioteca.tecCustLibrary;
+  var TECQTDLocal = Biblioteca.tecQTDLibrary;
+  var VLLocal = Biblioteca.valorLiqLibrary;
+  var nomeLocal = Biblioteca.nomeLibrary;
+
+  TextEditingController _controllerElast;
 
   @override
   void initState(){
     super.initState();
     _testRead();
+    funcValor();
+    nomeReturn();
+    horaTrabReturn();
+    lucroEstReturn();
+    valorLiqReturn();
+    estoqueReturn();
+    tecidoCusReturn();
+    tecidoQTDReturn();
+    elastCusReturn();
+    elastQTDReturn();
+    _controllerElast = new TextEditingController(text: Biblioteca.nomeLibrary.toString());
 
     if(widget.contato == null){
-      _editaContato = Contato(VarEstrangeira.idRandom(),'','',0,0,0,0,0,0,0, VarEstrangeira.dataFormat());
+      _editaContato = Contato(Biblioteca.idRandom(),'','',0,0,0,0,0,0,0, Biblioteca.dataFormat());
     }else{
       _editaContato = Contato.fromMap(widget.contato.toMap());
       _editaContato2 = d2.Contato.fromMap(widget.contato.toMap());
@@ -83,7 +96,8 @@ class _ContatoPageState extends State<ContatoPages> {
     return Scaffold(
       resizeToAvoidBottomPadding: false,
 
-      body: StreamBuilder(
+      body:
+      StreamBuilder(
           stream: FirebaseFirestore.instance.collection('pedido').snapshots(),
           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (!snapshot.hasData) {
@@ -178,7 +192,7 @@ class _ContatoPageState extends State<ContatoPages> {
                                   ),
                                   //Icon(Icons.point_of_sale_sharp, size: 37.0, color: Colors.brown),
                                   Padding(padding:  EdgeInsets.fromLTRB(0, 40, 7, 20)), //AJUSTA O ESPAÇAMENTO ENTRE A IMAGEM E O TEXTO
-                                  Text(VarEstrangeira.conditionalName(VarEstrangeira.varLibrary),
+                                  Text(Biblioteca.conditionalName(Biblioteca.varLibrary),
                                       //textAlign: TextAlign.end,
                                       style: new TextStyle(
                                         fontSize: 30.0,
@@ -205,29 +219,33 @@ class _ContatoPageState extends State<ContatoPages> {
                                             child: CircularProgressIndicator(),
                                           );
                                         }
-                                      return TextFormField(
-                                        //initialValue: VarEstrangeira.nomeLibrary.toString(),
-                                        initialValue: nomeLocal,
-                                        autofocus: true,
-                                        cursorColor: Colors.brown,
-                                        style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown),
-                                        textAlign: TextAlign.left,
-                                        //controller: _nomeController,
-                                        //focusNode: _nomeFocus,
-                                        decoration: InputDecoration(
+                                      return
+                                        Container(
+                                          child: TextFormField(
+                                          //initialValue: VarEstrangeira.nomeLibrary.toString(),
+                                          initialValue: nomeReturn(),
+                                          autofocus: true,
+                                          cursorColor: Colors.brown,
+                                          style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown),
+                                          textAlign: TextAlign.left,
+                                          //controller: _nomeController,
+                                            //controller: _controllerElast,
+                                          //focusNode: _nomeFocus,
+                                          decoration: InputDecoration(
                                           labelText: 'Nome',
-                                          labelStyle: TextStyle(color: Colors.brown, fontSize: 16.0),
+                                          labelStyle: TextStyle(color: Colors.brown, fontSize: 16.0, fontWeight: FontWeight.w700),
                                           isDense: true,
-                                          contentPadding: EdgeInsets.all(2.0),
-                                        ),
-                                        onChanged: (text){
-                                          editado = true;
-                                          setState(() {
-                                            _editaContato.nome = text;
-                                            _editaContato2.nome = text;
-                                          });
-                                        },
-                                      );
+                                            contentPadding: EdgeInsets.all(2.0),
+                                          ),
+                                          onChanged: (text){
+                                            editado = true;
+                                            setState(() {
+                                              _editaContato.nome = text;
+                                              _editaContato2.nome = text;
+                                            });
+                                          },
+                                          ),
+                                        );
                                     }
                                   ),
                                 ),
@@ -236,16 +254,17 @@ class _ContatoPageState extends State<ContatoPages> {
                                   height: 50,
                                   child: TextFormField(
                                     //initialValue: VarEstrangeira.horaTrabLibrary.toString(),
-                                    initialValue: HTLocal,
+                                    initialValue: horaTrabReturn().toString(),
                                     autofocus: true,
                                     cursorColor: Colors.brown,
                                     style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown),
                                     textAlign: TextAlign.left,
+                                    keyboardType: TextInputType.number,
                                     //controller: _HTController,
                                     decoration: InputDecoration(
                                       //prefix: Text('R\$ '),
-                                      labelText: "Hora Trabalhada EX: 30.5",
-                                      labelStyle: TextStyle(color: Colors.brown, fontSize: 16.0),
+                                      labelText: "Hora Trabalhada",
+                                      labelStyle: TextStyle(color: Colors.brown, fontSize: 16.0, fontWeight: FontWeight.w700),
                                       isDense: true,
                                       contentPadding: EdgeInsets.all(2.0),
                                       //alignLabelWithHint: true,
@@ -259,200 +278,228 @@ class _ContatoPageState extends State<ContatoPages> {
                                     },
                                   ),
                                 ),
+                                Container( //CONTAINER INPUT LUCRO
+                                  width: 330,
+                                  height: 50,
+                                  child: TextFormField(
+                                    //initialValue: VarEstrangeira.lucroEstLibrary.toString(),
+                                    initialValue: lucroEstReturn().toString(),
+                                    autofocus: true,
+                                    cursorColor: Colors.brown,
+                                    style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown),
+                                    textAlign: TextAlign.left,
+                                    keyboardType: TextInputType.number,
+                                    //controller: _LEController,
+                                    decoration: InputDecoration(
+                                      prefix: Text('R\$ '), //PREFIXO PARA DIGITAÇÃO
+                                      labelText: "Lucro Esperado",
+                                      labelStyle: TextStyle(color: Colors.brown, fontSize: 16.0, fontWeight: FontWeight.w700),
+                                      isDense: true,
+                                      contentPadding: EdgeInsets.all(2.0),
+                                      //contentPadding: EdgeInsets.only(left: 0, bottom: 15, top: 2.0), alignLabelWithHint: true,
+                                    ),
+                                    onChanged: (text){
+                                      editado = true;
+                                      setState(() {
+                                        _editaContato.LE = double.parse(text);
+                                      });
+                                    },
+                                  ),
+                                ),
+                                Container( //CONTAINER PARA VALOR LÍQUIDO
+                                  width: 330,
+                                  height: 50,
+                                  child: TextFormField(
+                                    //initialValue: VarEstrangeira.valorLiqLibrary.toString(),
+                                    initialValue: valorLiqReturn().toString(),
+                                    autofocus: true,
+                                    cursorColor: Colors.brown,
+                                    style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown,),
+                                    textAlign: TextAlign.left,
+                                    keyboardType: TextInputType.number,
+                                    //controller: _VLController,
+                                    decoration: InputDecoration(
+                                      //filled: true,
+                                      prefix: Text('R\$ '),
+                                      labelText: "Valor Líquido",
+                                      labelStyle: TextStyle(color: Colors.brown, fontSize: 16.0, fontWeight: FontWeight.w700),
+                                      isDense: true,
+                                      contentPadding: EdgeInsets.all(2.0),
+                                      //alignLabelWithHint: true,
+                                    ),
+                                    onChanged: (text){
+                                      editado = true;
+                                      setState(() {
+                                        //icone: Icons.monetization_on;
+                                        _editaContato.VL = double.parse(text);
+                                      });
+                                    },
+                                  ),
+                                ),
+                                Container( //CONTAINER ESTOQUE
+                                  width: 330,
+                                  height: 50,
+                                  child: TextFormField(
+                                    //initialValue: VarEstrangeira.estLibrary.toString(),
+                                    initialValue: estoqueReturn().toString(),
+                                    autofocus: true,
+                                    cursorColor: Colors.brown,
+                                    style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown),
+                                    textAlign: TextAlign.left,
+                                    keyboardType: TextInputType.number,
+                                    //controller: _ESController,
+                                    decoration: InputDecoration(
+                                      labelText: "Estoque",
+                                      labelStyle: TextStyle(color: Colors.brown, fontSize: 16.0, fontWeight: FontWeight.w700),
+                                      isDense: true,
+                                      contentPadding: EdgeInsets.all(2.0),
+                                      //alignLabelWithHint: true,
+                                    ),
+                                    onChanged: (text){
+                                      editado = true;
+                                      setState(() {
+                                        //icone: Icons.monetization_on;
+                                        _editaContato.ES = int.parse(text);
+                                        _editaContato2.ES = int.parse(text);
+                                      });
+                                    },
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(20, 0, 0, 0), // ESPAÇAMENTO PARA ALINHAR
+                                  child: Row(
+                                    children: [
+                                      Text('Tecido:  ', style: TextStyle(color: Colors.brown, fontSize: 20.0, fontWeight: FontWeight.w700),),
+                                      Padding(padding: EdgeInsets.fromLTRB(0, 0, 10, 0),),
+                                      Container( // TECIDO/QUANT CUSTO
+                                        width: 115,
+                                        height: 50,
+                                        child: TextFormField(
+                                          //initialValue: VarEstrangeira.tecCustLibrary.toString(),
+                                          //initialValue: tecidoCusReturn().toString(),
+                                          autofocus: true,
+                                          cursorColor: Colors.brown,
+                                          style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown),
+                                          textAlign: TextAlign.left,
+                                          keyboardType: TextInputType.number,
+                                          controller: _TECCUSController,
+                                          decoration: InputDecoration(
+                                            prefix: Text('R\$ '),
+                                            labelText: "Custo",
+                                            labelStyle: TextStyle(color: Colors.brown, fontSize: 16.0, fontWeight: FontWeight.w700),
+                                            isDense: true,
+                                            contentPadding: EdgeInsets.all(2.0),
+                                            //alignLabelWithHint: true,
+                                          ),
+                                          onChanged: (text){
+                                            editado = true;
+                                            setState(() {
+                                              //final rendaMensalController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',', leftSymbol: 'R\$');
+                                              _editaContato.TECCUS = int.parse(text) as double;
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                      Padding(padding: EdgeInsets.fromLTRB(0, 0, 10, 0),),
+                                      Container( // TECIDO/QUANT CUSTO
+                                        width: 115,
+                                        height: 50,
+                                        child: TextFormField(
+                                          //initialValue: VarEstrangeira.tecQTDLibrary.toString(),
+                                          initialValue: tecidoQTDReturn().toString(),
+                                          autofocus: true,
+                                          cursorColor: Colors.brown,
+                                          style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown),
+                                          textAlign: TextAlign.left,
+                                          keyboardType: TextInputType.number,
+                                          //controller: _TECQTDController,
+                                          decoration: InputDecoration(
+                                            labelText: "Comprimento",
+                                            labelStyle: TextStyle(color: Colors.brown, fontSize: 16.0, fontWeight: FontWeight.w700),
+                                            isDense: true,
+                                            contentPadding: EdgeInsets.all(2.0),
+                                            //alignLabelWithHint: true,
+                                          ),
+                                          onChanged: (text){
+                                            editado = true;
+                                            setState(() {
+                                              //final rendaMensalController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',', leftSymbol: 'R\$');
+                                              _editaContato.TECQTD = int.parse(text) as double;
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Padding( // ELÁSTICO
+                                  padding: const EdgeInsets.fromLTRB(20, 0, 0, 0), // ESPAÇAMENTO PARA ALINHAR
+                                  child: Row(
+                                    children: [
+                                      Text('Elástico:', style: TextStyle(color: Colors.brown, fontSize: 20.0, fontWeight: FontWeight.w700),),
+                                      Padding(padding: EdgeInsets.fromLTRB(0, 0, 10, 0),),
+                                      Container( // ELÁSTICO/QUANT CUSTO
+                                        width: 115,
+                                        height: 50,
+                                        child: TextFormField(
+                                          //initialValue: VarEstrangeira.elastCustLibrary.toString(),
+                                          initialValue: elastCusReturn().toString(),
+                                          autofocus: true,
+                                          cursorColor: Colors.brown,
+                                          style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown),
+                                          textAlign: TextAlign.left,
+                                          keyboardType: TextInputType.number,
+                                          //controller: _ELACUSController,
+                                          decoration: InputDecoration(
+                                            prefix: Text('R\$ '),
+                                            labelText: "Custo",
+                                            labelStyle: TextStyle(color: Colors.brown, fontSize: 16.0, fontWeight: FontWeight.w700),
+                                            isDense: true,
+                                            contentPadding: EdgeInsets.all(2.0),
+                                            //alignLabelWithHint: true,
+                                          ),
+                                          onChanged: (text){
+                                            editado = true;
+                                            setState(() {
+                                              //final rendaMensalController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',', leftSymbol: 'R\$');
+                                              _editaContato.ELACUS = int.parse(text) as double;
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                      Padding(padding: EdgeInsets.fromLTRB(0, 0, 10, 0),),
+                                      Container(
+                                        width: 115,
+                                        height: 50,
+                                        child: TextFormField(
+                                          //initialValue: VarEstrangeira.elastQTDLibrary.toString(),
+                                          initialValue: elastQTDReturn().toString(),
+                                          autofocus: true,
+                                          cursorColor: Colors.brown,
+                                          style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown),
+                                          textAlign: TextAlign.left,
+                                          keyboardType: TextInputType.number,
+                                          //controller: _ELAQTDController,
+                                          decoration: InputDecoration(
+                                            labelText: "Comprimento",
+                                            labelStyle: TextStyle(color: Colors.brown, fontSize: 16.0, fontWeight: FontWeight.w700),
+                                            isDense: true,
+                                            contentPadding: EdgeInsets.all(2.0),
+                                            //alignLabelWithHint: true,
+                                          ),
+                                          onChanged: (text){
+                                            editado = true;
+                                            setState(() {
+                                              //final rendaMensalController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',', leftSymbol: 'R\$');
+                                              _editaContato.ELAQTD = int.parse(text) as double;
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ],
-                            ),
-                            Container( //CONTAINER INPUT LUCRO
-                              width: 330,
-                              height: 50,
-                              child: TextFormField(
-                                //initialValue: VarEstrangeira.lucroEstLibrary.toString(),
-                                initialValue: LELocal.toString(),
-                                autofocus: true,
-                                cursorColor: Colors.brown,
-                                style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown),
-                                textAlign: TextAlign.left,
-                                //controller: _LEController,
-                                decoration: InputDecoration(
-                                  prefix: Text('R\$ '), //PREFIXO PARA DIGITAÇÃO
-                                  labelText: "Lucro Esperado",
-                                  labelStyle: TextStyle(color: Colors.brown, fontSize: 16.0),
-                                  isDense: true,
-                                  contentPadding: EdgeInsets.all(2.0),
-                                  //contentPadding: EdgeInsets.only(left: 0, bottom: 15, top: 2.0), alignLabelWithHint: true,
-                                ),
-                                onChanged: (text){
-                                  editado = true;
-                                  setState(() {
-                                    _editaContato.LE = double.parse(text);
-                                  });
-                                },
-                              ),
-                            ),
-                            Container( //CONTAINER PARA VALOR LÍQUIDO
-                              width: 330,
-                              height: 50,
-                              child: TextFormField(
-                                //initialValue: VarEstrangeira.valorLiqLibrary.toString(),
-                                initialValue: VLLocal.toString(),
-                                autofocus: true,
-                                cursorColor: Colors.brown,
-                                style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown,),
-                                textAlign: TextAlign.left,
-                                //controller: _VLController,
-                                decoration: InputDecoration(
-                                  prefix: Text('R\$ '),
-                                  labelText: "Valor Líquido",
-                                  labelStyle: TextStyle(color: Colors.brown, fontSize: 16.0),
-                                  isDense: true,
-                                  contentPadding: EdgeInsets.all(2.0),
-                                  //alignLabelWithHint: true,
-                                ),
-                                onChanged: (text){
-                                  editado = true;
-                                  setState(() {
-                                    //icone: Icons.monetization_on;
-                                    _editaContato.VL = double.parse(text);
-                                  });
-                                },
-                              ),
-                            ),
-                            Container( //CONTAINER ESTOQUE
-                              width: 330,
-                              height: 50,
-                              child: TextFormField(
-                                //initialValue: VarEstrangeira.estLibrary.toString(),
-                                initialValue: ESLocal.toString(),
-                                autofocus: true,
-                                cursorColor: Colors.brown,
-                                style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown),
-                                textAlign: TextAlign.left,
-                                //controller: _ESController,
-                                decoration: InputDecoration(
-                                  labelText: "Estoque",
-                                  labelStyle: TextStyle(color: Colors.brown, fontSize: 16.0),
-                                  isDense: true,
-                                  contentPadding: EdgeInsets.all(2.0),
-                                  //alignLabelWithHint: true,
-                                ),
-                                onChanged: (text){
-                                  editado = true;
-                                  setState(() {
-                                    //icone: Icons.monetization_on;
-                                    _editaContato.ES = int.parse(text);
-                                    _editaContato2.ES = int.parse(text);
-                                  });
-                                },
-                              ),
-                            ),
-                            Container( // TECIDO/QUANT CUSTO
-                              width: 330,
-                              height: 50,
-                              child: TextFormField(
-                                //initialValue: VarEstrangeira.tecCustLibrary.toString(),
-                                initialValue: TECCUSLocal.toString(),
-                                autofocus: true,
-                                cursorColor: Colors.brown,
-                                style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown),
-                                textAlign: TextAlign.left,
-                                //controller: _TECCUSController,
-                                decoration: InputDecoration(
-                                  prefix: Text('R\$ '),
-                                  labelText: "Tecido custo",
-                                  labelStyle: TextStyle(color: Colors.brown, fontSize: 16.0),
-                                  isDense: true,
-                                  contentPadding: EdgeInsets.all(2.0),
-                                  //alignLabelWithHint: true,
-                                ),
-                                onChanged: (text){
-                                  editado = true;
-                                  setState(() {
-                                    //final rendaMensalController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',', leftSymbol: 'R\$');
-                                    _editaContato.TECCUS = int.parse(text) as double;
-                                  });
-                                },
-                              ),
-                            ),
-                            Container( // TECIDO/QUANT CUSTO
-                              width: 330,
-                              height: 50,
-                              child: TextFormField(
-                                //initialValue: VarEstrangeira.tecQTDLibrary.toString(),
-                                initialValue: TECQTDLocal.toString(),
-                                autofocus: true,
-                                cursorColor: Colors.brown,
-                                style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown),
-                                textAlign: TextAlign.left,
-                                //controller: _TECQTDController,
-                                decoration: InputDecoration(
-                                  labelText: "Tecido comprimento",
-                                  labelStyle: TextStyle(color: Colors.brown, fontSize: 16.0),
-                                  isDense: true,
-                                  contentPadding: EdgeInsets.all(2.0),
-                                  //alignLabelWithHint: true,
-                                ),
-                                onChanged: (text){
-                                  editado = true;
-                                  setState(() {
-                                    //final rendaMensalController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',', leftSymbol: 'R\$');
-                                    _editaContato.TECQTD = int.parse(text);
-                                  });
-                                },
-                              ),
-                            ),
-                            Container( // ELÁSTICO/QUANT CUSTO
-                              width: 330,
-                              height: 50,
-                              child: TextFormField(
-                                //initialValue: VarEstrangeira.elastCustLibrary.toString(),
-                                initialValue: ELACUSLocal.toString(),
-                                autofocus: true,
-                                cursorColor: Colors.brown,
-                                style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown),
-                                textAlign: TextAlign.left,
-                                //controller: _ELACUSController,
-                                decoration: InputDecoration(
-                                  prefix: Text('R\$ '),
-                                  labelText: "Elástico custo",
-                                  labelStyle: TextStyle(color: Colors.brown, fontSize: 16.0),
-                                  isDense: true,
-                                  contentPadding: EdgeInsets.all(2.0),
-                                  //alignLabelWithHint: true,
-                                ),
-                                onChanged: (text){
-                                  editado = true;
-                                  setState(() {
-                                    //final rendaMensalController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',', leftSymbol: 'R\$');
-                                    _editaContato.ELACUS = int.parse(text) as double;
-                                  });
-                                },
-                              ),
-                            ),
-                            Container( // ELÁSTICO/QUANT CUSTO
-                              width: 330,
-                              height: 50,
-                              child: TextFormField(
-                                //initialValue: VarEstrangeira.elastQTDLibrary.toString(),
-                                initialValue: ELAQTDLocal.toString(),
-                                autofocus: true,
-                                cursorColor: Colors.brown,
-                                style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown),
-                                textAlign: TextAlign.left,
-                                //controller: _ELAQTDController,
-                                decoration: InputDecoration(
-                                  labelText: "Elástico comprimento",
-                                  labelStyle: TextStyle(color: Colors.brown, fontSize: 16.0),
-                                  isDense: true,
-                                  contentPadding: EdgeInsets.all(2.0),
-                                  //alignLabelWithHint: true,
-                                ),
-                                onChanged: (text){
-                                  editado = true;
-                                  setState(() {
-                                    //final rendaMensalController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',', leftSymbol: 'R\$');
-                                    _editaContato.ELAQTD = int.parse(text);
-                                  });
-                                },
-                              ),
                             ),
                           ],
                         ),
@@ -473,12 +520,19 @@ class _ContatoPageState extends State<ContatoPages> {
               //heroTag: null,
               heroTag: 'unq2',
               onPressed: () {
+                if(_editaContato.nome != null && _editaContato.nome.isNotEmpty && Biblioteca.varLibrary == false)
+                {
+                  Navigator.pop(context, _editaContato);
+                  Navigator.pop(context, _editaContato2);
+                  Biblioteca.deletar(Biblioteca.idLibrary);
+                }
                 if(_editaContato.nome != null && _editaContato.nome.isNotEmpty)
                 {
                   Navigator.pop(context, _editaContato);
                   Navigator.pop(context, _editaContato2);
                 }
-                else{
+                else
+                {
                   _exibeAviso();
                   FocusScope.of(context).requestFocus(_nomeFocus);
                 }
@@ -505,7 +559,89 @@ class _ContatoPageState extends State<ContatoPages> {
       ),
     );
   }
+  void funcValor(){
+    _editaContato.nome = Biblioteca.nomeLibrary;
+    _editaContato.VL = Biblioteca.valorLiqLibrary;
+    _editaContato.ES = Biblioteca.estLibrary;
+    _editaContato.ELAQTD = Biblioteca.elastQTDLibrary;
+    // _editaContato.ELACUS = Biblioteca.elastCustLibrary;
+    // _editaContato.TECQTD = Biblioteca.tecQTDLibrary;
+    _editaContato.TECCUS = Biblioteca.tecCustLibrary;
+    _editaContato.HT = Biblioteca.horaTrabLibrary;
+  }
 
+  nomeReturn (){
+    if(Biblioteca.varLibrary == false){
+      return Biblioteca.nomeLibrary.toString();
+    }
+    else{
+      return '';
+    }
+  }
+  horaTrabReturn (){
+    if(Biblioteca.varLibrary == false){
+      return Biblioteca.horaTrabLibrary.toString();
+    }
+    else{
+      return '';
+    }
+  }
+  lucroEstReturn (){
+    if(Biblioteca.varLibrary == false){
+      return Biblioteca.lucroEstLibrary.toString();
+    }
+    else{
+      return 0.00;
+    }
+  }
+  valorLiqReturn (){
+    if(Biblioteca.varLibrary == false){
+      return Biblioteca.valorLiqLibrary.toString();
+    }
+    else{
+      return 0.00;
+    }
+  }
+  estoqueReturn (){
+    if(Biblioteca.varLibrary == false){
+      return Biblioteca.estLibrary.toString();
+    }
+    else{
+      return 0;
+    }
+  }
+  tecidoCusReturn (){
+    if(Biblioteca.varLibrary == false){
+      return Biblioteca.tecCustLibrary.toString();
+    }
+    else{
+      return 0.00;
+    }
+  }
+  tecidoQTDReturn (){
+    if(Biblioteca.varLibrary == false){
+      return Biblioteca.tecQTDLibrary.toString();
+    }
+    else{
+      return 0.00;
+    }
+  }
+  elastCusReturn (){
+    if(Biblioteca.varLibrary == false){
+      return Biblioteca.elastCustLibrary.toString();
+    }
+    else{
+      return 0;
+    }
+  }
+  elastQTDReturn (){
+    if(Biblioteca.varLibrary == false){
+      return Biblioteca.elastQTDLibrary.toString();
+    }
+    else{
+      return 0.00;
+    }
+  }
   Future<String> _testRead() async{// TESTE DE LEITURA DE DADO
     await
     FirebaseFirestore.instance
@@ -522,22 +658,6 @@ class _ContatoPageState extends State<ContatoPages> {
     });
   }
 
-  Future<String> _variaveisInput(indice) async{// TESTE DE LEITURA DE DADO
-    await
-    FirebaseFirestore.instance
-        .collection('pedido')
-        .where("id", isEqualTo : indice)
-        .get()
-        .then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach((collection) {
-        var teste = collection['HT'];
-        setState(() {
-          testeInput = teste;
-          //VarEstrangeira.horaTrabLibrary = teste;
-        });
-      });
-    });
-  }
 
   void _atualizar(indice){
 

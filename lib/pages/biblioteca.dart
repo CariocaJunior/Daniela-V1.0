@@ -24,6 +24,7 @@ var tecCustLibrary   ;
 var tecQTDLibrary    ;
 var valorLiqLibrary  ;
 var nomeLibrary      ;
+var idLibrary        ;
 
 // DELETA O DOCUMENTO DO FIREBASE
 void deletar(indice) {
@@ -52,11 +53,14 @@ idRandom(){ // ID RANDÔMICO
   return uuid.v4();
 }
 
+external DateTime subtract(Duration duration);
 dataFormat(){ // DATA ATUAL
-  var dtAtual = new DateTime.now().toUtc();
+  var dtAtual = new DateTime.now();
+  //DateTime dtHoraCerta = dtAtual.subtract(const Duration(hours: 3));
   var dtFormat = new DateFormat('dd/MM/yyyy - kk:mm:ss');
-  String dataFormatada = dtFormat.format(dtAtual.toLocal().toUtc());
+  String dataFormatada = dtFormat.format(dtAtual.toLocal());
   //var formatado = dtAtual.toLocal().toString();
+  print(DateTime.now());
   return dataFormatada;
 }
 
