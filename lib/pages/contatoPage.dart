@@ -55,10 +55,13 @@ class _ContatoPageState extends State<ContatoPages> {
   var VLLocal = Biblioteca.valorLiqLibrary;
   var nomeLocal = Biblioteca.nomeLibrary;
 
+  TextEditingController _controllerElast;
+
   @override
   void initState(){
     super.initState();
     _testRead();
+    funcValor();
     nomeReturn();
     horaTrabReturn();
     lucroEstReturn();
@@ -68,6 +71,7 @@ class _ContatoPageState extends State<ContatoPages> {
     tecidoQTDReturn();
     elastCusReturn();
     elastQTDReturn();
+    _controllerElast = new TextEditingController(text: Biblioteca.nomeLibrary.toString());
 
     if(widget.contato == null){
       _editaContato = Contato(Biblioteca.idRandom(),'','',0,0,0,0,0,0,0, Biblioteca.dataFormat());
@@ -225,6 +229,7 @@ class _ContatoPageState extends State<ContatoPages> {
                                           style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown),
                                           textAlign: TextAlign.left,
                                           //controller: _nomeController,
+                                            //controller: _controllerElast,
                                           //focusNode: _nomeFocus,
                                           decoration: InputDecoration(
                                           labelText: 'Nome',
@@ -463,7 +468,7 @@ class _ContatoPageState extends State<ContatoPages> {
                                         ),
                                       ),
                                       Padding(padding: EdgeInsets.fromLTRB(0, 0, 10, 0),),
-                                      Container( // ELÁSTICO/QUANT CUSTO
+                                      Container(
                                         width: 115,
                                         height: 50,
                                         child: TextFormField(
@@ -554,6 +559,16 @@ class _ContatoPageState extends State<ContatoPages> {
       ),
     );
   }
+  void funcValor(){
+    _editaContato.nome = Biblioteca.nomeLibrary;
+    _editaContato.VL = Biblioteca.valorLiqLibrary;
+    _editaContato.ES = Biblioteca.estLibrary;
+    _editaContato.ELAQTD = Biblioteca.elastQTDLibrary;
+    // _editaContato.ELACUS = Biblioteca.elastCustLibrary;
+    // _editaContato.TECQTD = Biblioteca.tecQTDLibrary;
+    _editaContato.TECCUS = Biblioteca.tecCustLibrary;
+    _editaContato.HT = Biblioteca.horaTrabLibrary;
+  }
 
   nomeReturn (){
     if(Biblioteca.varLibrary == false){
@@ -643,22 +658,6 @@ class _ContatoPageState extends State<ContatoPages> {
     });
   }
 
-  Future<String> _variaveisInput(indice) async{// TESTE DE LEITURA DE DADO
-    await
-    FirebaseFirestore.instance
-        .collection('pedido')
-        .where("id", isEqualTo : indice)
-        .get()
-        .then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach((collection) {
-        var teste = collection['HT'];
-        setState(() {
-          testeInput = teste;
-          //VarEstrangeira.horaTrabLibrary = teste;
-        });
-      });
-    });
-  }
 
   void _atualizar(indice){
 
