@@ -281,7 +281,11 @@ class _HomePageState extends State<HomePage>{
                                       if(value==2){
                                         _editarCampos(collection['id']);
                                         Biblioteca.varLibrary = false; // VARIÁVEL DE CONTROLE EDIÇÃO E ADIÇÃO DE PRODUTO
-                                        _exibeContatoPage();
+                                        Future.delayed(const Duration(milliseconds: 100), () {
+                                          setState(() {
+                                            _exibeContatoPage();// Here you can write your code for open new view
+                                          });
+                                        });
                                         //editar
                                       }
                                       if(value==3){
@@ -420,7 +424,7 @@ class _HomePageState extends State<HomePage>{
         .catchError((error) => print("Falha ao atualizar os dados: $error"));
   }
 
-  void _confirmaExclusao(BuildContext context, int contatoid, index) {
+  /*void _confirmaExclusao(BuildContext context, int contatoid, index) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -442,7 +446,7 @@ class _HomePageState extends State<HomePage>{
           );
         }
     );
-  }
+  }*/
 }
 
 

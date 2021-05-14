@@ -61,7 +61,7 @@ class _ContatoPageState extends State<ContatoPages> {
   void initState(){
     super.initState();
     _testRead();
-    funcValor();
+
     nomeReturn();
     horaTrabReturn();
     lucroEstReturn();
@@ -78,6 +78,7 @@ class _ContatoPageState extends State<ContatoPages> {
     }else{
       _editaContato = Contato.fromMap(widget.contato.toMap());
       _editaContato2 = d2.Contato.fromMap(widget.contato.toMap());
+
       _nomeController.text = _editaContato.nome;
       _VLController.text = _editaContato.VL.toString();
       _LEController.text = _editaContato.LE.toString();
@@ -89,6 +90,7 @@ class _ContatoPageState extends State<ContatoPages> {
       _ELACUSController.text = _editaContato.ELACUS.toString();
       _DTController.text = _editaContato.DT.toString();
     }
+    funcValor();
   }
 
   @override
