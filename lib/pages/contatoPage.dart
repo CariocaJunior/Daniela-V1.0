@@ -3,11 +3,14 @@ import 'package:daniela/models/contato.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:daniela/contato.dart' as d2;
+import 'package:flutter/services.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:intl/intl.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:uuid/uuid.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:brasil_fields/brasil_fields.dart';
 import 'biblioteca.dart' as Biblioteca;
 
 
@@ -38,6 +41,21 @@ class _ContatoPageState extends State<ContatoPages> {
   final _DTController = TextEditingController();
   final _nomeFocus = FocusNode();
 
+  final moedaControler = RealInputFormatter();
+  var agoravaiBosta = 'fffff';
+
+  var ValorLController = new MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',');
+  var LucroEQTDController = new MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',');
+  var ElaCUSController = new MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',');
+  var ElaQTDController = new MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',');
+  var TecCUSController = new MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',');
+  var TecQTDController = new MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',');
+
+  //var maskFormatter = new MaskTextInputFormatter(mask: '+# (###) ###-##-##', filter: { "#": RegExp(r'[0-9]') });
+  //var LucController = new MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',');
+  var DatController = new MaskedTextController(mask: '00/00/0000');
+  var HoraController = new MaskedTextController(mask: '00:00:00');
+
   bool editable = true;
   bool editado = false;
   Contato _editaContato;
@@ -61,7 +79,7 @@ class _ContatoPageState extends State<ContatoPages> {
   void initState(){
     super.initState();
     _testRead();
-
+    //funcValor();
     nomeReturn();
     horaTrabReturn();
     lucroEstReturn();
@@ -78,7 +96,6 @@ class _ContatoPageState extends State<ContatoPages> {
     }else{
       _editaContato = Contato.fromMap(widget.contato.toMap());
       _editaContato2 = d2.Contato.fromMap(widget.contato.toMap());
-
       _nomeController.text = _editaContato.nome;
       _VLController.text = _editaContato.VL.toString();
       _LEController.text = _editaContato.LE.toString();
@@ -90,7 +107,6 @@ class _ContatoPageState extends State<ContatoPages> {
       _ELACUSController.text = _editaContato.ELACUS.toString();
       _DTController.text = _editaContato.DT.toString();
     }
-    funcValor();
   }
 
   @override
@@ -209,62 +225,47 @@ class _ContatoPageState extends State<ContatoPages> {
                             ),
                             Column(
                               children: [
-                                Container(
-                                  //CONTAINER - INPUT DATA
-                                  width: 330,
-                                  height: 50,
-                                  child: StreamBuilder(
-                                      stream: FirebaseFirestore.instance.collection('pedido').snapshots(), // INSTANCIA A COLEÇÃO 'PEDIDO'
-                                      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                                        if (!snapshot.hasData) {
-                                          return Center(
-                                            child: CircularProgressIndicator(),
-                                          );
-                                        }
-                                      return
-                                        Container(
-                                          child: TextFormField(
-                                          //initialValue: VarEstrangeira.nomeLibrary.toString(),
-                                          initialValue: nomeReturn(),
-                                          autofocus: true,
-                                          cursorColor: Colors.brown,
-                                          style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown),
-                                          textAlign: TextAlign.left,
-                                          //controller: _nomeController,
-                                            //controller: _controllerElast,
-                                          //focusNode: _nomeFocus,
-                                          decoration: InputDecoration(
-                                          labelText: 'Nome',
-                                          labelStyle: TextStyle(color: Colors.brown, fontSize: 16.0, fontWeight: FontWeight.w700),
-                                          isDense: true,
-                                            contentPadding: EdgeInsets.all(2.0),
-                                          ),
-                                          onChanged: (text){
-                                            editado = true;
-                                            setState(() {
-                                              _editaContato.nome = text;
-                                              _editaContato2.nome = text;
-                                            });
-                                          },
-                                          ),
-                                        );
-                                    }
+                                  Container(
+                                    width: 330,
+                                    height: 50,
+                                      child: TextFormField(
+                                      //initialValue: VarEstrangeira.nomeLibrary.toString(),
+                                      initialValue: nomeReturn(),
+                                      autofocus: true,
+                                      cursorColor: Colors.brown,
+                                      style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown),
+                                      textAlign: TextAlign.left,
+                                      //controller: _nomeController,
+                                        //controller: TextEditingController(text: 'Teste'),
+                                      //focusNode: _nomeFocus,
+                                      decoration: InputDecoration(
+                                        //hintText: 'seila',
+                                        labelText: 'Nome',
+                                        labelStyle: TextStyle(color: Colors.brown, fontSize: 16.0, fontWeight: FontWeight.w700),
+                                        isDense: true,
+                                        contentPadding: EdgeInsets.all(2.0),
+                                      ),
+                                      onChanged: (text){
+                                        editado = true;
+                                        setState(() {
+                                          _editaContato.nome = text;
+                                          _editaContato2.nome = text;
+                                        });
+                                      },
+                                    ),
                                   ),
-                                ),
                                 Container( //CONTAINER HORA TRABALHADA
                                   width: 330,
                                   height: 50,
                                   child: TextFormField(
-                                    //initialValue: VarEstrangeira.horaTrabLibrary.toString(),
-                                    initialValue: horaTrabReturn().toString(),
+                                    //initialValue: horaTrabReturn().toString(),
                                     autofocus: true,
                                     cursorColor: Colors.brown,
                                     style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown),
                                     textAlign: TextAlign.left,
                                     keyboardType: TextInputType.number,
-                                    //controller: _HTController,
+                                    controller: HoraController,
                                     decoration: InputDecoration(
-                                      //prefix: Text('R\$ '),
                                       labelText: "Hora Trabalhada",
                                       labelStyle: TextStyle(color: Colors.brown, fontSize: 16.0, fontWeight: FontWeight.w700),
                                       isDense: true,
@@ -292,6 +293,7 @@ class _ContatoPageState extends State<ContatoPages> {
                                     textAlign: TextAlign.left,
                                     keyboardType: TextInputType.number,
                                     //controller: _LEController,
+                                    //controller: LucroEQTDController,
                                     decoration: InputDecoration(
                                       prefix: Text('R\$ '), //PREFIXO PARA DIGITAÇÃO
                                       labelText: "Lucro Esperado",
@@ -303,7 +305,7 @@ class _ContatoPageState extends State<ContatoPages> {
                                     onChanged: (text){
                                       editado = true;
                                       setState(() {
-                                        _editaContato.LE = double.parse(text);
+                                        _editaContato.LE = (double.parse(text));
                                       });
                                     },
                                   ),
@@ -320,6 +322,7 @@ class _ContatoPageState extends State<ContatoPages> {
                                     textAlign: TextAlign.left,
                                     keyboardType: TextInputType.number,
                                     //controller: _VLController,
+                                    //controller: ValorLController,
                                     decoration: InputDecoration(
                                       //filled: true,
                                       prefix: Text('R\$ '),
@@ -378,13 +381,14 @@ class _ContatoPageState extends State<ContatoPages> {
                                         height: 50,
                                         child: TextFormField(
                                           //initialValue: VarEstrangeira.tecCustLibrary.toString(),
-                                          //initialValue: tecidoCusReturn().toString(),
+                                          initialValue: tecidoCusReturn().toString(),
                                           autofocus: true,
                                           cursorColor: Colors.brown,
                                           style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown),
                                           textAlign: TextAlign.left,
                                           keyboardType: TextInputType.number,
-                                          controller: _TECCUSController,
+                                          //controller: _TECCUSController,
+                                          //controller: TecCUSController,
                                           decoration: InputDecoration(
                                             prefix: Text('R\$ '),
                                             labelText: "Custo",
@@ -397,7 +401,7 @@ class _ContatoPageState extends State<ContatoPages> {
                                             editado = true;
                                             setState(() {
                                               //final rendaMensalController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',', leftSymbol: 'R\$');
-                                              _editaContato.TECCUS = int.parse(text) as double;
+                                              _editaContato.TECCUS = double.parse(text) as double;
                                             });
                                           },
                                         ),
@@ -415,7 +419,9 @@ class _ContatoPageState extends State<ContatoPages> {
                                           textAlign: TextAlign.left,
                                           keyboardType: TextInputType.number,
                                           //controller: _TECQTDController,
+                                          //controller: TecQTDController,
                                           decoration: InputDecoration(
+                                            prefix: Text('cm '),
                                             labelText: "Comprimento",
                                             labelStyle: TextStyle(color: Colors.brown, fontSize: 16.0, fontWeight: FontWeight.w700),
                                             isDense: true,
@@ -426,7 +432,7 @@ class _ContatoPageState extends State<ContatoPages> {
                                             editado = true;
                                             setState(() {
                                               //final rendaMensalController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',', leftSymbol: 'R\$');
-                                              _editaContato.TECQTD = int.parse(text) as double;
+                                              _editaContato.TECQTD = double.parse(text) as double;
                                             });
                                           },
                                         ),
@@ -452,6 +458,7 @@ class _ContatoPageState extends State<ContatoPages> {
                                           textAlign: TextAlign.left,
                                           keyboardType: TextInputType.number,
                                           //controller: _ELACUSController,
+                                          //controller: ElaCUSController,
                                           decoration: InputDecoration(
                                             prefix: Text('R\$ '),
                                             labelText: "Custo",
@@ -464,7 +471,7 @@ class _ContatoPageState extends State<ContatoPages> {
                                             editado = true;
                                             setState(() {
                                               //final rendaMensalController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',', leftSymbol: 'R\$');
-                                              _editaContato.ELACUS = int.parse(text) as double;
+                                              _editaContato.ELACUS = double.parse(text) as double;
                                             });
                                           },
                                         ),
@@ -482,7 +489,9 @@ class _ContatoPageState extends State<ContatoPages> {
                                           textAlign: TextAlign.left,
                                           keyboardType: TextInputType.number,
                                           //controller: _ELAQTDController,
+                                          //controller: ElaQTDController,
                                           decoration: InputDecoration(
+                                            prefix: Text('cm '),
                                             labelText: "Comprimento",
                                             labelStyle: TextStyle(color: Colors.brown, fontSize: 16.0, fontWeight: FontWeight.w700),
                                             isDense: true,
@@ -493,7 +502,7 @@ class _ContatoPageState extends State<ContatoPages> {
                                             editado = true;
                                             setState(() {
                                               //final rendaMensalController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',', leftSymbol: 'R\$');
-                                              _editaContato.ELAQTD = int.parse(text) as double;
+                                              _editaContato.ELAQTD = double.parse(text) as double;
                                             });
                                           },
                                         ),
@@ -562,18 +571,19 @@ class _ContatoPageState extends State<ContatoPages> {
     );
   }
   void funcValor(){
-    _editaContato.nome = Biblioteca.nomeLibrary;
-    _editaContato.VL = Biblioteca.valorLiqLibrary;
-    _editaContato.ES = Biblioteca.estLibrary;
-    _editaContato.ELAQTD = Biblioteca.elastQTDLibrary;
+    // _editaContato.nome = Biblioteca.nomeLibrary;
+    // _editaContato.VL = Biblioteca.valorLiqLibrary;
+    // _editaContato.ES = Biblioteca.estLibrary;
+    // _editaContato.ELAQTD = Biblioteca.elastQTDLibrary;
     // _editaContato.ELACUS = Biblioteca.elastCustLibrary;
     // _editaContato.TECQTD = Biblioteca.tecQTDLibrary;
-    _editaContato.TECCUS = Biblioteca.tecCustLibrary;
-    _editaContato.HT = Biblioteca.horaTrabLibrary;
+    // _editaContato.TECCUS = Biblioteca.tecCustLibrary;
+    // _editaContato.HT = Biblioteca.horaTrabLibrary;
   }
 
   nomeReturn (){
     if(Biblioteca.varLibrary == false){
+      //_editaContato.nome = Biblioteca.nomeLibrary;
       return Biblioteca.nomeLibrary.toString();
     }
     else{
@@ -582,6 +592,7 @@ class _ContatoPageState extends State<ContatoPages> {
   }
   horaTrabReturn (){
     if(Biblioteca.varLibrary == false){
+      //_editaContato.HT = Biblioteca.horaTrabLibrary;
       return Biblioteca.horaTrabLibrary.toString();
     }
     else{
@@ -590,6 +601,7 @@ class _ContatoPageState extends State<ContatoPages> {
   }
   lucroEstReturn (){
     if(Biblioteca.varLibrary == false){
+      //_editaContato.LE = Biblioteca.lucroEstLibrary;
       return Biblioteca.lucroEstLibrary.toString();
     }
     else{
@@ -598,6 +610,7 @@ class _ContatoPageState extends State<ContatoPages> {
   }
   valorLiqReturn (){
     if(Biblioteca.varLibrary == false){
+      //_editaContato.VL = Biblioteca.valorLiqLibrary;
       return Biblioteca.valorLiqLibrary.toString();
     }
     else{
@@ -606,6 +619,7 @@ class _ContatoPageState extends State<ContatoPages> {
   }
   estoqueReturn (){
     if(Biblioteca.varLibrary == false){
+      //_editaContato.ES = Biblioteca.estLibrary;
       return Biblioteca.estLibrary.toString();
     }
     else{
@@ -614,6 +628,7 @@ class _ContatoPageState extends State<ContatoPages> {
   }
   tecidoCusReturn (){
     if(Biblioteca.varLibrary == false){
+      //_editaContato.TECCUS = Biblioteca.tecCustLibrary;
       return Biblioteca.tecCustLibrary.toString();
     }
     else{
@@ -622,6 +637,7 @@ class _ContatoPageState extends State<ContatoPages> {
   }
   tecidoQTDReturn (){
     if(Biblioteca.varLibrary == false){
+      //_editaContato.TECQTD = Biblioteca.tecQTDLibrary;
       return Biblioteca.tecQTDLibrary.toString();
     }
     else{
@@ -630,6 +646,7 @@ class _ContatoPageState extends State<ContatoPages> {
   }
   elastCusReturn (){
     if(Biblioteca.varLibrary == false){
+      //_editaContato.ELACUS = Biblioteca.elastCustLibrary;
       return Biblioteca.elastCustLibrary.toString();
     }
     else{
@@ -638,6 +655,7 @@ class _ContatoPageState extends State<ContatoPages> {
   }
   elastQTDReturn (){
     if(Biblioteca.varLibrary == false){
+      //_editaContato.ELAQTD = Biblioteca.elastQTDLibrary;
       return Biblioteca.elastQTDLibrary.toString();
     }
     else{
