@@ -17,10 +17,6 @@ import 'biblioteca.dart' as Biblioteca;
 class ContatoPages extends StatefulWidget {
 
   final Contato contato;
-  var teste = 'teste';
-  String nomeTeste = '';
-  bool t = true;
-
   ContatoPages({this.contato});
 
   @override
@@ -28,7 +24,6 @@ class ContatoPages extends StatefulWidget {
 }
 
 class _ContatoPageState extends State<ContatoPages> {
-  //var controller = new MoneyMaskedTextController();
   final _nomeController = TextEditingController();
   final _HTController = TextEditingController();
   final _LEController = TextEditingController();
@@ -41,8 +36,8 @@ class _ContatoPageState extends State<ContatoPages> {
   final _DTController = TextEditingController();
   final _nomeFocus = FocusNode();
 
-  final moedaControler = RealInputFormatter();
-  var agoravaiBosta = 'fffff';
+  TextEditingController _controleNome = new TextEditingController(text: nomeReturn().toString());
+  var teste = Biblioteca.nomeLibrary;
 
   var ValorLController = new MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',');
   var LucroEQTDController = new MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',');
@@ -51,16 +46,12 @@ class _ContatoPageState extends State<ContatoPages> {
   var TecCUSController = new MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',');
   var TecQTDController = new MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',');
 
-  //var maskFormatter = new MaskTextInputFormatter(mask: '+# (###) ###-##-##', filter: { "#": RegExp(r'[0-9]') });
-  //var LucController = new MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',');
   var DatController = new MaskedTextController(mask: '00/00/0000');
   var HoraController = new MaskedTextController(mask: '00:00:00');
 
-  bool editable = true;
   bool editado = false;
   Contato _editaContato;
   d2.Contato _editaContato2;
-  String testeInput;
 
   var DTLocal = Biblioteca.dataLibrary;
   var ELACUSLocal = Biblioteca.elastCustLibrary;
@@ -73,12 +64,9 @@ class _ContatoPageState extends State<ContatoPages> {
   var VLLocal = Biblioteca.valorLiqLibrary;
   var nomeLocal = Biblioteca.nomeLibrary;
 
-  TextEditingController _controllerElast;
-
   @override
   void initState(){
     super.initState();
-    _testRead();
     //funcValor();
     nomeReturn();
     horaTrabReturn();
@@ -89,7 +77,6 @@ class _ContatoPageState extends State<ContatoPages> {
     tecidoQTDReturn();
     elastCusReturn();
     elastQTDReturn();
-    _controllerElast = new TextEditingController(text: Biblioteca.nomeLibrary.toString());
 
     if(widget.contato == null){
       _editaContato = Contato(Biblioteca.idRandom(),'','',0,0,0,0,0,0,0, Biblioteca.dataFormat());
@@ -229,42 +216,69 @@ class _ContatoPageState extends State<ContatoPages> {
                                     width: 330,
                                     height: 50,
                                       child: TextFormField(
-                                      //initialValue: VarEstrangeira.nomeLibrary.toString(),
-                                      initialValue: nomeReturn(),
-                                      autofocus: true,
-                                      cursorColor: Colors.brown,
-                                      style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown),
-                                      textAlign: TextAlign.left,
-                                      //controller: _nomeController,
-                                        //controller: TextEditingController(text: 'Teste'),
-                                      //focusNode: _nomeFocus,
-                                      decoration: InputDecoration(
-                                        //hintText: 'seila',
-                                        labelText: 'Nome',
-                                        labelStyle: TextStyle(color: Colors.brown, fontSize: 16.0, fontWeight: FontWeight.w700),
-                                        isDense: true,
-                                        contentPadding: EdgeInsets.all(2.0),
-                                      ),
-                                      onChanged: (text){
-                                        editado = true;
-                                        setState(() {
-                                          _editaContato.nome = text;
-                                          _editaContato2.nome = text;
-                                        });
-                                      },
+                                        textInputAction: TextInputAction.next,
+                                        //initialValue: VarEstrangeira.nomeLibrary.toString(),
+                                        //initialValue: nomeReturn(),
+                                        autofocus: true,
+                                        cursorColor: Colors.brown,
+                                        style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown),
+                                        textAlign: TextAlign.left,
+                                        controller: _controleNome,
+                                        //controller: TextEditingController()..text = 'Teste',
+                                        //controller: _nomeController,
+                                        //focusNode: _nomeFocus,
+                                        decoration: InputDecoration(
+                                          labelText: 'Nome',
+                                          labelStyle: TextStyle(color: Colors.brown, fontSize: 16.0, fontWeight: FontWeight.w700),
+                                          isDense: true,
+                                          contentPadding: EdgeInsets.all(2.0),
+                                        ),
+                                        //validator: ,
+                                        onChanged: (text) {
+                                          editado = true;
+                                          setState(() {
+                                            _editaContato.nome = text;
+                                            _editaContato2.nome = text;
+                                          });
+                                        }
+                                        //   if(text.isEmpty || text == null){
+                                        //     setState(() {
+                                        //       text = Biblioteca.nomeLibrary;
+                                        //       _editaContato.nome = 'ABC';
+                                        //       _editaContato2.nome = 'ABC';
+                                        //     });
+                                        //   }else{
+                                        //     setState(() {
+                                        //       _editaContato.nome = text;
+                                        //       _editaContato2.nome = text;
+                                        //     });
+                                        //   }
+                                        // },
+                                        //onChanged: (text) => setState(() => _editaContato.nome = nomeReturn()),
+                                        // onSaved: (value){
+                                        //   _editaContato.nome = nomeReturn();
+                                        //   _editaContato2.nome = nomeReturn();
+                                        // },
+                                        // validator: (String value){
+                                        //   if(value.isEmpty) {
+                                        //     return '';
+                                        //   }
+                                        //   return null;
+                                        // },
                                     ),
                                   ),
                                 Container( //CONTAINER HORA TRABALHADA
                                   width: 330,
                                   height: 50,
                                   child: TextFormField(
-                                    //initialValue: horaTrabReturn().toString(),
+                                    textInputAction: TextInputAction.next,
+                                    initialValue: horaTrabReturn().toString(),
                                     autofocus: true,
                                     cursorColor: Colors.brown,
                                     style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown),
                                     textAlign: TextAlign.left,
                                     keyboardType: TextInputType.number,
-                                    controller: HoraController,
+                                    //controller: HoraController,
                                     decoration: InputDecoration(
                                       labelText: "Hora Trabalhada",
                                       labelStyle: TextStyle(color: Colors.brown, fontSize: 16.0, fontWeight: FontWeight.w700),
@@ -285,6 +299,7 @@ class _ContatoPageState extends State<ContatoPages> {
                                   width: 330,
                                   height: 50,
                                   child: TextFormField(
+                                    textInputAction: TextInputAction.next,
                                     //initialValue: VarEstrangeira.lucroEstLibrary.toString(),
                                     initialValue: lucroEstReturn().toString(),
                                     autofocus: true,
@@ -305,7 +320,7 @@ class _ContatoPageState extends State<ContatoPages> {
                                     onChanged: (text){
                                       editado = true;
                                       setState(() {
-                                        _editaContato.LE = (double.parse(text));
+                                        _editaContato.LE = double.parse(text) as double;
                                       });
                                     },
                                   ),
@@ -314,6 +329,7 @@ class _ContatoPageState extends State<ContatoPages> {
                                   width: 330,
                                   height: 50,
                                   child: TextFormField(
+                                    textInputAction: TextInputAction.next,
                                     //initialValue: VarEstrangeira.valorLiqLibrary.toString(),
                                     initialValue: valorLiqReturn().toString(),
                                     autofocus: true,
@@ -336,7 +352,7 @@ class _ContatoPageState extends State<ContatoPages> {
                                       editado = true;
                                       setState(() {
                                         //icone: Icons.monetization_on;
-                                        _editaContato.VL = double.parse(text);
+                                        _editaContato.VL = double.parse(text) as double;
                                       });
                                     },
                                   ),
@@ -345,6 +361,7 @@ class _ContatoPageState extends State<ContatoPages> {
                                   width: 330,
                                   height: 50,
                                   child: TextFormField(
+                                    textInputAction: TextInputAction.next,
                                     //initialValue: VarEstrangeira.estLibrary.toString(),
                                     initialValue: estoqueReturn().toString(),
                                     autofocus: true,
@@ -380,7 +397,7 @@ class _ContatoPageState extends State<ContatoPages> {
                                         width: 115,
                                         height: 50,
                                         child: TextFormField(
-                                          //initialValue: VarEstrangeira.tecCustLibrary.toString(),
+                                          textInputAction: TextInputAction.next,
                                           initialValue: tecidoCusReturn().toString(),
                                           autofocus: true,
                                           cursorColor: Colors.brown,
@@ -411,6 +428,7 @@ class _ContatoPageState extends State<ContatoPages> {
                                         width: 115,
                                         height: 50,
                                         child: TextFormField(
+                                          textInputAction: TextInputAction.next,
                                           //initialValue: VarEstrangeira.tecQTDLibrary.toString(),
                                           initialValue: tecidoQTDReturn().toString(),
                                           autofocus: true,
@@ -450,7 +468,7 @@ class _ContatoPageState extends State<ContatoPages> {
                                         width: 115,
                                         height: 50,
                                         child: TextFormField(
-                                          //initialValue: VarEstrangeira.elastCustLibrary.toString(),
+                                          textInputAction: TextInputAction.next,
                                           initialValue: elastCusReturn().toString(),
                                           autofocus: true,
                                           cursorColor: Colors.brown,
@@ -481,7 +499,7 @@ class _ContatoPageState extends State<ContatoPages> {
                                         width: 115,
                                         height: 50,
                                         child: TextFormField(
-                                          //initialValue: VarEstrangeira.elastQTDLibrary.toString(),
+                                          textInputAction: TextInputAction.done,
                                           initialValue: elastQTDReturn().toString(),
                                           autofocus: true,
                                           cursorColor: Colors.brown,
@@ -533,21 +551,41 @@ class _ContatoPageState extends State<ContatoPages> {
               onPressed: () {
                 if(_editaContato.nome != null && _editaContato.nome.isNotEmpty && Biblioteca.varLibrary == false)
                 {
-                  Navigator.pop(context, _editaContato);
-                  Navigator.pop(context, _editaContato2);
                   Biblioteca.deletar(Biblioteca.idLibrary);
+                  Future.delayed(const Duration(milliseconds: 500), () {
+                    setState(() {
+                      Navigator.pop(context, _editaContato);
+                      Navigator.pop(context, _editaContato2);
+                    });
+                  });
                 }
                 if(_editaContato.nome != null && _editaContato.nome.isNotEmpty)
                 {
                   Navigator.pop(context, _editaContato);
                   Navigator.pop(context, _editaContato2);
                 }
-                else
-                {
-                  _exibeAviso();
-                  FocusScope.of(context).requestFocus(_nomeFocus);
-                }
+                  if(_editaContato.nome.isEmpty && Biblioteca.varLibrary == false){
+                    Biblioteca.deletar(Biblioteca.idLibrary);
+                    _editaContato.nome = nomeReturn();
+                    _editaContato2.nome = nomeReturn();
+                    Future.delayed(const Duration(milliseconds: 500), () {
+                      setState(() {
+                        Navigator.pop(context, _editaContato);
+                        Navigator.pop(context, _editaContato2);
+                      });
+                    });
+                  }
+                  if(Biblioteca.varLibrary == true){
+                    _exibeAviso();
+                    FocusScope.of(context).requestFocus(_nomeFocus);
+                  }
+                // else
+                // {
+                //   _exibeAviso();
+                //   FocusScope.of(context).requestFocus(_nomeFocus);
+                // }
               },
+
               child: Container(
                 height: 60,
                 width: 60,
@@ -570,9 +608,31 @@ class _ContatoPageState extends State<ContatoPages> {
       ),
     );
   }
-  void funcValor(){
-    // _editaContato.nome = Biblioteca.nomeLibrary;
+
+  void _exibeAviso() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: new Text("Nome"),
+          content: new Text("Informe o nome do contato"),
+          actions: <Widget>[
+            new FlatButton(
+              child: new Text("Fechar"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  funcValor() {
+    _editaContato.nome = Biblioteca.nomeLibrary;
     // _editaContato.VL = Biblioteca.valorLiqLibrary;
+    // _editaContato.LE = Biblioteca.lucroEstLibrary;
     // _editaContato.ES = Biblioteca.estLibrary;
     // _editaContato.ELAQTD = Biblioteca.elastQTDLibrary;
     // _editaContato.ELACUS = Biblioteca.elastCustLibrary;
@@ -581,7 +641,7 @@ class _ContatoPageState extends State<ContatoPages> {
     // _editaContato.HT = Biblioteca.horaTrabLibrary;
   }
 
-  nomeReturn (){
+  static nomeReturn (){
     if(Biblioteca.varLibrary == false){
       //_editaContato.nome = Biblioteca.nomeLibrary;
       return Biblioteca.nomeLibrary.toString();
@@ -605,7 +665,7 @@ class _ContatoPageState extends State<ContatoPages> {
       return Biblioteca.lucroEstLibrary.toString();
     }
     else{
-      return 0.00;
+      return '';
     }
   }
   valorLiqReturn (){
@@ -614,7 +674,7 @@ class _ContatoPageState extends State<ContatoPages> {
       return Biblioteca.valorLiqLibrary.toString();
     }
     else{
-      return 0.00;
+      return '';
     }
   }
   estoqueReturn (){
@@ -623,7 +683,7 @@ class _ContatoPageState extends State<ContatoPages> {
       return Biblioteca.estLibrary.toString();
     }
     else{
-      return 0;
+      return '';
     }
   }
   tecidoCusReturn (){
@@ -632,7 +692,7 @@ class _ContatoPageState extends State<ContatoPages> {
       return Biblioteca.tecCustLibrary.toString();
     }
     else{
-      return 0.00;
+      return '';
     }
   }
   tecidoQTDReturn (){
@@ -641,7 +701,7 @@ class _ContatoPageState extends State<ContatoPages> {
       return Biblioteca.tecQTDLibrary.toString();
     }
     else{
-      return 0.00;
+      return '';
     }
   }
   elastCusReturn (){
@@ -650,7 +710,7 @@ class _ContatoPageState extends State<ContatoPages> {
       return Biblioteca.elastCustLibrary.toString();
     }
     else{
-      return 0;
+      return '';
     }
   }
   elastQTDReturn (){
@@ -659,67 +719,47 @@ class _ContatoPageState extends State<ContatoPages> {
       return Biblioteca.elastQTDLibrary.toString();
     }
     else{
-      return 0.00;
+      return '';
     }
   }
-  Future<String> _testRead() async{// TESTE DE LEITURA DE DADO
-    await
-    FirebaseFirestore.instance
-        .collection('pedido')
-        .get()
-        .then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach((collection) {
-        var teste = collection['HT'];
-        //return teste;
-        setState(() {
-          testeInput = teste;
-        });
-      });
-    });
-  }
+  // Future<String> _testRead() async{// TESTE DE LEITURA DE DADO
+  //   await
+  //   FirebaseFirestore.instance
+  //       .collection('pedido')
+  //       .get()
+  //       .then((QuerySnapshot querySnapshot) {
+  //     querySnapshot.docs.forEach((collection) {
+  //       var teste = collection['HT'];
+  //       //return teste;
+  //       setState(() {
+  //         testeInput = teste;
+  //       });
+  //     });
+  //   });
+  // }
 
+  // void _atualizar(indice){
+  //
+  //   FirebaseFirestore.instance
+  //       .collection('pedido')
+  //       .where("id", isEqualTo : indice)
+  //       .get().then((value){
+  //     value.docs.forEach((element){
+  //       FirebaseFirestore.instance.collection("pedido").doc(indice).update({
+  //         'ELACUS': 5,
+  //         'ELAQTD': 100,
+  //         'ES': 3,
+  //         'HT': '10',
+  //         'LE': 670,
+  //         'TECCUS': 10,
+  //         'TECQTD': 5,
+  //         'VL': 100,
+  //         'id': '001',
+  //         'nome': 'vaso grande'
+  //       });
+  //     });
+  //   });
+  //   //return _exibeContatoPage();
+  // }
 
-  void _atualizar(indice){
-
-    FirebaseFirestore.instance
-        .collection('pedido')
-        .where("id", isEqualTo : indice)
-        .get().then((value){
-      value.docs.forEach((element){
-        FirebaseFirestore.instance.collection("pedido").doc(indice).update({
-          'ELACUS': 5,
-          'ELAQTD': 100,
-          'ES': 3,
-          'HT': '10',
-          'LE': 670,
-          'TECCUS': 10,
-          'TECQTD': 5,
-          'VL': 100,
-          'id': '001',
-          'nome': 'vaso grande'
-        });
-      });
-    });
-    //return _exibeContatoPage();
-  }
-
-  void _exibeAviso() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: new Text("Nome"),
-          content: new Text("Informe o nome do contato"),
-          actions: <Widget>[
-            new FlatButton(
-              child: new Text("Fechar"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
 }
