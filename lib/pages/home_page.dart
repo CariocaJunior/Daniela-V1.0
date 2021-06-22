@@ -281,7 +281,7 @@ class _HomePageState extends State<HomePage>{
                                       if(value==2){
                                         _editarCampos(collection['id']);
                                         Biblioteca.varLibrary = false; // VARIÁVEL DE CONTROLE EDIÇÃO E ADIÇÃO DE PRODUTO
-                                        Future.delayed(const Duration(milliseconds: 1), () {
+                                        Future.delayed(const Duration(milliseconds: 500), () {
                                           setState(() {
                                             _exibeContatoPage();// Here you can write your code for open new view
                                           });

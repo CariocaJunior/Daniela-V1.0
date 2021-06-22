@@ -29,8 +29,11 @@ class ContatoPages extends StatefulWidget {
 
 class _ContatoPageState extends State<ContatoPages> {
   //var controller = new MoneyMaskedTextController();
-  final _nomeController = TextEditingController();
-  final _HTController = TextEditingController();
+  //static var nomeTeste = 'fgdfg';
+  final _nomeController = TextEditingController(text: nomeReturn());
+  //final _HTController = TextEditingController();
+  final _HTController = new MaskedTextController(mask: '00:00:00',text: horaTrabReturn());
+  //text: horaTrabReturn().toString()
   final _LEController = TextEditingController();
   final _VLController = TextEditingController();
   final _ESController = TextEditingController();
@@ -53,8 +56,7 @@ class _ContatoPageState extends State<ContatoPages> {
 
   //var maskFormatter = new MaskTextInputFormatter(mask: '+# (###) ###-##-##', filter: { "#": RegExp(r'[0-9]') });
   //var LucController = new MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',');
-  var DatController = new MaskedTextController(mask: '00/00/0000');
-  var HoraController = new MaskedTextController(mask: '00:00:00');
+  //var DatController = new MaskedTextController(mask: '00/00/0000');
 
   bool editable = true;
   bool editado = false;
@@ -74,6 +76,8 @@ class _ContatoPageState extends State<ContatoPages> {
   var nomeLocal = Biblioteca.nomeLibrary;
 
   TextEditingController _controllerElast;
+
+
 
   @override
   void initState(){
@@ -107,6 +111,10 @@ class _ContatoPageState extends State<ContatoPages> {
       _ELACUSController.text = _editaContato.ELACUS.toString();
       _DTController.text = _editaContato.DT.toString();
     }
+    Future.delayed(const Duration(milliseconds: 50), () {
+    dontquit();
+    });
+
   }
 
   @override
@@ -230,12 +238,12 @@ class _ContatoPageState extends State<ContatoPages> {
                                     height: 50,
                                       child: TextFormField(
                                       //initialValue: VarEstrangeira.nomeLibrary.toString(),
-                                      initialValue: nomeReturn(),
+                                      //initialValue: nomeReturn(),
                                       autofocus: true,
                                       cursorColor: Colors.brown,
                                       style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown),
                                       textAlign: TextAlign.left,
-                                      //controller: _nomeController,
+                                      controller: _nomeController,
                                         //controller: TextEditingController(text: 'Teste'),
                                       //focusNode: _nomeFocus,
                                       decoration: InputDecoration(
@@ -263,8 +271,8 @@ class _ContatoPageState extends State<ContatoPages> {
                                     cursorColor: Colors.brown,
                                     style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown),
                                     textAlign: TextAlign.left,
-                                    keyboardType: TextInputType.number,
-                                    controller: HoraController,
+                                    keyboardType: TextInputType.text,
+                                    controller: _HTController,
                                     decoration: InputDecoration(
                                       labelText: "Hora Trabalhada",
                                       labelStyle: TextStyle(color: Colors.brown, fontSize: 16.0, fontWeight: FontWeight.w700),
@@ -581,7 +589,14 @@ class _ContatoPageState extends State<ContatoPages> {
     // _editaContato.HT = Biblioteca.horaTrabLibrary;
   }
 
-  nomeReturn (){
+  void dontquit() {
+    setState(() {
+      _editaContato.nome = "";
+    });
+
+  }
+
+  static nomeReturn (){
     if(Biblioteca.varLibrary == false){
       //_editaContato.nome = Biblioteca.nomeLibrary;
       return Biblioteca.nomeLibrary.toString();
@@ -590,10 +605,11 @@ class _ContatoPageState extends State<ContatoPages> {
       return '';
     }
   }
-  horaTrabReturn (){
+  static horaTrabReturn (){
     if(Biblioteca.varLibrary == false){
       //_editaContato.HT = Biblioteca.horaTrabLibrary;
-      return Biblioteca.horaTrabLibrary.toString();
+      return Biblioteca.horaTrabLibrary;
+
     }
     else{
       return '';
