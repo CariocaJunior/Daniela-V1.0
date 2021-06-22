@@ -290,6 +290,7 @@ class _HomePageState extends State<HomePage>{
                                       }
                                       if(value==3){
                                         Biblioteca.deletar(collection['id']);
+                                        _deleteExito();
                                         //deletar
                                       }
                                       else{
