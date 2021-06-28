@@ -1,9 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:daniela/HelpMe//database_helper.dart';
 import 'package:daniela/models/contato.dart';
 import 'package:daniela/pages/contatoPage.dart';
 import 'package:daniela/pages/home_page.dart';
+import 'package:expand_widget/expand_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
 
 const _titulo = "Historico de venda";
 class Historico_De_Venda extends StatelessWidget {
@@ -24,9 +27,7 @@ class _HomePageState extends State<HistVenda> {
   DatabaseHelper db = DatabaseHelper();
   List<Contato> hists = List<Contato>();
   List<Contato> hists2 = List<Contato>();
-  String dropdownValue = 'One';
-  String _chosenValue;
-
+  var dropdownValue;
   @override
   void initState() {
     super.initState();
@@ -54,25 +55,16 @@ class _HomePageState extends State<HistVenda> {
       body: Stack(
           overflow: Overflow.visible,
           children: <Widget>[
-      /*body: ListView.builder(
-        padding: EdgeInsets.all(10.0),
-        itemCount: hists.length ,
-        itemBuilder: (context, index) {
-          return listaContatos(context,index);
-        },
-      ),*/
-        Container( // PLANO DE FUNDO
-        //this is the problem
-        //padding: new EdgeInsets.all(105.0),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            image: DecorationImage(
-                image: AssetImage("Image/tela2.png"),
-                fit: BoxFit.fill,
-                colorFilter: new ColorFilter.mode(
-                    Colors.green.withOpacity(1.0), BlendMode.dstATop)),
-          ),
-        ),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                image: DecorationImage(
+                    image: AssetImage("Image/tela2.png"),
+                    fit: BoxFit.fill,
+                    colorFilter: new ColorFilter.mode(
+                        Colors.green.withOpacity(1.0), BlendMode.dstATop)),
+              ),
+            ),
             Padding( //BOTÃO DE RETORNO - SETA
               padding: const EdgeInsets.only(top: 15.0),
               child: Positioned(
@@ -95,10 +87,6 @@ class _HomePageState extends State<HistVenda> {
                     decoration: BoxDecoration(
                         shape: BoxShape.circle, // circular shape
                         color: Color.fromARGB(255,255,246,161),
-                        // image: DecorationImage(
-                        //     image: AssetImage("Image/Left_Arrow.png"),
-                        //     scale: 1.9
-                        // ),
                         boxShadow: [
                           BoxShadow(
                             //color: Colors.yellow[16774817].withOpacity(0.0),
@@ -113,97 +101,192 @@ class _HomePageState extends State<HistVenda> {
                 ),
               ),
             ),
-        Padding( // AJUSTE DE POSIÇÃO, CARD PRINCIPAL
-          padding: const EdgeInsets.fromLTRB(10, 80, 10, 0),
-          child: Card(
-            elevation: 3.0,
-            color: Colors.white,
-            shape: RoundedRectangleBorder(
-              //borderRadius: BorderRadius.circular(20.0),
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20),
-              )
-            ),
-            child: Container(
-              width: 750.0,
-              height: 750.0,
-              child: Column(
-                children: <Widget>[
-                  Wrap(
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    children: [
-                      Icon(Icons.history, size: 43.0, color: Colors.brown),
-                      Padding(padding:  EdgeInsets.fromLTRB(0, 40, 0, 20)), // AJUSTE ENTRE ÍCONE E TEXTO
-                      Text('Histórico de venda',
-                          //textAlign: TextAlign.end,
-                          style: new TextStyle(
-                          fontSize: 33.0,
-                          color: Colors.brown,
-                      )),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10, 80, 10, 0),
+              child: Card(
+                elevation: 3.0,
+                color: Colors.white,
+                shape: RoundedRectangleBorder(
+                  //borderRadius: BorderRadius.circular(20.0),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
+                    )
+                ),
+                child: Container(
+                  width: 750.0,
+                  height: 750.0,
+                  child: Column(
+                    children: <Widget>[
+                      Wrap(
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        children: [
+                          //Icon(Icons.history, size: 43.0, color: Colors.brown),
+                          Image(
+                            image: AssetImage('Image/Produto.png',),
+                            width: 45,
+                            fit: BoxFit.cover,
+                            color: Colors.brown,
+                          ),
+                          Padding(padding:  EdgeInsets.fromLTRB(0, 40, 7, 20)),//AJUSTA O ESPAÇAMENTO ENTRE A IMAGEM E O TEXTO
+                          Text('Histórico de Vendas',
+                              //textAlign: TextAlign.end,
+                              style: new TextStyle(
+                                fontSize: 30.0,
+                                color: Colors.brown,
+                              )),
+                        ],
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                            top: 10, bottom: 10.0, left: 10.0, right: 10.0),
+                      ),
+                      Container(
+                        width: 1.0,
+                        height: 1.0,
+                        color: Colors.grey[400],
+                      ),
                     ],
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                        top: 10, bottom: 10.0, left: 10.0, right: 10.0),
-                  ),
-                  Card(
-                    elevation: 5.0,
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder( //AJUSTA O ARREDONDAMENTO DO CARD
-                      //borderRadius: BorderRadius.circular(20.0),
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          topRight: Radius.circular(20),
-                        )
-                    ),
-                    child: DropdownButton<String>(
-                      focusColor:Colors.white,
-                      value: _chosenValue,
-                      icon: const Icon(Icons.arrow_drop_down),
-                      iconSize: 24,
-                      elevation: 16,
-                      style: const TextStyle(color: Colors.brown),
-                      underline: Container(
-                        height: 2,
-                        color: Colors.brown,
-                      ),
-                      items: <String>['Data', 'Preço', 'A-Z', 'Z-A'].map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: dropdownValue,
-                          child: new Text(value, style: TextStyle(color: Colors.brown),),
-                        );
-                      }).toList(),
-                      hint: Text(
-                        "Selecione uma opção",
-                        style: TextStyle(color: Colors.brown.shade700,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500),
-                      ),
-                      onChanged: (String value) {
-                        setState(() {
-                          _chosenValue = value;
-                        });
-                      },
-                    ),
-                  ),
-                ],
-              ),
+                ),
               ),
             ),
-        ),
-    ]
-    ),
-      floatingActionButton: //BOTÃO SALVAR
-      Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+            StreamBuilder(
+                stream: FirebaseFirestore.instance.collection('pedido').snapshots(), // INSTANCIA A COLEÇÃO 'PEDIDO'
+                builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (!snapshot.hasData) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  return Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 140, 10, 80),
+                    child: ListView(
+                      children:
+                      snapshot.data.docs.map((collection){ // PRINTA NA TELA OS DADOS DO BANCO, MAPEANDO A COLEÇÃO
+                        return  Card(
+                          elevation: 5.0,
+                          shape: RoundedRectangleBorder(
+                            //borderRadius: BorderRadius.circular(20.0),
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20),
+                              )
+                          ),
+                          child: ListTile(
+                            title: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(collection['nome'].toUpperCase(), // PRINTA NA TELA O NOME DO PRODUTO EM MAIUSCULO
+                                  style: // ESTILOS DO TEXTO
+                                  TextStyle(color: Colors.brown,
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 20),),
+                              ],
+                            ),
+                            subtitle: // SUBTITULO (OS CAMPOS DO FIREBASE)
+                            ExpandChild(
+                              arrowPadding: EdgeInsets.fromLTRB(0, 0, 210, 0),
+                              //hideArrowOnExpanded: true,
+                              arrowColor: Colors.brown,
+                              arrowSize: 20,
+                              expandArrowStyle: ExpandArrowStyle.icon,
+                              icon: Icons.arrow_drop_down,
+                              child: Container(
+                                child: Column( // LISTA NA TELA OS CAMPOS DO FIREBASE
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('Horas trabalhada : ' + collection['HT'] + ' hrs',
+                                      style: TextStyle(color: Colors.brown,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15),),
+                                    Text('Lucro estimado : R\$ ' + collection['LE'].toStringAsFixed(2),
+                                      style: TextStyle(color: Colors.brown,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15),),
+                                    Text('Valor líquido : R\$ ' + collection['VL'].toStringAsFixed(2),
+                                      style: TextStyle(color: Colors.brown,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15),),
+                                    Text('Elástico gasto : ' + collection['ELAQTD'].toStringAsFixed(2) + ' cm',
+                                      style: TextStyle(color: Colors.brown,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15),),
+                                    Text('Custo do elástico : R\$ ' + collection['ELACUS'].toStringAsFixed(2),
+                                      style: TextStyle(color: Colors.brown,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15),),
+                                    Text('Tecido gasto : ' + collection['TECQTD'].toStringAsFixed(2) + ' cm',
+                                      style: TextStyle(color: Colors.brown,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15),),
+                                    Text('Custo do tecido : R\$ ' + collection['TECCUS'].toStringAsFixed(2),
+                                      style: TextStyle(color: Colors.brown,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15),),
+                                    Text('Estoque do produto : ${collection['ES']}',
+                                      style: TextStyle(color: Colors.brown,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15),),
+                                    Text('Data do cadastro : ' + collection['DT'],
+                                      style: TextStyle(color: Colors.brown,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15),),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  );
+                }
+            ),
+          ]
+      ),
+
+      floatingActionButton: Row( // BOTÃO TIPO DE LISTAGEM
         children: [
-          Padding( //AJUSTA O POSICIONAMENTO DO BOTÃO
+          Padding(
             padding: const EdgeInsets.only(left: 325.0),
-            child: FloatingActionButton(
-              //heroTag: null,
-              heroTag: 'unq2',
+     child: DropdownButton<String>(
+        value: dropdownValue,
+        icon: const Icon(Icons.arrow_downward),
+        iconSize: 24,
+        elevation: 16,
+        style: const TextStyle(color: Colors.deepPurple),
+        underline: Container(
+          height: 2,
+          color: Colors.deepPurpleAccent,
+        ),
+
+       hint: Text("Valor"),
+        onChanged: (String newValue) {
+          if(newValue == "Valor"){
+            //Filtragem
+          } else if(newValue == "Mês"){
+
+          }
+          setState(() {
+            dropdownValue = newValue;
+          });
+        },
+        items: <String>['Mês', 'Valor']
+            .map<DropdownMenuItem<String>>((String value) {
+          return DropdownMenuItem<String>(
+            value: value,
+            child: Text(value
+            ),
+          );
+        }).toList(),
+      )
+            /*child: FloatingActionButton(
+              heroTag: null,
+              //heroTag: 'unq2',
               onPressed: () {
+
+                // VARIÁVEL PARA CONTROLE DE EDIÇÃO E ADIÇÃO DE PRODUTO
               },
               child: Container(
                 height: 60,
@@ -219,9 +302,9 @@ class _HomePageState extends State<HistVenda> {
                     ],
                   ),
                 ),
-                child: Icon(Icons.filter_list_alt, size: 40.0),
+                child: Icon(Icons.filter_alt_rounded, size: 50.0),
               ),
-            ),
+            ),*/
           ),
         ],
       ),
