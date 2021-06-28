@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage> {
     draggin();
      //Contato c = Contato(null,"Maria",2,2,2,4);
      //db.insertContato(c);
-
+    //Done
     //print(Contato(null,"Maria",2,2,2,4));
     Future.delayed(const Duration(milliseconds: 1000), () {
       _exibeTodosContatos();
