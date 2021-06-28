@@ -36,19 +36,7 @@ class _ContatoPageState extends State<ContatoPages> {
   final _ELACUSController = TextEditingController();
   final _DTController = TextEditingController();
   final _nomeFocus = FocusNode();
-  bool _clicked = false;
-  double num = 8.9;
-  String st = '00:74:96';
 
-  // TextEditingController _controleNome = new TextEditingController(text: nomeReturn().toString());
-  // MaskedTextController _controleHora = new MaskedTextController(mask: '00:00:00', text: horaTrabReturn());
-  // TextEditingController _controleEstoque = new TextEditingController(text: estoqueReturn());
-  // TextEditingController _controleElastCust = new TextEditingController(text: elastCusReturn());
-  // TextEditingController _controleElastQTD = new TextEditingController(text: elastQTDReturn());
-  // TextEditingController _controleValorLiq = new TextEditingController(text: valorLiqReturn());
-  // TextEditingController _controleLucroEst = new TextEditingController(text: lucroEstReturn());
-  // TextEditingController _controleTecidoCust = new TextEditingController(text: tecidoCusReturn());
-  // TextEditingController _controleTecidoQTD = new TextEditingController(text: tecidoQTDReturn());
   final _controleNome = new TextEditingController(text: nomeReturn().toString());
   final _controleHora = new MaskedTextController(mask: '00:00:00', text: horaTrabReturn());
   final _controleEstoque = new TextEditingController(text: estoqueReturn());
@@ -231,13 +219,11 @@ class _ContatoPageState extends State<ContatoPages> {
                                       child: TextFormField(
                                         textInputAction: TextInputAction.next,
                                         //initialValue: VarEstrangeira.nomeLibrary.toString(),
-                                        //initialValue: nomeReturn(),
                                         autofocus: true,
                                         cursorColor: Colors.brown,
                                         style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.brown),
                                         textAlign: TextAlign.left,
                                         controller: _controleNome,
-                                        //controller: _nomeController,
                                         //focusNode: _nomeFocus,
                                         decoration: InputDecoration(
                                           labelText: 'Nome',
@@ -256,61 +242,20 @@ class _ContatoPageState extends State<ContatoPages> {
                                             }
                                             else{
                                               setState(() {
+                                                Biblioteca.nomeLibrary = text;
                                                 _editaContato.nome = text;
                                                 _editaContato2.nome = text;
                                               });
                                             }
                                           }
-                                          // if(text.isEmpty && Biblioteca.varLibrary == false || text == null && Biblioteca.varLibrary == false){
-                                          //   editado = true;
-                                          //   setState(() {
-                                          //     _editaContato.nome = nomeReturn();
-                                          //     _editaContato2.nome = nomeReturn();
-                                          //   });
-                                          // }
-                                          // if(text.isEmpty && Biblioteca.varLibrary == false || text == null && Biblioteca.varLibrary == false){
-                                          //   editado = true;
-                                          //   setState(() {
-                                          //     _editaContato.nome = text;
-                                          //     _editaContato2.nome = text;
-                                          //   });
-                                          // }
                                           else{
                                             setState(() {
+                                              Biblioteca.nomeLibrary = text;
                                               _editaContato.nome = text;
                                               _editaContato2.nome = text;
                                             });
                                           }
-                                          // editado = true;
-                                          // setState(() {
-                                          //   _editaContato.nome = text;
-                                          //   _editaContato2.nome = text;
-                                          // });
                                         },
-                                        //   if(text.isEmpty || text == null){
-                                        //     setState(() {
-                                        //       text = Biblioteca.nomeLibrary;
-                                        //       _editaContato.nome = 'ABC';
-                                        //       _editaContato2.nome = 'ABC';
-                                        //     });
-                                        //   }else{
-                                        //     setState(() {
-                                        //       _editaContato.nome = text;
-                                        //       _editaContato2.nome = text;
-                                        //     });
-                                        //   }
-                                        // },
-                                        //onChanged: (text) => setState(() => _editaContato.nome = nomeReturn()),
-                                        // onSaved: (value){
-                                        //   _editaContato.nome = nomeReturn();
-                                        //   _editaContato2.nome = nomeReturn();
-                                        // },
-                                        // validator: (String value){
-                                        //   if(value.isEmpty) {
-                                        //     return '';
-                                        //   }
-                                        //   return null;
-                                        // },
                                     ),
                                   ),
                                 Container( //CONTAINER HORA TRABALHADA
@@ -342,6 +287,7 @@ class _ContatoPageState extends State<ContatoPages> {
                                         else{
                                           setState(() {
                                             _editaContato.HT = text;
+                                            Biblioteca.horaTrabLibrary = text;
                                           });
                                         }
                                       }
@@ -350,6 +296,7 @@ class _ContatoPageState extends State<ContatoPages> {
                                         setState(() {
                                           //final rendaMensalController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',', leftSymbol: 'R\$');
                                           _editaContato.HT = text;
+                                          Biblioteca.horaTrabLibrary = text;
                                         });
                                       }
                                     },
@@ -387,6 +334,7 @@ class _ContatoPageState extends State<ContatoPages> {
                                         else{
                                           setState(() {
                                             _editaContato.LE = double.parse(text) as double;
+                                            Biblioteca.lucroEstLibrary = double.parse(text) as double;
                                           });
                                         }
                                       }
@@ -394,6 +342,7 @@ class _ContatoPageState extends State<ContatoPages> {
                                         editado = true;
                                         setState(() {
                                           _editaContato.LE = double.parse(text) as double;
+                                          Biblioteca.lucroEstLibrary = double.parse(text) as double;
                                         });
                                       }
                                     },
@@ -432,6 +381,7 @@ class _ContatoPageState extends State<ContatoPages> {
                                         else{
                                           setState(() {
                                             _editaContato.VL = double.parse(text) as double;
+                                            Biblioteca.valorLiqLibrary = double.parse(text) as double;
                                           });
                                         }
                                       }
@@ -440,6 +390,7 @@ class _ContatoPageState extends State<ContatoPages> {
                                         setState(() {
                                           //icone: Icons.monetization_on;
                                           _editaContato.VL = double.parse(text) as double;
+                                          Biblioteca.valorLiqLibrary = double.parse(text) as double;
                                         });
                                       }
                                     },
@@ -475,16 +426,20 @@ class _ContatoPageState extends State<ContatoPages> {
                                         }
                                         else{
                                           setState(() {
+                                            Biblioteca.estLibrary = int.parse(text);
                                             _editaContato.ES = int.parse(text);
                                             _editaContato2.ES = int.parse(text);
+
                                           });
                                         }
                                       }
                                       editado = true;
                                       setState(() {
                                         //icone: Icons.monetization_on;
+                                        Biblioteca.estLibrary = int.parse(text);
                                         _editaContato.ES = int.parse(text);
                                         _editaContato2.ES = int.parse(text);
+
                                       });
                                     },
                                   ),
@@ -526,6 +481,7 @@ class _ContatoPageState extends State<ContatoPages> {
                                               else{
                                                 setState(() {
                                                   _editaContato.TECCUS = double.parse(text) as double;
+                                                  Biblioteca.tecCustLibrary = double.parse(text) as double;
                                                 });
                                               }
                                             }
@@ -534,6 +490,7 @@ class _ContatoPageState extends State<ContatoPages> {
                                               setState(() {
                                                 //final rendaMensalController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',', leftSymbol: 'R\$');
                                                 _editaContato.TECCUS = double.parse(text) as double;
+                                                Biblioteca.tecCustLibrary = double.parse(text) as double;
                                               });
                                             }
                                           },
@@ -566,12 +523,13 @@ class _ContatoPageState extends State<ContatoPages> {
                                             if(Biblioteca.varLibrary == false){
                                               if(text.isEmpty || text == null){
                                                 setState(() {
-                                                  _editaContato.TECQTD = Biblioteca.tecQTDLibrary;
+                                                  _editaContato.TECQTD = tecidoQTDReturn();
                                                 });
                                               }
                                               else{
                                                 setState(() {
                                                   _editaContato.TECQTD = double.parse(text) as double;
+                                                  Biblioteca.tecQTDLibrary = double.parse(text) as double;
                                                 });
                                               }
                                             }
@@ -580,6 +538,7 @@ class _ContatoPageState extends State<ContatoPages> {
                                               setState(() {
                                                 //final rendaMensalController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',', leftSymbol: 'R\$');
                                                 _editaContato.TECQTD = double.parse(text) as double;
+                                                Biblioteca.tecQTDLibrary = double.parse(text) as double;
                                               });
                                             }
                                           },
@@ -619,13 +578,13 @@ class _ContatoPageState extends State<ContatoPages> {
                                             if(Biblioteca.varLibrary == false){
                                               if(text.isEmpty || text == null){
                                                 setState(() {
-                                                  _editaContato.ELACUS = elastCusReturn();
+                                                  _editaContato.ELACUS = Biblioteca.elastCustLibrary;
                                                 });
                                               }
                                               else{
                                                 setState(() {
                                                   _editaContato.ELACUS = double.parse(text) as double;
-                                                  Biblioteca.elastCustLibrary = text;
+                                                  Biblioteca.elastCustLibrary = double.parse(text) as double;
                                                 });
                                               }
                                             }
@@ -634,6 +593,7 @@ class _ContatoPageState extends State<ContatoPages> {
                                               setState(() {
                                                 //final rendaMensalController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',', leftSymbol: 'R\$');
                                                 _editaContato.ELACUS = double.parse(text) as double;
+                                                Biblioteca.elastCustLibrary = double.parse(text) as double;
                                               });
                                             }
                                           },
@@ -673,6 +633,7 @@ class _ContatoPageState extends State<ContatoPages> {
                                               else{
                                                 setState(() {
                                                   _editaContato.ELAQTD = double.parse(text) as double;
+                                                  Biblioteca.elastQTDLibrary = double.parse(text) as double;
                                                 });
                                               }
                                             }
@@ -681,6 +642,8 @@ class _ContatoPageState extends State<ContatoPages> {
                                               setState(() {
                                                 //final rendaMensalController = MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',', leftSymbol: 'R\$');
                                                 _editaContato.ELAQTD = double.parse(text) as double;
+                                                Biblioteca.elastQTDLibrary = double.parse(text) as double;
+                                                //atribuir biblioteca
                                               });
                                             }
                                           },
@@ -711,60 +674,27 @@ class _ContatoPageState extends State<ContatoPages> {
               heroTag: 'unq2',
               onPressed: () async{
                 if(Biblioteca.varLibrary == false) {
-                //   Future.delayed(const Duration(milliseconds: 500), () {
-                //     setState(() {
-                //       Navigator.pop(context, _editaContato);
-                //       Navigator.pop(context, _editaContato2);
-                //     });
-                //   });
                   if(_editaContato.nome != null && _editaContato.nome.isNotEmpty)
                   {
                     Biblioteca.deletar(Biblioteca.idLibrary);
-                    Future.delayed(const Duration(milliseconds: 500), () {
+                    Future.delayed(const Duration(milliseconds: 400), () {
                       setState(() {
-                        Biblioteca.atualizar(Biblioteca.idLibrary);
-                        Navigator.pop(context, _editaContato);
-                        Navigator.pop(context, _editaContato2);
+                        Biblioteca.criar(Biblioteca.idLibrary);
+                        Navigator.pop(context);
                       });
                     });
-                    // Biblioteca.criar(_editaContato.ELACUS, _editaContato.ELAQTD,
-                    //     _editaContato.ES, _editaContato.HT, _editaContato.LE,
-                    //     _editaContato.TECCUS, _editaContato.TECQTD, _editaContato.VL);
-                    // Future.delayed(const Duration(milliseconds: 500), () {
-                    //   setState(() {
-                    //     Navigator.pop(context, _editaContato);
-                    //     Navigator.pop(context, _editaContato2);
-                    //   });
-                    // });
+                    _exibeAvisoEditar();
                   }
                   if(_editaContato.nome.isEmpty || _editaContato.nome == null)
                   {
-                    // Biblioteca.deletar(Biblioteca.idLibrary);
-                    // _editaContato.nome = nomeReturn();
-                    // _editaContato2.nome = nomeReturn();
-                   // _atualizar(Biblioteca.idLibrary);
-                    Biblioteca.criar(_editaContato.ELACUS, _editaContato.ELAQTD,
-                        _editaContato.ES, _editaContato.HT, _editaContato.LE,
-                        _editaContato.TECCUS, _editaContato.TECQTD, _editaContato.VL);
-                    Future.delayed(const Duration(milliseconds: 500), () {
+                    Future.delayed(const Duration(milliseconds: 400), () {
                       setState(() {
-                        Navigator.pop(context, _editaContato);
-                        Navigator.pop(context, _editaContato2);
+                        Biblioteca.criar(Biblioteca.idLibrary);
+                        Navigator.pop(context);
                       });
                     });
+                    _exibeAvisoEditar();
                   }
-                  // else{
-                  //   //print('Editar sem alteração do nome!!!');
-                  // //_editaContato.nome = nomeReturn();
-                  // //_editaContato2.nome = nomeReturn();
-                  // Biblioteca.deletar(Biblioteca.idLibrary);
-                  // Future.delayed(const Duration(milliseconds: 500), () {
-                  //   setState(() {
-                  //     Navigator.pop(context, _editaContato);
-                  //     Navigator.pop(context, _editaContato2);
-                  //   });
-                  // });
-                  // }
                 }
                 else{
                   if(_editaContato.nome.isNotEmpty && _editaContato.nome != null && Biblioteca.varLibrary == true) {
@@ -778,16 +708,6 @@ class _ContatoPageState extends State<ContatoPages> {
                   }
                 }
               },
-
-                  // if(Biblioteca.varLibrary == true){
-                  //   _exibeAviso();
-                  //   FocusScope.of(context).requestFocus(_nomeFocus);
-                  // }
-                // else
-                // {
-                //   _exibeAviso();
-                //   FocusScope.of(context).requestFocus(_nomeFocus);
-                // }
 
               child: Container(
                 height: 60,
@@ -818,7 +738,27 @@ class _ContatoPageState extends State<ContatoPages> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: new Text("Nome"),
-          content: new Text("Informe o nome do contato"),
+          content: new Text("Informe o nome do produto"),
+          actions: <Widget>[
+            new FlatButton(
+              child: new Text("Fechar"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _exibeAvisoEditar() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          //title: new Text("Edição"),
+          content: new Text("Editado com sucesso!!", style: TextStyle(color: Colors.brown, fontSize: 20),),
           actions: <Widget>[
             new FlatButton(
               child: new Text("Fechar"),

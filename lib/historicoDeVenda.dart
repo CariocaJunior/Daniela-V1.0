@@ -24,6 +24,8 @@ class _HomePageState extends State<HistVenda> {
   DatabaseHelper db = DatabaseHelper();
   List<Contato> hists = List<Contato>();
   List<Contato> hists2 = List<Contato>();
+  String dropdownValue = 'One';
+  String _chosenValue;
 
   @override
   void initState() {
@@ -145,10 +147,45 @@ class _HomePageState extends State<HistVenda> {
                     padding: EdgeInsets.only(
                         top: 10, bottom: 10.0, left: 10.0, right: 10.0),
                   ),
-                  Container(
-                    width: 1.0,
-                    height: 1.0,
-                    color: Colors.grey[400],
+                  Card(
+                    elevation: 5.0,
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder( //AJUSTA O ARREDONDAMENTO DO CARD
+                      //borderRadius: BorderRadius.circular(20.0),
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20),
+                        )
+                    ),
+                    child: DropdownButton<String>(
+                      focusColor:Colors.white,
+                      value: _chosenValue,
+                      icon: const Icon(Icons.arrow_drop_down),
+                      iconSize: 24,
+                      elevation: 16,
+                      style: const TextStyle(color: Colors.brown),
+                      underline: Container(
+                        height: 2,
+                        color: Colors.brown,
+                      ),
+                      items: <String>['Data', 'Preço', 'A-Z', 'Z-A'].map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: dropdownValue,
+                          child: new Text(value, style: TextStyle(color: Colors.brown),),
+                        );
+                      }).toList(),
+                      hint: Text(
+                        "Selecione uma opção",
+                        style: TextStyle(color: Colors.brown.shade700,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500),
+                      ),
+                      onChanged: (String value) {
+                        setState(() {
+                          _chosenValue = value;
+                        });
+                      },
+                    ),
                   ),
                 ],
               ),

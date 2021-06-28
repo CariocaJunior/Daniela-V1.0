@@ -39,31 +39,19 @@ void deletar(indice) {
   });
 }
 
-void criar(elacus, elaqtd, es, ht, le, teccus, tecqtd, vl) {
-
-  if(elacus != null){elacus = elacus;} else{elacus = elastCustLibrary;}
-  if(elaqtd != null){} else{elaqtd = elastQTDLibrary;}
-  if(es != null)    {} else{es = estLibrary;}
-  if(ht != null)    {} else{ht = horaTrabLibrary;}
-  if(le != null)    {} else{le = lucroEstLibrary;}
-  if(teccus != null){} else{teccus = tecCustLibrary;}
-  if(tecqtd != null){} else{tecqtd = tecQTDLibrary;}
-  if(vl != null)    {} else{vl = valorLiqLibrary;}
-
-  Future.delayed(const Duration(microseconds: 500), () {
-    FirebaseFirestore.instance.collection("pedido").doc(nomeLibrary).set({
-      'DT' : dataFormat(),
-      'ELACUS': elacus,
-      'ELAQTD': elaqtd,
-      'ES': es,
-      'HT': ht,
-      'LE': le,
-      'TECCUS': teccus,
-      'TECQTD': tecqtd,
-      'VL': vl,
-      'id': idLibrary,
-      'nome': nomeLibrary
-    });
+void criar(idLibrary) {
+  FirebaseFirestore.instance.collection("pedido").doc(nomeLibrary).set({
+    'DT': dataFormat(),
+    'ELACUS': elastCustLibrary,
+    'ELAQTD': elastQTDLibrary,
+    'ES': estLibrary,
+    'HT': horaTrabLibrary,
+    'LE': lucroEstLibrary,
+    'TECCUS': tecCustLibrary,
+    'TECQTD': tecQTDLibrary,
+    'VL': valorLiqLibrary,
+    'id': idLibrary,
+    'nome': nomeLibrary
   });
 }
 
@@ -116,7 +104,8 @@ idRandom(){ // ID RANDÔMICO
 external DateTime subtract(Duration duration);
 dataFormat(){ // DATA ATUAL
   var dtAtual = new DateTime.now();
-  var dtFormat = new DateFormat('dd/MM/yyyy - kk:mm:ss');
+  // var dtFormat = new DateFormat('dd/MM/yyyy - kk:mm:ss');
+  var dtFormat = new DateFormat('dd/MM/yyyy');
   String dataFormatada = dtFormat.format(dtAtual.toLocal());
   print(DateTime.now());
   return dataFormatada;
