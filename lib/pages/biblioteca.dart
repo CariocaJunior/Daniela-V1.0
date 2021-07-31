@@ -13,6 +13,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 bool varLibrary = true;
 bool editarLibrary = false;
 
+// VARIÁVEL DE CONTROLE PARA
+bool boleano = false;
+
+
+
 // VARIÁVEIS QUE RECEBERÃO OS DADOS DO FIREBASE
 var dataLibrary      ;
 var elastCustLibrary ;
@@ -55,7 +60,7 @@ void criar(idLibrary) {
   });
 }
 
-void atualizar(indice){
+void atualizar(indice){ // sem uso
   FirebaseFirestore.instance
       .collection('pedido')
       .where("id", isEqualTo : indice)
@@ -76,16 +81,7 @@ void atualizar(indice){
       });
     });
   });
-  //return _exibeContatoPage();
 }
-
-// Future<void> addUser() {
-//   return users.add({
-//     'full_name' : fullName,
-//     'Company': company,
-//     'age': age
-//   })
-// }
 
 conditionalName(bool variable){
   if(variable == true){
@@ -110,4 +106,12 @@ dataFormat(){ // DATA ATUAL
   print(DateTime.now());
   return dataFormatada;
 }
+
+
+
+////////////////// Historico de venda
+
+
+
+
 

@@ -6,9 +6,17 @@ import 'package:daniela/pages/home_page.dart';
 import 'package:expand_widget/expand_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:daniela/pages/biblioteca.dart' as Biblioteca;
 
 
 const _titulo = "Historico de venda";
+//final listaHistorico = List
+int auxMenuFiltro = 0; // aux=1 -> Mês; aux=2 -> Valor; aux=3 -> A-Z; aux=4-> Z-A
+int controleHistoricoVenda = 1;
+int ascDesc = 1;
+
 class Historico_De_Venda extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -31,6 +39,7 @@ class _HomePageState extends State<HistVenda> {
   @override
   void initState() {
     super.initState();
+    ascDesc;
 
     //Contato c = Contato(1,"Maria",2,2,2,2);
     //db.insertContato(c);
@@ -152,7 +161,8 @@ class _HomePageState extends State<HistVenda> {
               ),
             ),
             StreamBuilder(
-                stream: FirebaseFirestore.instance.collection('pedido').snapshots(), // INSTANCIA A COLEÇÃO 'PEDIDO'
+                stream: FirebaseFirestore.instance.collection('pedido')
+                  .orderBy(estoque(), descending: true).snapshots(), // INSTANCIA A COLEÇÃO 'PEDIDO'
                 builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (!snapshot.hasData) {
                     return Center(
@@ -246,65 +256,112 @@ class _HomePageState extends State<HistVenda> {
           ]
       ),
 
-      floatingActionButton: Row( // BOTÃO TIPO DE LISTAGEM
+      floatingActionButton:
+      Row( // BOTÃO TIPO DE LISTAGEM
         children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 325.0),
-     child: DropdownButton<String>(
-        value: dropdownValue,
-        icon: const Icon(Icons.arrow_downward),
-        iconSize: 24,
-        elevation: 16,
-        style: const TextStyle(color: Colors.deepPurple),
-        underline: Container(
-          height: 2,
-          color: Colors.deepPurpleAccent,
-        ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                  padding: const EdgeInsets.only(left: 325.0),
+     child: Container(
+       height: 60,
+       width: 60,
+       decoration: BoxDecoration(
+         shape: BoxShape.circle, // circular shape
+         gradient: LinearGradient(
+               begin: Alignment.topRight,
+               end: Alignment.centerLeft,
+               stops: [0.3, 1.0],
+               colors: [
+               Color.fromARGB(255,230,119,53), Color.fromARGB(255,161,88,52)
+               ],
+         ),
+       ),
+       child: Center(
+         child: Theme(
+           data: Theme.of(context).copyWith(
+             canvasColor: Colors.brown,
+           ),
+           child: DropdownButton<String>(
+                value: dropdownValue,
+                underline: SizedBox(),
+                icon: const Icon(Icons.arrow_drop_down),
+                iconSize: 0,
+                //elevation: 16,
+                style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.white),
+                // underline: Container(
+                //     height: 2,
+                //     color: Colors.brown,
+                // ),
 
-       hint: Text("Valor"),
-        onChanged: (String newValue) {
-          if(newValue == "Valor"){
-            //Filtragem
-          } else if(newValue == "Mês"){
-
-          }
-          setState(() {
-            dropdownValue = newValue;
-          });
-        },
-        items: <String>['Mês', 'Valor']
-            .map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value
-            ),
-          );
-        }).toList(),
-      )
-            /*child: FloatingActionButton(
-              heroTag: null,
-              //heroTag: 'unq2',
-              onPressed: () {
-
-                // VARIÁVEL PARA CONTROLE DE EDIÇÃO E ADIÇÃO DE PRODUTO
-              },
-              child: Container(
-                height: 60,
-                width: 60,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle, // circular shape
-                  gradient: LinearGradient(
-                    begin: Alignment.topRight,
-                    end: Alignment.centerLeft,
-                    stops: [0.3, 1.0],
-                    colors: [
-                      Color.fromARGB(255,230,119,53), Color.fromARGB(255,161,88,52)
-                    ],
-                  ),
+                 hint: Text(" Filtro", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.white)),
+                onChanged: (String newValue) {
+                  Future.delayed(const Duration(milliseconds: 100), () {
+                    setState(() {
+                      if(newValue == '  Mês'){
+                        ascDesc = 2; // Controle de ordem crescente ou descrescente (false = asc; true = desc)
+                        controleHistoricoVenda = 3; // Controla o modo de exibição
+                      }
+                      if(newValue == ' Valor'){
+                        // Filtro valor
+                        controleHistoricoVenda = 2;
+                        ascDesc = 2;
+                      }
+                      if(newValue == '  A-Z'){
+                        // Filtro A-Z
+                        controleHistoricoVenda = 1;
+                        ascDesc = 2;
+                      }
+                      else{
+                        // Filtro Z-A
+                        controleHistoricoVenda = 1;
+                        ascDesc = 1;
+                      }
+                    });
+                  });
+                    setState(() {
+                      print(controleHistoricoVenda);
+                      dropdownValue = newValue;
+                    });
+                },
+                items: <String>['  Mês', ' Valor', '  A-Z', '  Z-A']
+                      .map((value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value, textAlign: TextAlign.center,),
+                    );
+                }).toList(),
                 ),
-                child: Icon(Icons.filter_alt_rounded, size: 50.0),
+         ),
+       ),
+     )
+                /*child: FloatingActionButton(
+                  heroTag: null,
+                  //heroTag: 'unq2',
+                  onPressed: () {
+
+                    // VARIÁVEL PARA CONTROLE DE EDIÇÃO E ADIÇÃO DE PRODUTO
+                  },
+                  child: Container(
+                    height: 60,
+                    width: 60,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle, // circular shape
+                      gradient: LinearGradient(
+                        begin: Alignment.topRight,
+                        end: Alignment.centerLeft,
+                        stops: [0.3, 1.0],
+                        colors: [
+                          Color.fromARGB(255,230,119,53), Color.fromARGB(255,161,88,52)
+                        ],
+                      ),
+                    ),
+                    child: Icon(Icons.filter_alt_rounded, size: 50.0),
+                  ),
+                ),*/
               ),
-            ),*/
+            ],
           ),
         ],
       ),
@@ -352,8 +409,6 @@ class _HomePageState extends State<HistVenda> {
     );
   }
 
-
-
   void _exibeContatoPage({Contato hist}) async {
     final contatoRecebido =  await Navigator.push(context,
       MaterialPageRoute(
@@ -373,3 +428,41 @@ class _HomePageState extends State<HistVenda> {
     }
   }
 }
+
+crescOuDecresc (x){ // 1 RETORNA ORDEM DECRESCENTE
+  if (x == 1){
+    return true;
+  }
+  if (x == 2){
+    return false; // RETORNA ORDEM CRESCENTE
+  }
+  else{
+    return false;
+  }
+}
+
+variavelOrdenacao (x){
+  if (x == 1){
+    return 'nome';
+  }
+  if (x == 2){
+    return 'ES';
+  }
+  if (x == 3){
+  return 'DT';
+  }
+  else {
+    return 'nome';
+  }
+}
+
+estoque (){
+  return 'ES';
+}
+
+crescente (){
+  return false;
+}
+
+teste(){}
+// void sort([int compare(E a, E b)?]);

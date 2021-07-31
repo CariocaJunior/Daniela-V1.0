@@ -77,7 +77,7 @@ class _ContatoPageState extends State<ContatoPages> {
     tecidoQTDReturn();
     elastCusReturn();
     elastQTDReturn();
-    _atualizar(Biblioteca.idLibrary);
+    //_atualizar(Biblioteca.idLibrary);
 
     if(widget.contato == null){
       _editaContato = Contato(Biblioteca.idRandom(),'','',0,0,0,0,0,0,0, Biblioteca.dataFormat());
@@ -886,27 +886,27 @@ class _ContatoPageState extends State<ContatoPages> {
 
 }
 
-Future _atualizar(indice) async{
-  await
-  FirebaseFirestore.instance
-      .collection('pedido')
-      .where("id", isEqualTo : indice)
-      .get().then((value){
-    value.docs.forEach((element){
-      FirebaseFirestore.instance.collection("pedido").doc(indice).update({
-        'ELACUS': 8.98,
-        'ELAQTD': 7.58,
-        'ELAQTD': 8.9,
-        'ES': 8,
-        'HT': '51:22:69',
-        'LE': 10.8,
-        'TECCUS': 10.7,
-        'TECQTD': 10.7,
-        'VL': 10.7,
-        'id': Biblioteca.idLibrary ,
-        'nome': Biblioteca.nomeLibrary
-      });
-    });
-  });
-  //return _exibeContatoPage();
-}
+// Future _atualizar(indice) async{
+//   await
+//   FirebaseFirestore.instance
+//       .collection('pedido')
+//       .where("id", isEqualTo : indice)
+//       .get().then((value){
+//     value.docs.forEach((element){
+//       FirebaseFirestore.instance.collection("pedido").doc(indice).update({
+//         'ELACUS': 8.98,
+//         'ELAQTD': 7.58,
+//         'ELAQTD': 8.9,
+//         'ES': 8,
+//         'HT': '51:22:69',
+//         'LE': 10.8,
+//         'TECCUS': 10.7,
+//         'TECQTD': 10.7,
+//         'VL': 10.7,
+//         'id': Biblioteca.idLibrary ,
+//         'nome': Biblioteca.nomeLibrary
+//       });
+//     });
+//   });
+//   //return _exibeContatoPage();
+// }
