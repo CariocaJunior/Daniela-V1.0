@@ -349,7 +349,7 @@ class _ContatoPageState extends State<ContatoPages> {
                     Biblioteca.deletar(Biblioteca.idLibrary);
                     Future.delayed(const Duration(milliseconds: 400), () {
                       setState(() {
-                        Biblioteca.criar(Biblioteca.idLibrary);
+
                         Navigator.pop(context);
                       });
                     });
@@ -368,6 +368,7 @@ class _ContatoPageState extends State<ContatoPages> {
                 }
                 else{
                   if(_editaContato.nome.isNotEmpty && _editaContato.nome != null && Biblioteca.varLibrary == true) {
+                    Biblioteca.criar(Biblioteca.idLibrary);
                     Navigator.pop(context, _editaContato);
                     Navigator.pop(context, _editaContato2);
                   }
