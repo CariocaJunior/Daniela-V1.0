@@ -1,60 +1,38 @@
 import 'dart:io';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:daniela/TodosdaLib/helpers/database_helper.dart';
+import 'package:daniela/TodosdaLib/helpers//database_helper.dart';
 import 'package:daniela/TodosdaLib/models/contato.dart';
 import 'package:daniela/TodosdaLib/pages/contato_page.dart';
-import 'package:daniela/TodosdaLib/pages/test.dart';
-import 'package:expand_widget/expand_widget.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:daniela/pages/biblioteca.dart' as Biblioteca;
+import 'package:flutter/rendering.dart';
+import 'package:intl/intl.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'biblioteca.dart' as Biblioteca;
 import 'dart:math';
+import 'package:expand_widget/expand_widget.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatefulWidget{
   @override
-  _HomePageState createState() => _HomePageState();
+  _HomePageState createState()=> _HomePageState();
 }
-
-class _HomePageState extends State<HomePage> {
-
+class _HomePageState extends State<HomePage>{
+  DateTime data = DateTime.now();
   DatabaseHelper db = DatabaseHelper();
   List<Contato> contatos = List<Contato>();
-  List<String> names2 = [];
-  List<String> names = [];
-  var names3;
-  int inc = 0;
+
+  bool testVar = Biblioteca.varLibrary;
+  bool option = true; // CONTROLA A TELA DE EDIÇÃO/CRIAÇÃO DO PRODUTO (TRUE-> EDITAR | FALSE-> ADICIOANAR)
+
   @override
   void initState() {
     super.initState();
-    draggin();
-     //Contato c = Contato(null,"Maria",2,2,2,4);
-     //db.insertContato(c);
-    //Done
-    //print(Contato(null,"Maria",2,2,2,4));
-    Future.delayed(const Duration(milliseconds: 1000), () {
-      _exibeTodosContatos();
-    });
+    _editarCampos;
 
   }
 
-  Future<List> draggin() async {
-    QuerySnapshot dosd = await FirebaseFirestore.instance.collection("pedido").get();
-     dosd.docs.forEach((element) {
-      names2.add(element.get("nome"));
-      setState(() {
-        atua(names2);
-        });
-    });
-  }
-
-
-  void _exibeTodosContatos(){
-    /*db.getContatos().then((lista) {
-
-      setState(() {
-        contatos = lista;
-      })
-    });*/
-  }
+  String mesLocal;
+  double valorLocal;
+  String nomeLocal;
 
   @override
   Widget build(BuildContext context) {
@@ -130,13 +108,13 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           //Icon(Icons.history, size: 43.0, color: Colors.brown),
                           Image(
-                            image: AssetImage('Image/Produto.png',),
+                            image: AssetImage('Image/Venda.png',),
                             width: 45,
                             fit: BoxFit.cover,
                             color: Colors.brown,
                           ),
                           Padding(padding:  EdgeInsets.fromLTRB(0, 40, 7, 20)),//AJUSTA O ESPAÇAMENTO ENTRE A IMAGEM E O TEXTO
-                          Text('Vendas',
+                          Text('Tabela de Vendas',
                               //textAlign: TextAlign.end,
                               style: new TextStyle(
                                 fontSize: 30.0,
@@ -159,7 +137,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             StreamBuilder(
-                stream: FirebaseFirestore.instance.collection('pedido').snapshots(), // INSTANCIA A COLEÇÃO 'PEDIDO'
+                stream: FirebaseFirestore.instance.collection('venda').snapshots(), // INSTANCIA A COLEÇÃO 'PEDIDO'
                 builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (!snapshot.hasData) {
                     return Center(
@@ -203,39 +181,11 @@ class _HomePageState extends State<HomePage> {
                                 child: Column( // LISTA NA TELA OS CAMPOS DO FIREBASE
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text('Horas trabalhada : ' + collection['HT'] + ' hrs',
+                                    Text('Valor líquido : R\$ ' + collection['valor'].toStringAsFixed(2),
                                       style: TextStyle(color: Colors.brown,
                                           fontWeight: FontWeight.bold,
                                           fontSize: 15),),
-                                    Text('Lucro estimado : R\$ ' + collection['LE'].toStringAsFixed(2),
-                                      style: TextStyle(color: Colors.brown,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15),),
-                                    Text('Valor líquido : R\$ ' + collection['VL'].toStringAsFixed(2),
-                                      style: TextStyle(color: Colors.brown,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15),),
-                                    Text('Elástico gasto : ' + collection['ELAQTD'].toStringAsFixed(2) + ' cm',
-                                      style: TextStyle(color: Colors.brown,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15),),
-                                    Text('Custo do elástico : R\$ ' + collection['ELACUS'].toStringAsFixed(2),
-                                      style: TextStyle(color: Colors.brown,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15),),
-                                    Text('Tecido gasto : ' + collection['TECQTD'].toStringAsFixed(2) + ' cm',
-                                      style: TextStyle(color: Colors.brown,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15),),
-                                    Text('Custo do tecido : R\$ ' + collection['TECCUS'].toStringAsFixed(2),
-                                      style: TextStyle(color: Colors.brown,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15),),
-                                    Text('Estoque do produto : ${collection['ES']}',
-                                      style: TextStyle(color: Colors.brown,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15),),
-                                    Text('Data do cadastro : ' + collection['DT'],
+                                    Text('Data do cadastro : ' + collection['mes'],
                                       style: TextStyle(color: Colors.brown,
                                           fontWeight: FontWeight.bold,
                                           fontSize: 15),),
@@ -360,94 +310,31 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  _listaContatos(BuildContext context, int index) {
-    return GestureDetector(
-      child: Card(
-          child: Padding(padding: EdgeInsets.all(10.0),
-              child:Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Container(
-                    width: 70.0, height: 70.0,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                  Padding(
-                      padding: EdgeInsets.only(left: 10.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(contatos[index].mes ?? "",
-                              style: TextStyle(fontSize: 20)
-                          ),
-                          Text("Vendas: R\$ " + contatos[index].TotVendas.toStringAsFixed(2) ?? "",
-                              style: TextStyle(fontSize: 15)
-                          ),
-                          Text("Lucro Esperado: R\$ " + contatos[index].markup.toStringAsFixed(2) ?? "",
-                              style: TextStyle(fontSize: 15)
-                          ),
-                          Text("Caixa: R\$ " + contatos[index].caixa.toStringAsFixed(2) ?? "",
-                              style: TextStyle(fontSize: 15)
-                          ),
-                          Text("Produção: R\$ " + contatos[index].Producao.toStringAsFixed(2) ?? "",
-                              style: TextStyle(fontSize: 15)
-                          )
-                        ],
-                      )
-                  ),
-                  Flexible(
-                    child: IconButton(
-                      icon: Icon(Icons.delete),
-                      onPressed: (){
-                        _confirmaExclusao(context, contatos[index].id, index);
-                      },
-                    ),
-                  ),
-                ],
-              )
-          )
-      ),
-      onTap: () {
-        _exibeContatoPage(contato: contatos[index]);
-      },
-    );
-  }
-
   Future<String> _editarCampos(indice) async{// VARIÁVEL DA BIBLIOTECA RECEBE OS DADOS DO FIREBASE DAS RESPECTIVAS VARIÁVEIS LOCAIS
     await
     FirebaseFirestore.instance
-        .collection('pedido')
+        .collection('venda')
         .where("id", isEqualTo : indice)
         .get()
         .then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((collection) {
-        var editdt = collection['DT'];
-        var editelacus = collection['ELACUS'];
-        var editelaqtd = collection['ELAQTD'];
-        var edites = collection['ES'];
-        var editht = collection['HT'];
-        var editle = collection['LE'];
-        var editteccus = collection['TECCUS'];
-        var edittecqtd = collection['TECQTD'];
-        var editvl = collection['VL'];
+        var editdt = collection['mes'];
+        var editvl = collection['valor'];
         var editnome = collection['nome'];
         var editid = collection['id'];
         setState(() {
-          Biblioteca.dataLibrary = editdt;
-          Biblioteca.elastCustLibrary = editelacus;
-          Biblioteca.elastQTDLibrary = editelaqtd;
-          Biblioteca.estLibrary = edites;
-          Biblioteca.horaTrabLibrary = editht;
-          Biblioteca.lucroEstLibrary = editle;
-          Biblioteca.tecCustLibrary = editteccus;
-          Biblioteca.tecQTDLibrary = edittecqtd;
-          Biblioteca.valorLiqLibrary = editvl;
+          Biblioteca.mesLibrary = editdt;
+          Biblioteca.valorLibrary = editvl;
           Biblioteca.nomeLibrary = editnome;
           Biblioteca.idLibrary = editid;
         });
       });
     });
+  }
+
+  double roundDouble(double value, int places){
+    double mod = pow(10.0, places);
+    return ((value * mod).round().toDouble() / mod);
   }
 
   void _deleteExito() {
@@ -461,15 +348,13 @@ class _HomePageState extends State<HomePage> {
         }
     );
   }
-
   void _exibeContatoPage({Contato contato}) async {
     final contatoRecebido =  await Navigator.push(context,
       MaterialPageRoute(
           builder: (
-              context)=> ContatoPage(contato: contato,names: names)
+              context)=> ContatoPages(contato: contato)
       ),
     );
-
     if(contatoRecebido != null){
       if(contato != null )
       {
@@ -477,30 +362,107 @@ class _HomePageState extends State<HomePage> {
       }else{
         await db.insertContato(contatoRecebido);
       }
-      _exibeTodosContatos();
+      //_exibeTodosContatos();
     }
   }
-  void _confirmaExclusao(BuildContext context, int contatoid, index) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text("Excluir Contato"),
-            content: Text("Confirma a exclusão do Contato"),
-            actions: <Widget>[
-              FlatButton(onPressed: () {Navigator.of(context).pop();}
-                  , child: Text('Cancelar')),
-              FlatButton(onPressed: () {
-                setState(() {
-                  contatos.removeAt(index);
-                  db.deleteContato(contatoid);
-                });
-                Navigator.of(context).pop();
-              }
-                  , child: Text('Excluir'))
-            ],
-          );
-        }
-    );
-  }
+
+  // ATUALIZAR NO FIREBASE
+  /*CollectionReference users = FirebaseFirestore.instance.collection('pedido');
+  Future<void> updateDoc() {
+    return users
+        .doc('pedido')
+        .update({'alguem feio': 'docUm'})
+        .then((value) => print("Update realizado com êxito!!!"))
+        .catchError((error) => print("Falha ao atualizar os dados: $error"));
+  }*/
+
+// void _confirmaExclusao(BuildContext context, int contatoid, index) {
+//   showDialog(
+//       context: context,
+//       builder: (BuildContext context) {
+//         return AlertDialog(
+//           title: Text("Excluir Contato"),
+//           content: Text("Confirma a exclusão do Contato"),
+//           actions: <Widget>[
+//             FlatButton(onPressed: () {Navigator.of(context).pop();}
+//                 , child: Text('Cancelar')),
+//             FlatButton(onPressed: () {
+//               setState(() {
+//                 contatos.removeAt(index);
+//                 db.deleteContato(contatoid);
+//               });
+//               Navigator.of(context).pop();
+//             }
+//                 , child: Text('Excluir'))
+//           ],
+//         );
+//       }
+//   );
+// }
 }
+
+
+
+// _listaContatos(BuildContext context, int index) {
+//   return GestureDetector(
+//
+//     child: Card(
+//         child: Padding(padding: EdgeInsets.all(10.0),
+//             child:Row(
+//               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//               children: <Widget>[
+//                 Container(
+//                   width: 70.0, height: 70.0,
+//                   decoration: BoxDecoration(
+//                     shape: BoxShape.circle,
+//                   ),
+//                 ),
+//                 Padding(
+//                     padding: EdgeInsets.only(left: 10.0),
+//
+//                     child: Column(
+//                       crossAxisAlignment: CrossAxisAlignment.start,
+//                       children: <Widget>[
+//                         Text(contatos[index].nome ?? "",
+//                             style: TextStyle(fontSize: 20)
+//                         ),
+//                         Text("Horas/Minutos Trabalhadas(os):  " + contatos[index].HT ?? "",
+//                             style: TextStyle(fontSize: 15)
+//                         ),
+//                         Text("Lucro Esperado: R\$ " + contatos[index].LE.toStringAsFixed(2) ?? "",
+//                             style: TextStyle(fontSize: 15)
+//                         ),
+//                         Text("Valor Liquido: R\$ " + contatos[index].VL.toStringAsFixed(2) ?? "",
+//                             style: TextStyle(fontSize: 15)
+//                         ),
+//                         Text("Estoque: " + contatos[index].ES.toString() ?? "",
+//                             style: TextStyle(fontSize: 15)
+//                         ),
+//                         Text("Tecido quant/custo: " + contatos[index].TECQTD.toStringAsFixed(2) ?? "",
+//                             style: TextStyle(fontSize: 15)
+//                         ),
+//                         Text("Elastico quant/custo: " + contatos[index].ELAQTD.toStringAsFixed(2) ?? "",
+//                             style: TextStyle(fontSize: 15)
+//                         ),
+//                         Text("Data: ${(new DateFormat.yMMMd().format(new DateTime.now()))}",
+//                         ),
+//                       ],
+//                     )
+//                 ),
+//                 Flexible(
+//                   child: IconButton(
+//                     icon: Icon(Icons.delete),
+//                     onPressed: (){
+//                       _confirmaExclusao(context, contatos[index].id, index);
+//                     },
+//                   ),
+//                 ),
+//               ],
+//             )
+//         )
+//     ),
+//     onTap: () {
+//       _exibeContatoPage(contato: contatos[index]);
+//     },
+//   );
+// }

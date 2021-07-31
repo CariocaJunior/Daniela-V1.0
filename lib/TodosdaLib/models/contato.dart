@@ -1,35 +1,27 @@
-import 'dart:ffi';
 
-class Contato{
+
+class Contato {
   int id;
+  String nome;
   String mes;
-  double caixa;
-  double markup;
-  double TotVendas;
-  double Producao;
+  double valor;
 
+  Contato(this.id, this.mes, this.nome, this.valor);
 
-  Contato(this.id, this.mes,this.caixa, this.markup, this.TotVendas, this.Producao);
-
-  Map<String,dynamic> toMap () {
-
-    var map = <String,dynamic> {
+  Map<String, dynamic> toMap() {
+    var map = <String, dynamic>{
       'id': id,
+      'nome': nome,
       'mes': mes,
-      'caixa': caixa,
-      'markup': markup,
-      'TotVendas': TotVendas,
-      'Producao': Producao,
+      'valor': valor
     };
     return map;
   }
 
-  Contato.fromMap(Map<String,dynamic> map){
+  Contato.fromMap(Map<String, dynamic> map) {
     id = map['id'];
+    nome = map['nome'];
     mes = map['mes'];
-    caixa = map['caixa'];
-    markup = map['markup'];
-    TotVendas = map['TotVendas'];
-    Producao = map['Producao'];
+    valor = map['valor'];
   }
 }
