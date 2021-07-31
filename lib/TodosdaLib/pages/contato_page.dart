@@ -194,7 +194,7 @@ class _ContatoPageState extends State<ContatoPages> {
                                     controller: _controleNome,
                                     //focusNode: _nomeFocus,
                                     decoration: InputDecoration(
-                                      labelText: 'Nome',
+                                      labelText: 'Nome ou Descrição',
                                       labelStyle: TextStyle(color: Colors.brown, fontSize: 16.0, fontWeight: FontWeight.w700),
                                       isDense: true,
                                       contentPadding: EdgeInsets.all(2.0),
@@ -368,6 +368,7 @@ class _ContatoPageState extends State<ContatoPages> {
                 }
                 else{
                   if(_editaContato.nome.isNotEmpty && _editaContato.nome != null && Biblioteca.varLibrary == true) {
+                    Biblioteca.criar(Biblioteca.idLibrary);
                     Navigator.pop(context, _editaContato);
                     Navigator.pop(context, _editaContato2);
                   }

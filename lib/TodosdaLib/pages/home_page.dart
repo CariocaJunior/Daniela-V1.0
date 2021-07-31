@@ -181,11 +181,11 @@ class _HomePageState extends State<HomePage>{
                                 child: Column( // LISTA NA TELA OS CAMPOS DO FIREBASE
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text('Valor líquido : R\$ ' + collection['valor'].toStringAsFixed(2),
+                                    Text('Valor: R\$ ' + collection['valor'].toStringAsFixed(2),
                                       style: TextStyle(color: Colors.brown,
                                           fontWeight: FontWeight.bold,
                                           fontSize: 15),),
-                                    Text('Data do cadastro : ' + collection['mes'],
+                                    Text('Data: ' + collection['mes'],
                                       style: TextStyle(color: Colors.brown,
                                           fontWeight: FontWeight.bold,
                                           fontSize: 15),),
