@@ -194,7 +194,7 @@ class _ContatoPageState extends State<ContatoPages> {
                                     controller: _controleNome,
                                     //focusNode: _nomeFocus,
                                     decoration: InputDecoration(
-                                      labelText: 'Nome',
+                                      labelText: 'Nome ou Descrição',
                                       labelStyle: TextStyle(color: Colors.brown, fontSize: 16.0, fontWeight: FontWeight.w700),
                                       isDense: true,
                                       contentPadding: EdgeInsets.all(2.0),
