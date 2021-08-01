@@ -16,6 +16,8 @@ const _titulo = "Historico de venda";
 int auxMenuFiltro = 0; // aux=1 -> Mês; aux=2 -> Valor; aux=3 -> A-Z; aux=4-> Z-A
 int controleHistoricoVenda = 1;
 int ascDesc = 1;
+bool booleano = false;
+String ordenacao = 'DT';
 
 class Historico_De_Venda extends StatelessWidget {
   @override
@@ -40,6 +42,8 @@ class _HomePageState extends State<HistVenda> {
   void initState() {
     super.initState();
     ascDesc;
+    ordenacao;
+    booleano;
 
     //Contato c = Contato(1,"Maria",2,2,2,2);
     //db.insertContato(c);
@@ -162,7 +166,7 @@ class _HomePageState extends State<HistVenda> {
             ),
             StreamBuilder(
                 stream: FirebaseFirestore.instance.collection('pedido')
-                  .orderBy(estoque(), descending: true).snapshots(), // INSTANCIA A COLEÇÃO 'PEDIDO'
+                  .orderBy(ordenacao.toString(), descending: booleano).snapshots(), // INSTANCIA A COLEÇÃO 'PEDIDO'
                 builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (!snapshot.hasData) {
                     return Center(
@@ -300,21 +304,29 @@ class _HomePageState extends State<HistVenda> {
                   Future.delayed(const Duration(milliseconds: 100), () {
                     setState(() {
                       if(newValue == '  Mês'){
+                        ordenacao = "DT";
+                        booleano = false;
                         ascDesc = 2; // Controle de ordem crescente ou descrescente (false = asc; true = desc)
                         controleHistoricoVenda = 3; // Controla o modo de exibição
                       }
                       if(newValue == ' Valor'){
                         // Filtro valor
+                        booleano = false;
+                        ordenacao = "ES";
                         controleHistoricoVenda = 2;
                         ascDesc = 2;
                       }
                       if(newValue == '  A-Z'){
                         // Filtro A-Z
+                        ordenacao = "nome";
+                        booleano = false;
                         controleHistoricoVenda = 1;
                         ascDesc = 2;
                       }
                       else{
                         // Filtro Z-A
+                        ordenacao = "nome";
+                        booleano = true;
                         controleHistoricoVenda = 1;
                         ascDesc = 1;
                       }
