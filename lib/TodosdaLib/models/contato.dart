@@ -1,7 +1,7 @@
 
 
 class Contato {
-  int id;
+  String id;
   String nome;
   String mes;
   double valor;

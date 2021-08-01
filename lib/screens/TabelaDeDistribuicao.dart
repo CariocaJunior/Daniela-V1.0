@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 class Tabela_De_Distribuicao extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return HomePage() ;
-
+    return HomePage();
   }
 }

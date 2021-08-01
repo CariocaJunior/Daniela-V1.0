@@ -1,4 +1,4 @@
-library danielaGlobal;
+library danielaVendas;
 import 'package:daniela/models/contato.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +39,7 @@ void deletar(indice) {
 
 void criar(idLibrary) {
   FirebaseFirestore.instance.collection("venda").doc(nomeLibrary).set({
-    'mes': dataFormat(),
+    'mes': mesLibrary,
     'valor': valorLibrary,
     'id': idLibrary,
     'nome': nomeLibrary
