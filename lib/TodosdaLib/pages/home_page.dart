@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:daniela/TodosdaLib/helpers//database_helper.dart';
+import 'package:daniela/TodosdaLib/helpers/database_helper.dart';
 import 'package:daniela/TodosdaLib/models/contato.dart';
 import 'package:daniela/TodosdaLib/pages/contato_page.dart';
 import 'package:firebase_core/firebase_core.dart';

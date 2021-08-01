@@ -55,7 +55,7 @@ class _ContatoPageState extends State<ContatoPages> {
     //_atualizar(Biblioteca.idLibrary);
 
     if(widget.contato == null){
-      _editaContato = Contato(null,'','',0);
+      _editaContato = Contato(Biblioteca.idRandom(),'','',0);
     }else{
       _editaContato = Contato.fromMap(widget.contato.toMap());
       _editaContato2 = d2.Contato.fromMap(widget.contato.toMap());
@@ -305,19 +305,23 @@ class _ContatoPageState extends State<ContatoPages> {
                                           });
                                         }
                                         else{
+                                          if(_editaContato.mes.length < 10 && Biblioteca.mesLibrary.toString().length < 10){
                                           setState(() {
                                             _editaContato.mes = text;
                                             Biblioteca.mesLibrary = text;
                                           });
+                                          }
                                         }
                                       }
                                       else{
                                         editado = true;
+                                        if(_editaContato.mes.length < 10 && Biblioteca.mesLibrary.toString().length < 10){
                                         setState(() {
                                           //icone: Icons.monetization_on;
                                           _editaContato.mes = text;
                                           Biblioteca.mesLibrary = text;
                                         });
+                                        }
                                       }
                                     },
                                   ),
