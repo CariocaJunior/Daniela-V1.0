@@ -12,7 +12,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:brasil_fields/brasil_fields.dart';
 import 'dart:math';
-import 'biblioteca.dart' as Biblioteca;
+import 'Venda_biblioteca.dart' as Biblioteca;
 
 
 class ContatoPages extends StatefulWidget {
@@ -350,10 +350,10 @@ class _ContatoPageState extends State<ContatoPages> {
                 if(Biblioteca.varLibrary == false) {
                   if(_editaContato.nome != null && _editaContato.nome.isNotEmpty)
                   {
-                    Biblioteca.deletar(Biblioteca.idLibrary);
+                    Biblioteca.Vendadeletar(Biblioteca.idLibrary);
                     Future.delayed(const Duration(milliseconds: 400), () {
                       setState(() {
-
+                        Biblioteca.Vendacriar(Biblioteca.idLibrary);
                         Navigator.pop(context);
                       });
                     });
@@ -363,7 +363,7 @@ class _ContatoPageState extends State<ContatoPages> {
                   {
                     Future.delayed(const Duration(milliseconds: 400), () {
                       setState(() {
-                        Biblioteca.criar(Biblioteca.idLibrary);
+                        Biblioteca.Vendacriar(Biblioteca.idLibrary);
                         Navigator.pop(context);
                       });
                     });
@@ -372,8 +372,7 @@ class _ContatoPageState extends State<ContatoPages> {
                 }
                 else{
                   if(_editaContato.nome.isNotEmpty && _editaContato.nome != null && Biblioteca.varLibrary == true) {
-                    Biblioteca.criar(Biblioteca.idLibrary);
-                    Navigator.pop(context, _editaContato);
+                    Biblioteca.addVenda();
                     Navigator.pop(context, _editaContato2);
                   }
                   else

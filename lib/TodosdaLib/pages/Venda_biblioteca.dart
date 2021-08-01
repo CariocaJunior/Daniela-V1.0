@@ -25,7 +25,7 @@ var nomeLibrary      ;
 var idLibrary        ;
 
 // DELETA O DOCUMENTO DO FIREBASE
-void deletar(indice) {
+void Vendadeletar(indice) {
   FirebaseFirestore.instance
       .collection("venda")
       .where("id", isEqualTo : indice)
@@ -37,11 +37,20 @@ void deletar(indice) {
   });
 }
 
-void criar(idLibrary) {
+void Vendacriar(idLibrary) {
   FirebaseFirestore.instance.collection("venda").doc(nomeLibrary).set({
     'mes': mesLibrary,
     'valor': valorLibrary,
     'id': idLibrary,
+    'nome': nomeLibrary
+  });
+}
+
+void addVenda() {
+  FirebaseFirestore.instance.collection("venda").doc(nomeLibrary).set({
+    'mes': mesLibrary,
+    'valor': valorLibrary,
+    'id': idRandom(),
     'nome': nomeLibrary
   });
 }

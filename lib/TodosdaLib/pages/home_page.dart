@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'biblioteca.dart' as Biblioteca;
+import 'Venda_biblioteca.dart' as Biblioteca;
 import 'dart:math';
 import 'package:expand_widget/expand_widget.dart';
 
@@ -254,7 +254,7 @@ class _HomePageState extends State<HomePage>{
                                     //editar
                                   }
                                   if(value==3){
-                                    Biblioteca.deletar(collection['id']);
+                                    Biblioteca.Vendadeletar(collection['id']);
                                     _deleteExito();
                                     //deletar
                                   }
