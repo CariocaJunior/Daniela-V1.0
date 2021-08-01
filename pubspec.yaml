@@ -50,10 +50,15 @@ dependencies:
   brasil_fields: ^0.6.1
 
 
+flutter_icons:
+  android: true
+  image_path: "assets/img/bibi-cropped.png"
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+  flutter_launcher_icons: ^0.8.1
 
   font_awesome_flutter: ^8.0.1
 # For information on the generic Dart part of this file, see the
@@ -64,7 +69,6 @@ flutter:
   assets:
     - Image/bibiimagem.jpeg
     - Image/bibiimagem.jpg
-    - assets/login_logo.png
     - Image/Venda.png
     - Image/Produto.png
     - Image/Left_Arrow.png
