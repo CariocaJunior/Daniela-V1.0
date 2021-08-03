@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:daniela/HelpMe//database_helper.dart';
+import 'package:daniela/HelpMe/database_helper.dart';
 import 'package:daniela/models/contato.dart';
 import 'package:daniela/pages/contatoPage.dart';
 import 'package:daniela/pages/home_page.dart';
@@ -10,6 +10,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:daniela/pages/biblioteca.dart' as Biblioteca;
 
+import 'historicoDeVendaMes.dart';
+import 'historicoDeVendaValor.dart';
+
 
 const _titulo = "Historico de venda";
 //final listaHistorico = List
@@ -17,7 +20,7 @@ int auxMenuFiltro = 0; // aux=1 -> Mês; aux=2 -> Valor; aux=3 -> A-Z; aux=4-> Z
 int controleHistoricoVenda = 1;
 int ascDesc = 1;
 bool booleano = false;
-String ordenacao = 'DT';
+String ordenacao = 'mes';
 
 class Historico_De_Venda extends StatelessWidget {
   @override
@@ -165,7 +168,7 @@ class _HomePageState extends State<HistVenda> {
               ),
             ),
             StreamBuilder(
-                stream: FirebaseFirestore.instance.collection('pedido')
+                stream: FirebaseFirestore.instance.collection('venda')
                   .orderBy(ordenacao.toString(), descending: booleano).snapshots(), // INSTANCIA A COLEÇÃO 'PEDIDO'
                 builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (!snapshot.hasData) {
@@ -210,39 +213,11 @@ class _HomePageState extends State<HistVenda> {
                                 child: Column( // LISTA NA TELA OS CAMPOS DO FIREBASE
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text('Horas trabalhada : ' + collection['HT'] + ' hrs',
+                                    Text('Valor : R\$ ' + collection['valor'].toStringAsFixed(2),
                                       style: TextStyle(color: Colors.brown,
                                           fontWeight: FontWeight.bold,
                                           fontSize: 15),),
-                                    Text('Lucro estimado : R\$ ' + collection['LE'].toStringAsFixed(2),
-                                      style: TextStyle(color: Colors.brown,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15),),
-                                    Text('Valor líquido : R\$ ' + collection['VL'].toStringAsFixed(2),
-                                      style: TextStyle(color: Colors.brown,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15),),
-                                    Text('Elástico gasto : ' + collection['ELAQTD'].toStringAsFixed(2) + ' cm',
-                                      style: TextStyle(color: Colors.brown,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15),),
-                                    Text('Custo do elástico : R\$ ' + collection['ELACUS'].toStringAsFixed(2),
-                                      style: TextStyle(color: Colors.brown,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15),),
-                                    Text('Tecido gasto : ' + collection['TECQTD'].toStringAsFixed(2) + ' cm',
-                                      style: TextStyle(color: Colors.brown,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15),),
-                                    Text('Custo do tecido : R\$ ' + collection['TECCUS'].toStringAsFixed(2),
-                                      style: TextStyle(color: Colors.brown,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15),),
-                                    Text('Estoque do produto : ${collection['ES']}',
-                                      style: TextStyle(color: Colors.brown,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15),),
-                                    Text('Data do cadastro : ' + collection['DT'],
+                                    Text('Data do cadastro : ' + collection['mes'],
                                       style: TextStyle(color: Colors.brown,
                                           fontWeight: FontWeight.bold,
                                           fontSize: 15),),
@@ -304,17 +279,25 @@ class _HomePageState extends State<HistVenda> {
                   Future.delayed(const Duration(milliseconds: 100), () {
                     setState(() {
                       if(newValue == '  Mês'){
-                        ordenacao = "DT";
+                        ordenacao = "mes";
                         booleano = false;
                         ascDesc = 2; // Controle de ordem crescente ou descrescente (false = asc; true = desc)
-                        controleHistoricoVenda = 3; // Controla o modo de exibição
+                        controleHistoricoVenda = 3;
+                        Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    Historico_De_Venda_Mes()));// Controla o modo de exibição
                       }
                       if(newValue == ' Valor'){
                         // Filtro valor
+                        ordenacao = "valor";
                         booleano = false;
-                        ordenacao = "ES";
                         controleHistoricoVenda = 2;
                         ascDesc = 2;
+                        Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    Historico_De_Venda_Valor()));
                       }
                       if(newValue == '  A-Z'){
                         // Filtro A-Z
@@ -380,7 +363,7 @@ class _HomePageState extends State<HistVenda> {
     );
   }
 
-  listaContatos(BuildContext context, int index) {
+  /*listaContatos(BuildContext context, int index) {
     return GestureDetector(
       child: Card(
           child: Padding(padding: EdgeInsets.all(10.0),
@@ -419,9 +402,9 @@ class _HomePageState extends State<HistVenda> {
           )
       ),
     );
-  }
+  }*/
 
-  void _exibeContatoPage({Contato hist}) async {
+  /*void _exibeContatoPage({Contato hist}) async {
     final contatoRecebido =  await Navigator.push(context,
       MaterialPageRoute(
           builder: (
@@ -438,7 +421,7 @@ class _HomePageState extends State<HistVenda> {
       }
       _exibeTodosContatos();
     }
-  }
+  }*/
 }
 
 crescOuDecresc (x){ // 1 RETORNA ORDEM DECRESCENTE
