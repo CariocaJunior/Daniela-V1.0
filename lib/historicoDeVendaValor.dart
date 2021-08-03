@@ -283,7 +283,8 @@ class _HomePageState extends State<HistVenda> {
                                                 Historico_De_Venda_Mes()));// Controla o modo de exibição
                                   }
                                   if(newValue == ' Valor'){
-
+                                    ordenacao = 'valor';
+                                    return;
                                   }
                                   if(newValue == '  A-Z'){
                                     // Filtro A-Z

@@ -294,6 +294,7 @@ class _ContatoPageState extends State<ContatoPages> {
                                 ),
                                 onChanged: (text) {
                                   if (Biblioteca.varLibrary == false) {
+                                    Biblioteca.mesLibrary = null;
                                     if (text.isEmpty || text == null) {
                                       setState(() {
                                         _editaContato.mes =
@@ -314,6 +315,7 @@ class _ContatoPageState extends State<ContatoPages> {
                                     }
                                   } else {
                                     editado = true;
+                                    Biblioteca.mesLibrary = null;
                                     if (_editaContato.mes.length < 10 &&
                                         Biblioteca.mesLibrary
                                                 .toString()

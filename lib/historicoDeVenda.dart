@@ -295,7 +295,7 @@ class _HomePageState extends State<HistVenda> {
                             });
                             setState(() {
                               print(controleHistoricoVenda);
-                              dropdownValue = newValue;
+                              //dropdownValue = newValue;
                             });
                           },
                           items: <String>['  Mês', ' Valor', '  A-Z', '  Z-A']
