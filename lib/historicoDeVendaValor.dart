@@ -85,40 +85,44 @@ class _HomePageState extends State<HistVenda> {
               ),
               Padding( //BOTÃO DE RETORNO - SETA
                 padding: const EdgeInsets.only(top: 15.0),
-                child: Positioned(
-                  left: 5,
-                  top: 5,
-                  child: FloatingActionButton(
-                    elevation: 0.0,
-                    onPressed: () { Navigator.of(context).push(
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                MyApp()));
-                    },
-                    child: Container(
-                      height: 60,
-                      width: 60,
-                      child:
-                      Image(
-                        image: AssetImage('Image/Left_Arrow.png',),
-                        width: 50,
-                        fit: BoxFit.scaleDown,
-                        color: Colors.brown,
-                      ),
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle, // circular shape
-                          color: Color.fromARGB(255,255,246,161),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Color.fromARGB(255,255,246,161).withOpacity(1.0),
-                              spreadRadius: 10.0,
-                              blurRadius: 0,
-                              offset: Offset(0,0),
-                            )
-                          ]
+                child: Stack(
+                    children: <Widget>[
+                  Positioned(
+                    left: 5,
+                    top: 5,
+                    child: FloatingActionButton(
+                      elevation: 0.0,
+                      onPressed: () { Navigator.of(context).push(
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  MyApp()));
+                      },
+                      child: Container(
+                        height: 60,
+                        width: 60,
+                        child:
+                        Image(
+                          image: AssetImage('Image/Left_Arrow.png',),
+                          width: 50,
+                          fit: BoxFit.scaleDown,
+                          color: Colors.brown,
+                        ),
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle, // circular shape
+                            color: Color.fromARGB(255,255,246,161),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Color.fromARGB(255,255,246,161).withOpacity(1.0),
+                                spreadRadius: 10.0,
+                                blurRadius: 0,
+                                offset: Offset(0,0),
+                              )
+                            ]
+                        ),
                       ),
                     ),
                   ),
+                  ]
                 ),
               ),
               Padding(
