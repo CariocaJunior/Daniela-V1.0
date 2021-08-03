@@ -1,15 +1,8 @@
-import 'dart:ffi';
-import 'package:flutter/material.dart';
-
-//Ver se ainda é util
-
 class Contato {
   int id;
   String nome;
   double VA;
   int ES;
-
-  //variable for time
 
   Contato(this.id, this.nome, this.VA, this.ES);
 

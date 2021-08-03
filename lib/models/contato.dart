@@ -1,6 +1,5 @@
-import 'dart:ffi';
-import 'package:flutter/material.dart';
-class Contato{
+
+class Contato {
   String id;
   String nome;
   String HT;
@@ -13,12 +12,11 @@ class Contato{
   double ELACUS;
   String DT;
 
+  Contato(this.id, this.nome, this.HT, this.LE, this.VL, this.ES, this.TECQTD,
+      this.TECCUS, this.ELAQTD, this.ELACUS, this.DT);
 
-  Contato(this.id, this.nome, this.HT, this.LE, this.VL, this.ES, this.TECQTD, this.TECCUS, this.ELAQTD, this.ELACUS, this.DT);
-
-  Map<String,dynamic> toMap () {
-
-    var map = <String,dynamic> {
+  Map<String, dynamic> toMap() {
+    var map = <String, dynamic>{
       'id': id,
       'nome': nome,
       'HT': HT,
@@ -29,12 +27,12 @@ class Contato{
       'TECCUS': TECCUS,
       'ELAQTD': ELAQTD,
       'ELACUS': ELACUS,
-      'DT' : DT
+      'DT': DT
     };
     return map;
   }
 
-  Contato.fromMap(Map<String,dynamic> map){
+  Contato.fromMap(Map<String, dynamic> map) {
     id = map['id'];
     nome = map['nome'];
     HT = map['HT'];
@@ -46,6 +44,5 @@ class Contato{
     ELAQTD = map['ELAQTD'];
     ELACUS = map['ELACUS'];
     DT = map['DT'];
-
   }
 }

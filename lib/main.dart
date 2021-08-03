@@ -23,7 +23,6 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHome extends StatelessWidget {
-  int _counter = 0;
 
   DatabaseHelper db = DatabaseHelper();
   List<Contato> contatos = List<Contato>();
@@ -158,7 +157,6 @@ class MyHome extends StatelessWidget {
                                       Container(
                                         width: 240.0,
                                         height: 140.0,
-                                        //Image/bibiimagem.jpeg
                                         child: RaisedButton(
                                             shape: RoundedRectangleBorder(
                                                 borderRadius:
@@ -247,7 +245,6 @@ class MyHome extends StatelessWidget {
                                                   const EdgeInsets.symmetric(
                                                       vertical: 18),
                                               child: Column(
-                                                // Replace with a Row for horizontal icon + text
                                                 children: <Widget>[
                                                   IconButton(
                                                     icon: Image.asset(
