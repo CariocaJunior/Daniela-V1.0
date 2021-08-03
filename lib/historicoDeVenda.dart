@@ -9,7 +9,6 @@ import 'package:intl/intl.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:daniela/pages/biblioteca.dart' as Biblioteca;
-import 'Historico_biblioteca.dart' as HBiblioteca;
 
 
 const _titulo = "Historico de venda";
@@ -42,6 +41,7 @@ class _HomePageState extends State<HistVenda> {
   @override
   void initState() {
     super.initState();
+    ascDesc;
     ordenacao;
     booleano;
 
@@ -166,7 +166,7 @@ class _HomePageState extends State<HistVenda> {
             ),
             StreamBuilder(
                 stream: FirebaseFirestore.instance.collection('pedido')
-                  .orderBy('DT').snapshots(), // INSTANCIA A COLEÇÃO 'PEDIDO'
+                  .orderBy(ordenacao.toString(), descending: booleano).snapshots(), // INSTANCIA A COLEÇÃO 'PEDIDO'
                 builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (!snapshot.hasData) {
                     return Center(
@@ -175,8 +175,7 @@ class _HomePageState extends State<HistVenda> {
                   }
                   return Padding(
                     padding: const EdgeInsets.fromLTRB(10, 140, 10, 80),
-                    child:
-                    ListView(
+                    child: ListView(
                       children:
                       snapshot.data.docs.map((collection){ // PRINTA NA TELA OS DADOS DO BANCO, MAPEANDO A COLEÇÃO
                         return  Card(
@@ -302,31 +301,36 @@ class _HomePageState extends State<HistVenda> {
 
                  hint: Text(" Filtro", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.white)),
                 onChanged: (String newValue) {
+                  Future.delayed(const Duration(milliseconds: 100), () {
                     setState(() {
                       if(newValue == '  Mês'){
-                        //print(wantedParts);
                         ordenacao = "DT";
                         booleano = false;
-                        ascDesc = 0; // Controle de ordem crescente ou descrescente (false = asc; true = desc)
-                        // controleHistoricoVenda = 3; // Controla o modo de exibição
+                        ascDesc = 2; // Controle de ordem crescente ou descrescente (false = asc; true = desc)
+                        controleHistoricoVenda = 3; // Controla o modo de exibição
                       }
                       if(newValue == ' Valor'){
-
-                        // // Filtro valor
+                        // Filtro valor
                         booleano = false;
-                        // controleHistoricoVenda = 2;
+                        ordenacao = "ES";
+                        controleHistoricoVenda = 2;
+                        ascDesc = 2;
                       }
                       if(newValue == '  A-Z'){
+                        // Filtro A-Z
                         ordenacao = "nome";
                         booleano = false;
+                        controleHistoricoVenda = 1;
+                        ascDesc = 2;
                       }
                       else{
                         // Filtro Z-A
                         ordenacao = "nome";
                         booleano = true;
-                        // controleHistoricoVenda = 1;
-                        ascDesc = 2;
+                        controleHistoricoVenda = 1;
+                        ascDesc = 1;
                       }
+                    });
                   });
                     setState(() {
                       print(controleHistoricoVenda);
@@ -464,18 +468,6 @@ variavelOrdenacao (x){
   }
 }
 
-ordenarItens(int x) {
-  if (x == 0){
-    return "DT";
-  }
-  if (x == 1){
-    return "valor";
-  }
-  if (x == 3){
-    return "nome";
-  }
-}
-
 estoque (){
   return 'ES';
 }
@@ -484,10 +476,5 @@ crescente (){
   return false;
 }
 
-cconverteData (String variavel) {
-  var converte1 = variavel.split("/");
-  var converte2 = [converte1[2], converte1[1], converte1[0]];
-  var converte3 = converte2.join("/");
-  return converte3;
-}
-
+teste(){}
+// void sort([int compare(E a, E b)?]);

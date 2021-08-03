@@ -1,5 +1,3 @@
-
-
 class Contato {
   String id;
   String nome;
