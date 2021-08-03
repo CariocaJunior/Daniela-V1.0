@@ -55,7 +55,7 @@ class _ContatoPageState extends State<ContatoPages> {
     //_atualizar(Biblioteca.idLibrary);
 
     if(widget.contato == null){
-      _editaContato = Contato(Biblioteca.idRandom(),'','',0);
+      _editaContato = Contato(Biblioteca.idRandom(),'','',0, '');
     }else{
       _editaContato = Contato.fromMap(widget.contato.toMap());
       _editaContato2 = d2.Contato.fromMap(widget.contato.toMap());

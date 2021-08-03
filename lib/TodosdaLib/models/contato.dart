@@ -5,15 +5,17 @@ class Contato {
   String nome;
   String mes;
   double valor;
+  String mesFiltro;
 
-  Contato(this.id, this.mes, this.nome, this.valor);
+  Contato(this.id, this.mes, this.nome, this.valor, this.mesFiltro);
 
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
       'id': id,
       'nome': nome,
       'mes': mes,
-      'valor': valor
+      'valor': valor,
+      'mesFiltro': mesFiltro
     };
     return map;
   }
@@ -23,5 +25,6 @@ class Contato {
     nome = map['nome'];
     mes = map['mes'];
     valor = map['valor'];
+    mesFiltro = map['mesFiltro'];
   }
 }

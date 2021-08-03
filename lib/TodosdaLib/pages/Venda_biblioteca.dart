@@ -42,7 +42,8 @@ void Vendacriar(idLibrary) {
     'mes': mesLibrary,
     'valor': valorLibrary,
     'id': idLibrary,
-    'nome': nomeLibrary
+    'nome': nomeLibrary,
+    'mesFiltro': converteData(mesLibrary)
   });
 }
 
@@ -51,7 +52,8 @@ void addVenda() {
     'mes': mesLibrary,
     'valor': valorLibrary,
     'id': idRandom(),
-    'nome': nomeLibrary
+    'nome': nomeLibrary,
+    'mesFiltro': converteData(mesLibrary)
   });
 }
 
@@ -97,7 +99,12 @@ dataFormat(){ // DATA ATUAL
   return dataFormatada;
 }
 
-
+converteData (String variavel) {
+  var converte1 = variavel.split("/");
+  var converte2 = [converte1[2], converte1[1], converte1[0]];
+  var converte3 = converte2.join("/");
+  return converte3;
+}
 
 ////////////////// Historico de venda
 
