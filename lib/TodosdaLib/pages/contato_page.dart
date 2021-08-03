@@ -308,6 +308,7 @@ class _ContatoPageState extends State<ContatoPages> {
                                         setState(() {
                                           _editaContato.mes = text;
                                           Biblioteca.mesLibrary = text;
+                                          text = "";
                                         });
                                       }
                                     }
@@ -321,6 +322,7 @@ class _ContatoPageState extends State<ContatoPages> {
                                       setState(() {
                                         _editaContato.mes = text;
                                         Biblioteca.mesLibrary = text;
+                                        text = "";
                                       });
                                     }
                                   }
@@ -353,7 +355,10 @@ class _ContatoPageState extends State<ContatoPages> {
                     Future.delayed(const Duration(milliseconds: 400), () {
                       setState(() {
                         Biblioteca.Vendacriar(Biblioteca.idLibrary);
+                        Biblioteca.mesLibrary = "";
+                        _editaContato.mes = "";
                         Navigator.pop(context);
+
                       });
                     });
                     _exibeAvisoEditar();
@@ -363,6 +368,8 @@ class _ContatoPageState extends State<ContatoPages> {
                     Future.delayed(const Duration(milliseconds: 400), () {
                       setState(() {
                         Biblioteca.Vendacriar(Biblioteca.idLibrary);
+                        Biblioteca.mesLibrary = "";
+                        _editaContato.mes = "";
                         Navigator.pop(context);
                       });
                     });

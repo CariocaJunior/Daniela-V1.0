@@ -185,7 +185,7 @@ class _HomePageState extends State<HistVenda> {
               ),
               StreamBuilder(
                   stream: FirebaseFirestore.instance.collection('venda')
-                      .orderBy("mes", descending: booleano).snapshots(), // INSTANCIA A COLEÇÃO 'PEDIDO'
+                      .orderBy("mesFiltro", descending: booleano).snapshots(), // INSTANCIA A COLEÇÃO 'PEDIDO'
                   builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                     if (!snapshot.hasData) {
                       return Center(
