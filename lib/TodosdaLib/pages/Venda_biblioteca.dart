@@ -19,11 +19,8 @@ bool boleano = false;
 
 // VARIÁVEIS QUE RECEBERÃO OS DADOS DO FIREBASE
 var mesLibrary;
-
 var valorLibrary;
-
 var nomeLibrary;
-
 var idLibrary;
 
 // DELETA O DOCUMENTO DO FIREBASE
